@@ -1,0 +1,187 @@
+/* ── Language toggle — top right ────────────────────────────────────────────── */
+.lang-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  padding: 4px 6px;
+  animation: fadeIn .4s ease both;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--text-dim);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+.lang-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+.lang-btn:not(.active):hover {
+  color: var(--text);
+}
+
+.lang-divider {
+  font-size: .65rem;
+  color: var(--border-light);
+  user-select: none;
+}
+
+/* ── Role picker screen ──────────────────────────────────────────────────────── */
+
+.role-pick-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1100px;
+  padding: 52px 24px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+}
+
+.role-pick-eyebrow {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .25em;
+  color: var(--bob);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  animation: fadeUp .5s ease both;
+}
+
+.role-pick-title {
+  font-family: var(--font-mono);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900;
+  color: var(--text);
+  text-shadow: 0 0 24px var(--accent-glow);
+  margin-bottom: 10px;
+  animation: fadeUp .5s .08s ease both;
+}
+
+.role-pick-sub {
+  font-size: .95rem;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+  animation: fadeUp .5s .14s ease both;
+}
+
+/* ── Role grid — 4 columns ───────────────────────────────────────────────────── */
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+/* ── Individual role card ────────────────────────────────────────────────────── */
+.role-card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  padding: 0;
+  text-align: center;
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  animation: fadeUp .45s ease both;
+  position: relative;
+}
+
+.role-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(79,142,247,.2);
+}
+
+/* sprite fills the card top */
+.role-card-sprite {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  object-position: bottom center;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: linear-gradient(to bottom, var(--bg3), var(--bg2));
+  display: block;
+  padding: 12px 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* info section below sprite */
+.role-card-body {
+  padding: 14px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.role-card-head {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+  background: var(--bg3);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  margin-top: -32px;       /* overlap the sprite area slightly */
+  position: relative;
+  z-index: 2;
+}
+
+.role-card-name {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: .8rem;
+  color: var(--text);
+  margin-top: 4px;
+  letter-spacing: .04em;
+}
+
+.role-card-role {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  color: var(--accent);
+  letter-spacing: .05em;
+}
+
+.role-card-ws {
+  font-family: var(--font-mono);
+  font-size: .63rem;
+  color: var(--bob);
+  letter-spacing: .04em;
+  background: rgba(245,158,11,.08);
+  border: 1px solid var(--bob-glow);
+  border-radius: 20px;
+  padding: 2px 10px;
+  margin-top: 4px;
+}
+
+.role-card-brief {
+  font-size: .72rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-top: 8px;
+}

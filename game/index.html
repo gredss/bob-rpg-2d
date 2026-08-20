@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BYTE FORCE — Powered by Bob</title>
+  <link rel="icon" type="image/jpeg" href="assets/byte-force-logo.jpg">
+  <link rel="shortcut icon" type="image/jpeg" href="assets/byte-force-logo.jpg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/attract.css">
+</head>
+<body>
+  <div class="page">
+    <div class="stars" id="stars"></div>
+
+    <div class="attract-wrap">
+      <img src="assets/bob/head.png" alt="Bob" class="attract-bob-head">
+      <img src="assets/byte-force-logo.jpg" alt="BYTE FORCE" class="attract-logo">
+      <p class="attract-powered">Powered by Bob</p>
+      <div class="attract-divider"></div>
+      <p class="attract-tagline">Plan. Build. Test. Secure. Deploy.</p>
+      <p class="attract-tagline2">With Bob alongside every role.</p>
+      <div class="attract-divider"></div>
+      <button class="attract-cta" id="btn-start">
+        <img src="assets/start.png" alt="Click to Start" class="attract-cta-img">
+      </button>
+    </div>
+
+    <div class="attract-ticker" id="ticker">
+      Your team has problems to solve. Bob is inside every laptop.
+    </div>
+  </div>
+
+  <script src="js/state.js"></script>
+  <script>
+    // Stars
+    (function() {
+      const c = document.getElementById('stars');
+      for (let i = 0; i < 60; i++) {
+        const s = document.createElement('span');
+        s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:${Math.random()*5}s;--op:${0.3+Math.random()*0.5};`;
+        c.appendChild(s);
+      }
+    })();
+
+    State.reset();
+    document.getElementById('btn-start').addEventListener('click', () => {
+      location.href = 'role-pick.html';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+/* ── Attract screen ────────────────────────────────────────────────────────── */
+
+.attract-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  text-align: center;
+  padding: 40px 24px;
+  width: 100%;
+  max-width: 700px;
+}
+
+/* Bob head on attract screen */
+.attract-bob-head {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 24px var(--bob-glow));
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* logo image replacing the text title */
+.attract-logo {
+  width: clamp(240px, 50vw, 480px);
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  margin-bottom: 4px;
+  animation: fadeUp .8s ease both;
+  filter: drop-shadow(0 0 20px var(--accent-glow));
+}
+
+.attract-powered {
+  font-size: 1.1rem;
+  color: var(--bob);
+  font-family: var(--font-mono);
+  letter-spacing: .1em;
+  margin-top: 6px;
+  margin-bottom: 32px;
+  animation: fadeUp .8s .1s ease both;
+}
+
+/* divider */
+.attract-divider {
+  width: 320px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+  margin: 0 auto 28px;
+  animation: fadeIn .8s .2s ease both;
+}
+
+.attract-tagline {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  animation: fadeUp .6s .3s ease both;
+}
+.attract-tagline2 {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-bottom: 36px;
+  animation: fadeUp .6s .35s ease both;
+}
+
+/* CTA — now an image button */
+.attract-cta {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  animation: fadeUp .6s .4s ease both;
+  transition: transform .15s ease, filter .15s ease;
+}
+.attract-cta:hover {
+  transform: scale(1.05);
+  filter: brightness(1.15) drop-shadow(0 0 16px rgba(74,222,128,.5));
+}
+.attract-cta-img {
+  width: clamp(220px, 36vw, 360px);
+  height: auto;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* bottom ticker */
+.attract-ticker {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  padding: 12px 24px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  font-size: .82rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  text-align: center;
+  letter-spacing: .04em;
+}
+
+/* scenario picker modal */
+.scenario-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  animation: fadeIn .25s ease;
+}
+.scenario-modal-box {
+  background: var(--surface);
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: 36px 40px;
+  max-width: 560px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  animation: fadeUp .3s ease;
+}
+/* "Choose Your Project" image replacing the text title */
+.scenario-modal-title-img {
+  width: clamp(220px, 70%, 380px);
+  height: auto;
+  display: block;
+  margin: 0 auto 16px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.scenario-modal-sub {
+  font-size: .9rem;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}
+.scenario-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.scenario-card {
+  background: var(--bg3);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+}
+.scenario-card:hover {
+  border-color: var(--accent);
+  background: var(--surface2);
+  transform: translateX(4px);
+}
+.scenario-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.scenario-card-client {
+  font-size: .82rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
