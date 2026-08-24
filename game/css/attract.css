@@ -269,3 +269,356 @@
   color: var(--text-muted);
   font-family: var(--font-mono);
 }
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOB PORTAL — iframe-based, zero navigation, zero URL change
+   .open  = peek: circle sweeps from corner, iframe visible but click-blocked
+   .full  = switched in: clip removed, iframe fully interactive
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Portal container ────────────────────────────────────────────────────── */
+.bob-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  cursor: pointer;
+  pointer-events: none;
+  clip-path: circle(0px at calc(100% - 138px) calc(100% - 64px));
+  transition: clip-path .55s cubic-bezier(.4, 0, .2, 1);
+}
+.bob-portal.open {
+  pointer-events: all;
+  clip-path: circle(150vmax at calc(100% - 138px) calc(100% - 64px));
+}
+/* Fully switched in: no clip, iframe live and interactive */
+.bob-portal.full {
+  clip-path: none;
+  cursor: default;
+  z-index: 200;
+}
+
+/* ── iframe: blocked during peek so the portal div catches clicks ─────────── */
+.bob-portal-iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  border: none;
+  display: block;
+  pointer-events: none;
+}
+.bob-portal.full .bob-portal-iframe { pointer-events: all; }
+
+/* ── Amber ring ──────────────────────────────────────────────────────────── */
+.bob-portal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 2px var(--bob), inset 0 0 40px var(--bob-glow);
+  opacity: 0;
+  transition: opacity .3s ease .2s;
+  pointer-events: none;
+  z-index: 1;
+}
+.bob-portal.open::before { opacity: 1; }
+.bob-portal.full::before { opacity: 0; transition: none; }
+
+/* ── "Click to enter" hint — visible during peek, gone when full ─────────── */
+.bob-portal-overlay {
+  position: absolute;
+  bottom: 52px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .2s ease .35s, transform .2s ease .35s;
+  z-index: 2;
+}
+.bob-portal.open .bob-portal-overlay { opacity: 1; transform: translateY(0); }
+.bob-portal.full .bob-portal-overlay { opacity: 0 !important; pointer-events: none; }
+.bob-portal-hint {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--bob);
+  letter-spacing: .08em;
+  text-shadow: 0 0 12px var(--bob-glow), 0 2px 8px rgba(0,0,0,.8);
+  background: rgba(8,8,20,.6);
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--bob-glow);
+}
+
+/* ── "Back to game" card — game amber theme, shown on home page only ──────── */
+.bob-portal-close {
+  position: fixed;
+  bottom: 56px;
+  right: 24px;
+  z-index: 210;
+
+  display: block;
+  width: 192px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .25s ease, transform .25s ease;
+  animation: none;
+}
+
+.bob-portal-close-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px 9px 10px;
+  position: relative;
+
+  background: linear-gradient(135deg, rgba(13,13,32,.97) 0%, rgba(22,22,52,.97) 100%);
+  border: 1px solid rgba(245,158,11,.45);
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 1px rgba(245,158,11,.1) inset,
+    0 0 22px rgba(245,158,11,.18),
+    0 8px 28px rgba(0,0,0,.55);
+
+  transition: border-color .2s ease, box-shadow .2s ease, transform .15s ease;
+}
+.bob-portal-close-inner::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 14px; right: 14px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(245,158,11,.6), transparent);
+  border-radius: 0 0 14px 14px;
+  pointer-events: none;
+}
+
+.bob-portal-close:hover .bob-portal-close-inner {
+  border-color: rgba(245,158,11,.8);
+  box-shadow:
+    0 0 0 1px rgba(245,158,11,.22) inset,
+    0 0 36px rgba(245,158,11,.32),
+    0 12px 36px rgba(0,0,0,.65);
+  transform: translateY(-2px);
+}
+
+.bob-portal-close-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1.5px solid rgba(245,158,11,.5);
+  background: var(--bg3);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  flex-shrink: 0;
+  display: block;
+}
+
+.bob-portal-close-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.bob-portal-close-eyebrow {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  font-weight: 700;
+  color: rgba(245,158,11,.7);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.bob-portal-close-title {
+  font-family: var(--font-ui);
+  font-size: .8rem;
+  font-weight: 700;
+  color: #f0f0ff;
+  line-height: 1.2;
+  letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bob-portal-close-cta {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  color: rgba(245,158,11,.85);
+  letter-spacing: .04em;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.bob-portal-close-arrow {
+  display: inline-block;
+  transition: transform .18s ease;
+}
+.bob-portal-close:hover .bob-portal-close-arrow {
+  transform: translateX(-4px);
+}
+
+/* Visible only when portal is fully open AND inner page is home */
+.bob-portal.full[data-portal-page="home"] .bob-portal-close {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+  animation: bobCardFloat 3.2s ease-in-out infinite;
+}
+/* Explicitly hidden on any non-home inner page */
+.bob-portal.full:not([data-portal-page="home"]) .bob-portal-close {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(8px) !important;
+  animation: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOB CARD TRIGGER — bottom-right, themed like IBM Carbon / IBM Blue
+   ═══════════════════════════════════════════════════════════════════════════ */
+.bob-learn-btn {
+  position: fixed;
+  bottom: 56px;
+  right: 24px;
+  z-index: 200;
+
+  display: block;
+  width: 196px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  animation: bobCardFloat 3.2s ease-in-out infinite;
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+/* Card body — Carbon dark surface + IBM blue */
+.bob-learn-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px 9px 10px;
+  position: relative;
+
+  background: #1e1e1e;
+  border: 1px solid rgba(15, 98, 254, .55);
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px rgba(15, 98, 254, .1) inset,
+    0 0 20px rgba(15, 98, 254, .2),
+    0 8px 28px rgba(0,0,0,.6);
+
+  transition: border-color .18s ease, box-shadow .18s ease, transform .15s ease;
+}
+.bob-learn-inner::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(15,98,254,.7), transparent);
+  border-radius: 4px 4px 0 0;
+  pointer-events: none;
+}
+
+.bob-learn-btn:hover .bob-learn-inner {
+  border-color: rgba(15, 98, 254, .9);
+  box-shadow:
+    0 0 0 1px rgba(15, 98, 254, .18) inset,
+    0 0 32px rgba(15, 98, 254, .3),
+    0 12px 36px rgba(0,0,0,.65);
+  transform: translateY(-2px);
+}
+
+/* Avatar — SVG illustration, Carbon border */
+.bob-learn-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+  object-fit: contain;
+  border: 1px solid rgba(15, 98, 254, .45);
+  background: #262626;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* Text stack */
+.bob-learn-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.bob-learn-eyebrow {
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-size: .58rem;
+  font-weight: 400;
+  color: #0f62fe;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.bob-learn-title {
+  font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  font-size: .8rem;
+  font-weight: 600;
+  color: #f4f4f4;
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bob-learn-cta {
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-size: .6rem;
+  color: #78a9ff;
+  letter-spacing: .04em;
+  line-height: 1;
+  margin-top: 1px;
+}
+
+.bob-learn-arrow {
+  display: inline-block;
+  transition: transform .18s ease;
+}
+.bob-learn-btn:hover .bob-learn-arrow {
+  transform: translateX(4px);
+}
+
+/* Card hides when fully switched in */
+.bob-learn-btn.hidden-by-switch {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px) scale(.92);
+}
+
+@keyframes bobCardFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-5px); }
+}
+
+/* Short screens */
+@media (max-height: 680px) {
+  .bob-learn-btn    { bottom: 48px; }
+  .bob-portal-close { bottom: 48px; }
+  .bob-portal { clip-path: circle(0px at calc(100% - 138px) calc(100% - 52px)); }
+}
+
+/* Touch devices — no hover, disable portal peek */
+@media (hover: none) {
+  .bob-learn-btn { animation: bobCardFloat 3.2s ease-in-out infinite; }
+  .bob-portal    { display: none; }
+}
