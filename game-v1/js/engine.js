@@ -132,12 +132,6 @@ function init() {
     choicesOverlay:     document.getElementById('choices-overlay'),
     bobBox:             document.getElementById('bob-box'),
     bobBoxText:         document.getElementById('bob-box-text'),
-    hudPhase:           document.getElementById('hud-phase-label'),
-    hudProgress:        document.getElementById('hud-progress'),
-    hudTimer:           document.getElementById('hud-timer'),
-    metricQuality:      document.getElementById('metric-quality'),
-    metricSecurity:     document.getElementById('metric-security'),
-    metricSatisfy:      document.getElementById('metric-satisfy'),
     chapterCard:        document.getElementById('chapter-card'),
     chapterLabel:       document.getElementById('chapter-label'),
     chapterTitle:       document.getElementById('chapter-title'),
@@ -155,22 +149,31 @@ function init() {
 
   const s = State.get();
 
-  // ── Determine scene source: role mode or team scenario mode ──────────────
-  if (s.roleId && window.ROLE_SCENARIOS && ROLE_SCENARIOS[s.roleId]) {
-    const role = ROLE_SCENARIOS[s.roleId];
-    scenes = role.scenes;
-    // Set workstation panel header (use translated label if available)
-    const wsLabel = (lang() === 'id' && role.workstation.label_id)
-      ? role.workstation.label_id
-      : role.workstation.label;
-    if (dom.workstationLabel) dom.workstationLabel.textContent = wsLabel;
+  // ── Determine scene source: role mode (JSON) or team scenario mode ────────
+  if (s.roleId) {
+    fetch(`data/${s.roleId}.json`)
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(role => { _startWithRole(role, s); })
+      .catch(() => { location.href = 'index.html'; });
   } else if (s.scenarioId && window.SCENARIOS && SCENARIOS[s.scenarioId]) {
     scenes = SCENARIOS[s.scenarioId].scenes;
+    _startEngine(s);
   } else {
     location.href = 'index.html';
-    return;
   }
+}
 
+function _startWithRole(role, s) {
+  scenes = role.scenes;
+  // Set workstation panel header (use translated label if available)
+  const wsLabel = (lang() === 'id' && role.workstation.label_id)
+    ? role.workstation.label_id
+    : role.workstation.label;
+  if (dom.workstationLabel) dom.workstationLabel.textContent = wsLabel;
+  _startEngine(s);
+}
+
+function _startEngine(s) {
   sceneIndex = s.sceneIndex || 0;
 
   updateHUD();
@@ -291,7 +294,6 @@ function runScene(index) {
 
 // ── Chapter card ──────────────────────────────────────────────────────────────
 function showChapterCard(scene) {
-  if (scene.phase) updatePhase(scene.phase);
 
   dom.chapterLabel.textContent = t(scene, 'title');
   dom.chapterTitle.textContent = t(scene, 'subtitle');
@@ -418,7 +420,6 @@ function showDialogue(scene) {
 
 // ── Task ──────────────────────────────────────────────────────────────────────
 function showTask(scene) {
-  if (scene.phase) updatePhase(scene.phase);
 
   const newSpeaker  = scene.char;
   const newListener = (currentSpeaker && currentSpeaker !== newSpeaker) ? currentSpeaker : currentListener;
@@ -847,78 +848,10 @@ function showOutcome(message, deltas, onDone) {
 }
 
 // ── HUD ───────────────────────────────────────────────────────────────────────
-const PHASE_DISPLAY = {
-  en: { plan: 'Plan', build: 'Build', data: 'Data/AI', test: 'Test', security: 'Security', deploy: 'Deploy', deliver: 'Deliver' },
-  id: { plan: 'Rencana', build: 'Bangun', data: 'Data/AI', test: 'Uji', security: 'Keamanan', deploy: 'Rilis', deliver: 'Selesai' },
-};
-const PHASE_ORDER = ['plan','build','data','test','security','deploy'];
+function updateHUD() { /* metrics/timer removed */ }
 
-let currentPhase    = 'plan';
-const completedPhases = new Set();
-
-function phaseLabel(phase) {
-  const map = PHASE_DISPLAY[lang()] || PHASE_DISPLAY.en;
-  return map[phase] || phase.toUpperCase();
-}
-
-function updatePhase(phase) {
-  if (currentPhase && currentPhase !== phase) completedPhases.add(currentPhase);
-  currentPhase = phase;
-  dom.hudPhase.textContent = phaseLabel(phase);
-  renderProgressDots();
-}
-
-function renderProgressDots() {
-  dom.hudProgress.innerHTML = '';
-  PHASE_ORDER.forEach((phase, i) => {
-    const step = document.createElement('div');
-    step.className = `progress-step ${completedPhases.has(phase) ? 'done' : phase === currentPhase ? 'active' : ''}`;
-    step.innerHTML = `<span class="dot"></span><span>${phaseLabel(phase)}</span>`;
-    dom.hudProgress.appendChild(step);
-    if (i < PHASE_ORDER.length - 1) {
-      const c = document.createElement('div');
-      c.className = 'progress-connector';
-      dom.hudProgress.appendChild(c);
-    }
-  });
-}
-
-function updateHUD() {
-  const s = State.get();
-  const m = s.metrics;
-  dom.metricQuality.textContent  = Math.round(m.quality)      + '%';
-  dom.metricSecurity.textContent = Math.round(m.security)     + '%';
-  dom.metricSatisfy.textContent  = Math.round(m.satisfaction) + '%';
-  setMetricColor(dom.metricQuality,  m.quality);
-  setMetricColor(dom.metricSecurity, m.security);
-  setMetricColor(dom.metricSatisfy,  m.satisfaction);
-}
-
-function setMetricColor(el, val) {
-  el.classList.remove('low', 'crit');
-  if (val < 40)      el.classList.add('crit');
-  else if (val < 65) el.classList.add('low');
-}
-
-// ── Real-time timer ───────────────────────────────────────────────────────────
-function startRealTimer() {
-  updateTimerDisplay();
-  realTimerInterval = setInterval(() => {
-    const s = State.get();
-    const newTimer = Math.max(0, (s.timerLeft || 600) - 1);
-    State.set({ timerLeft: newTimer });
-    updateTimerDisplay();
-  }, 1000);
-}
-
-function updateTimerDisplay() {
-  const t = State.get().timerLeft || 0;
-  const m = Math.floor(t / 60), sec = t % 60;
-  dom.hudTimer.textContent = `${m}:${sec < 10 ? '0' : ''}${sec}`;
-  dom.hudTimer.classList.remove('amber', 'red');
-  if (t <= 60)       dom.hudTimer.classList.add('red');
-  else if (t <= 180) dom.hudTimer.classList.add('amber');
-}
+// ── Real-time timer (no-op — timer display removed) ───────────────────────────
+function startRealTimer() {}
 
 // ── Navigation ────────────────────────────────────────────────────────────────
 function goToResults() {

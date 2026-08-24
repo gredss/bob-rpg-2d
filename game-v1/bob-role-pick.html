@@ -176,7 +176,13 @@
             startedAt:  Date.now(),
             timerLeft:  600,
           });
-          SFX.playThen('roleSelect', () => { location.href = 'scene.html'; });
+          const dest = {
+            analyst:   'scene-analyst.html',
+            developer: 'scene-developer.html',
+            headit:    'scene-headit.html',
+            vp:        'scene-vp.html',
+          }[role.id] || 'scene.html';
+          SFX.playThen('roleSelect', () => { location.href = dest; });
         });
         grid.appendChild(card);
       });

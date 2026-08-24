@@ -1,0 +1,224 @@
+{
+  "id": "headit",
+  "workstation": {
+    "icon": "",
+    "label": "watsonx.governance",
+    "label_id": "watsonx.governance"
+  },
+  "brief": "Every team is asking. Nothing is documented. One person can't scale alone.",
+  "brief_id": "Semua tim bertanya. Tidak ada dokumentasi. Satu orang tidak bisa menanggung semuanya.",
+  "scenes": [
+
+    {
+      "type": "chapter",
+      "phase": "headit",
+      "title": "YOUR WORKDAY",
+      "subtitle": "Head IT",
+      "id": { "title": "HARI KERJAMU", "subtitle": "Kepala IT" }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "narrator",
+      "text": "Taylor's screen fills with three simultaneous chat notifications.",
+      "id": { "text": "Layar Taylor dipenuhi tiga notifikasi chat sekaligus." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "priya",
+      "expr": "listening",
+      "text": "Hi Taylor, can I request access to the AI tools?",
+      "id": { "text": "Mba Taylor, bisa minta akses tools AI?" }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "narrator",
+      "text": "Sam: \"When is the AI platform onboarding?\" | Alex (VP): \"Taylor, I need the AI adoption report for the board meeting.\"",
+      "id": { "text": "Sam: \"Kapan onboarding AI platform-nya?\" | Alex (VP): \"Taylor, butuh laporan adopsi AI untuk board meeting.\"" }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "taylor",
+      "expr": "overwhelm",
+      "text": "Everyone wants something. No documentation exists. No standard onboarding. If I have to write all of this myself... when will it ever be done?",
+      "id": { "text": "Semua orang minta sesuatu. Tidak ada dokumentasi. Tidak ada onboarding standar. Kalau saya yang tulis semua ini sendiri... kapan selesainya?" }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "narrator",
+      "text": "A notification appears on screen: \"Bob can help you create documentation, policies, and onboarding materials.\"",
+      "id": { "text": "Notifikasi muncul di layar: \"Bob dapat membantu Anda membuat dokumentasi, policy, dan onboarding material.\"" }
+    },
+
+    {
+      "type": "task",
+      "char": "taylor",
+      "expr": "overwhelm",
+      "phase": "headit",
+      "problem": "Three teams need onboarding, AI access, and a governance report — all at once, and no documentation exists. What do you do first?",
+      "id": { "problem": "Tiga tim butuh onboarding, akses AI, dan laporan governance — sekaligus, tidak ada dokumentasi yang ada. Apa yang dilakukan pertama?" },
+      "options": [
+        {
+          "id": "hit-1-bob",
+          "type": "bob",
+          "icon": "",
+          "label": "Ask Bob to generate the AI onboarding guide",
+          "meta": "~45 sec saved",
+          "timeCost": 11,
+          "manualCost": 56,
+          "deltas": { "quality": 14, "satisfaction": 11 },
+          "bobResponse": "AI Onboarding Guide — Draft generated.\n\n**Section 1 — Getting Started**\n• Request access via IT portal → approval within 1 business day\n• Login at: watsonx.ibm.com with your IBMid\n• Recommended first tool: Prompt Lab (no code required)\n\n**Section 2 — What You Can Do**\n• Ask questions about internal documents\n• Summarise long reports\n• Draft emails, policies, and runbooks\n• Generate and explain code\n\n**Section 3 — What NOT to Do**\n• Do not input PII or confidential client data\n• Do not use AI output without human review for regulated content\n• Do not share credentials\n\n**Section 4 — Support**\n• IT helpdesk: #ai-support Slack channel\n• FAQ: [internal wiki link]\n\nReady for your review. Edit and publish when approved.",
+          "bobFollowUp": "Review and publish the onboarding guide",
+          "followUpDeltas": { "quality": 8, "satisfaction": 8 },
+          "outcome": "Onboarding guide published. Teams unblocked. ✓",
+          "id_text": {
+            "label": "Minta Bob menghasilkan onboarding guide AI",
+            "meta": "~45 detik hemat",
+            "bobResponse": "Panduan Onboarding AI — Draft dihasilkan.\n\n**Bagian 1 — Mulai**\n• Minta akses melalui portal IT → persetujuan dalam 1 hari kerja\n• Login di: watsonx.ibm.com dengan IBMid Anda\n• Tool pertama yang direkomendasikan: Prompt Lab (tidak perlu kode)\n\n**Bagian 2 — Apa yang Bisa Dilakukan**\n• Ajukan pertanyaan tentang dokumen internal\n• Ringkas laporan panjang\n• Draft email, policy, dan runbook\n• Generate dan jelaskan kode\n\n**Bagian 3 — Yang TIDAK Boleh Dilakukan**\n• Jangan masukkan PII atau data klien rahasia\n• Jangan gunakan output AI tanpa review manusia untuk konten yang diatur\n• Jangan bagikan kredensial\n\n**Bagian 4 — Dukungan**\n• Helpdesk IT: channel Slack #ai-support\n• FAQ: [tautan wiki internal]\n\nSiap untuk ditinjau. Edit dan publikasikan saat disetujui.",
+            "bobFollowUp": "Tinjau dan publikasikan panduan onboarding",
+            "outcome": "Panduan onboarding diterbitkan. Tim tidak terblokir lagi. ✓"
+          }
+        },
+        {
+          "id": "hit-1-manual",
+          "type": "manual",
+          "icon": "",
+          "label": "Write the onboarding guide manually from scratch",
+          "meta": "~56 sec",
+          "timeCost": 56,
+          "manualCost": 56,
+          "deltas": { "quality": 5, "satisfaction": 3 },
+          "outcome": "Guide written, but only covers two of the three teams. Access matrix still missing.",
+          "id_text": {
+            "label": "Tulis panduan onboarding secara manual dari awal",
+            "meta": "~56 detik",
+            "outcome": "Panduan ditulis, tapi hanya mencakup dua dari tiga tim. Access matrix masih belum ada."
+          }
+        },
+        {
+          "id": "hit-1-later",
+          "type": "ignore",
+          "icon": "",
+          "label": "Reply to each team individually — handle it case by case",
+          "meta": "not scalable",
+          "timeCost": 10,
+          "deltas": { "quality": -10, "satisfaction": -14 },
+          "outcome": "Three separate threads. No documentation. Same questions come back next week.",
+          "id_text": {
+            "label": "Balas setiap tim secara individual — tangani kasus per kasus",
+            "meta": "tidak skalabel",
+            "outcome": "Tiga thread terpisah. Tidak ada dokumentasi. Pertanyaan yang sama datang kembali minggu depan."
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "dialogue",
+      "char": "taylor",
+      "expr": "lecturing",
+      "text": "The guide is done. Now there's one more thing — the AI governance policy for the VP's board meeting.",
+      "id": { "text": "Guide sudah ada. Sekarang tinggal satu lagi — AI governance policy untuk board meeting VP." }
+    },
+
+    {
+      "type": "task",
+      "char": "taylor",
+      "expr": "lecturing",
+      "phase": "headit",
+      "problem": "The VP needs an AI adoption report and governance policy for the board meeting. No policy exists yet. How do you produce it in time?",
+      "id": { "problem": "VP butuh laporan adopsi AI dan governance policy untuk board meeting. Belum ada policy yang ada. Bagaimana menghasilkannya tepat waktu?" },
+      "options": [
+        {
+          "id": "hit-2-bob",
+          "type": "bob",
+          "icon": "",
+          "label": "Ask Bob to draft the AI governance policy",
+          "meta": "~48 sec saved",
+          "timeCost": 12,
+          "manualCost": 60,
+          "deltas": { "quality": 15, "satisfaction": 13 },
+          "bobResponse": "AI Governance Policy — Draft generated.\n\n**1. Purpose**\nThis policy defines responsible use of AI tools across the organisation, aligned with IBM watsonx.governance standards.\n\n**2. Scope**\nApplies to all employees using AI-assisted tools including watsonx, Bob, and approved third-party AI.\n\n**3. Principles**\n• Transparency: AI-generated content must be disclosed when used in official outputs.\n• Human oversight: All AI recommendations require human review before action.\n• Data minimisation: Do not input data beyond what is necessary for the task.\n• Accountability: The human who prompts is responsible for the output.\n\n**4. Prohibited Uses**\n• Automated decision-making without human review for personnel, legal, or financial decisions.\n• Processing sensitive PII without explicit approval from the Data Protection Officer.\n\n**5. Access & Review**\nPolicy reviewed annually. Access requests handled via IT portal.\n\nDraft ready — review and approve to publish.",
+          "bobFollowUp": "Approve and publish the governance policy",
+          "followUpDeltas": { "quality": 9, "satisfaction": 10 },
+          "outcome": "Published ✓  Governance policy live. Board meeting report ready.",
+          "id_text": {
+            "label": "Minta Bob membuat draft AI governance policy",
+            "meta": "~48 detik hemat",
+            "bobResponse": "AI Governance Policy — Draft dihasilkan.\n\n**1. Tujuan**\nKebijakan ini mendefinisikan penggunaan AI yang bertanggung jawab di seluruh organisasi, selaras dengan standar IBM watsonx.governance.\n\n**2. Cakupan**\nBerlaku untuk semua karyawan yang menggunakan AI termasuk watsonx, Bob, dan AI pihak ketiga yang disetujui.\n\n**3. Prinsip**\n• Transparansi: Konten yang dihasilkan AI harus diungkapkan saat digunakan dalam output resmi.\n• Pengawasan manusia: Semua rekomendasi AI memerlukan tinjauan manusia sebelum ditindaklanjuti.\n• Minimisasi data: Jangan memasukkan data melebihi yang diperlukan untuk tugas tersebut.\n• Akuntabilitas: Manusia yang memberikan prompt bertanggung jawab atas hasilnya.\n\n**4. Penggunaan yang Dilarang**\n• Pengambilan keputusan otomatis tanpa tinjauan manusia untuk keputusan SDM, hukum, atau keuangan.\n• Memproses PII sensitif tanpa persetujuan eksplisit dari Petugas Perlindungan Data.\n\n**5. Akses & Tinjauan**\nKebijakan ditinjau setiap tahun. Permintaan akses ditangani melalui portal IT.\n\nDraft siap — tinjau dan setujui untuk diterbitkan.",
+            "bobFollowUp": "Setujui dan terbitkan governance policy",
+            "outcome": "Published ✓  Governance policy aktif. Laporan board meeting siap."
+          }
+        },
+        {
+          "id": "hit-2-manual",
+          "type": "manual",
+          "icon": "",
+          "label": "Write the governance policy manually",
+          "meta": "~60 sec",
+          "timeCost": 60,
+          "manualCost": 60,
+          "deltas": { "quality": 5, "satisfaction": 4 },
+          "outcome": "Policy drafted. Incomplete — missing data minimisation and accountability sections.",
+          "id_text": {
+            "label": "Tulis governance policy secara manual",
+            "meta": "~60 detik",
+            "outcome": "Policy di-draft. Tidak lengkap — bagian minimisasi data dan akuntabilitas hilang."
+          }
+        },
+        {
+          "id": "hit-2-delay",
+          "type": "poor",
+          "icon": "",
+          "label": "Tell the VP the policy needs more time — postpone the report",
+          "meta": "delays board meeting",
+          "timeCost": 2,
+          "deltas": { "quality": -10, "satisfaction": -16 },
+          "outcome": "Board meeting postponed. VP frustrated. Credibility dented.",
+          "id_text": {
+            "label": "Beritahu VP bahwa policy butuh lebih banyak waktu — tunda laporan",
+            "meta": "menunda board meeting",
+            "outcome": "Board meeting ditunda. VP frustrasi. Kredibilitas terganggu."
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "dialogue",
+      "char": "taylor",
+      "expr": "relief",
+      "text": "Onboarding guide, governance policy, access matrix — all drafts done in one session.",
+      "id": { "text": "Onboarding guide, governance policy, akses matrix — semua draft selesai dalam satu session." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "priya",
+      "expr": "relief",
+      "text": "Taylor, the documentation is already up? So helpful!",
+      "id": { "text": "Mba Taylor, dokumentasinya sudah ada ya? Helpful banget!" }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "taylor",
+      "expr": "relief",
+      "text": "It's not about me working harder. It's about everyone working smarter.",
+      "id": { "text": "Ini bukan soal saya kerja lebih keras. Ini soal semua orang bisa kerja lebih pintar." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "bob",
+      "text": "Onboarding guide. Governance policy. Access matrix.\n\nThree things that would take a week to write — done in one session. That's what scaling yourself looks like.",
+      "id": { "text": "Panduan onboarding. Governance policy. Access matrix.\n\nTiga hal yang butuh seminggu untuk ditulis — selesai dalam satu sesi. Itulah cara melipat gandakan diri sendiri." }
+    },
+
+    { "type": "end" }
+  ]
+}

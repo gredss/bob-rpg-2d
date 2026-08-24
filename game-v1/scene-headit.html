@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BYTE FORCE</title>
+  <title>BYTE FORCE — Head IT</title>
   <link rel="icon" type="image/png" href="assets/bob/head.png">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/scene.css">
@@ -17,19 +17,10 @@
       </div>
     </div>
 
-    <!-- ══════════════════════════════════════════════════════════════════════
-         GAME VIEWPORT — position:relative container for ALL game layers.
-         Every child uses position:absolute so nothing pushes anything else.
-         ══════════════════════════════════════════════════════════════════════ -->
     <div class="game-viewport" id="stage">
-
-      <!-- Layer 0: background image + vignette -->
       <div class="stage-bg"></div>
-
-      <!-- Layer 1: star particles -->
       <div class="stars" id="stars"></div>
 
-      <!-- Layer 3: character portraits -->
       <div class="char-area">
         <div class="char-slot char-left" id="char-left">
           <img class="char-body" id="char-left-img" src="" alt="">
@@ -39,12 +30,8 @@
         </div>
       </div>
 
-      <!-- ── Layer 20: Dialogue overlay — FIXED height, anchored to bottom ── -->
-      <!-- This element NEVER changes size; text never pushes it around.       -->
       <div class="dialogue-overlay" id="dialogue-overlay">
         <div class="dialogue-panel" id="dialogue-box">
-
-          <!-- Speaker nameplate: avatar + name + role/badge -->
           <div class="speaker-nameplate" id="speaker-nameplate">
             <img class="speaker-head" id="speaker-head" src="" alt="">
             <div class="speaker-info">
@@ -52,26 +39,18 @@
               <div class="speaker-role" id="speaker-role"></div>
             </div>
           </div>
-
-          <!-- Text area — fixed height, overflow:hidden; pagination handles long text -->
           <div class="dialogue-text-wrap">
             <div class="dialogue-text" id="dialogue-text"><span class="cursor hidden" id="cursor"></span></div>
           </div>
-
-          <!-- Continue / page hint anchored bottom-right of panel -->
           <div class="continue-hint hidden" id="continue-hint"
                data-en="▼ click to continue" data-id="▼ klik untuk lanjut">▼ click to continue</div>
-
         </div>
       </div>
 
-      <!-- ── Layer 21: Choice buttons overlay ─────────────────────────────── -->
-      <!-- Sits above dialogue-overlay; scrollable if many choices.           -->
       <div class="choices-overlay" id="choices-overlay">
         <div class="choices hidden" id="choices"></div>
       </div>
 
-      <!-- ── Layer 22: Bob analysis box ───────────────────────────────────── -->
       <div class="bob-box-overlay hidden" id="bob-box">
         <div class="bob-box">
           <div class="bob-box-header">
@@ -81,33 +60,37 @@
           <div class="bob-box-text" id="bob-box-text"></div>
         </div>
       </div>
+    </div>
+  </div>
 
-    </div><!-- /.game-viewport -->
-
-  </div><!-- /.scene-page -->
-
-  <!-- Chapter transition card (full-screen takeover, fixed) -->
   <div class="chapter-card hidden" id="chapter-card">
     <div class="chapter-label" id="chapter-label">CHAPTER 1</div>
     <div class="chapter-title" id="chapter-title">Plan</div>
-    <div class="chapter-sub"   id="chapter-sub"></div>
+    <div class="chapter-sub" id="chapter-sub"></div>
   </div>
 
-  <!-- Outcome toast (fixed, top-right) -->
   <div class="outcome-toast hidden" id="outcome-toast"></div>
 
-  <!-- ── Bahasa / i18n: apply static UI strings before engine runs ───────── -->
   <script>
     (function () {
-      const lang = sessionStorage.getItem('byteforce_lang') || 'en';
-      if (lang !== 'id') return;
-      document.getElementById('html-root').lang = 'id';
-      const el = document.getElementById('continue-hint');
-      if (el) el.textContent = '▼ klik untuk lanjut';
+      if (sessionStorage.getItem('byteforce_lang') === 'id') {
+        document.getElementById('html-root').lang = 'id';
+        const el = document.getElementById('continue-hint');
+        if (el) el.textContent = '▼ klik untuk lanjut';
+      }
     })();
   </script>
 
   <script src="js/state.js"></script>
+  <script>
+    (function () {
+      const s = State.get();
+      if (s.roleId !== 'headit' || !s.startedAt) {
+        State.reset();
+        State.set({ roleId:'headit', sceneIndex:0, metrics:{quality:100,security:100,satisfaction:100,cost:0}, bobCount:0, totalTasks:0, timeSaved:0, startedAt:Date.now(), timerLeft:600 });
+      }
+    })();
+  </script>
   <script src="js/scenarios.js"></script>
   <script src="js/engine.js"></script>
 </body>
