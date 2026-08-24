@@ -1,0 +1,301 @@
+<!-- ── Plan landing page (shown first) ── -->
+<section class="plan-landing" id="plan-landing">
+
+  <!-- Left: hero column -->
+  <div class="plan-hero">
+    <div class="plan-landing-badge">Stage 1 · Plan</div>
+    <h1 class="plan-landing-title"><span class="plan-title-think">Think</span> before<br>you build.</h1>
+    <p class="plan-landing-sub">Bob acts as your technical lead — analysing requirements, researching the problem space, and producing a structured plan your team can approve before a single line of code is written.</p>
+
+    <div class="plan-role-block">
+      <span class="plan-role-label">Bob's role in this stage</span>
+      <p class="plan-role-text">Inquisitive technical leader. Bob asks the right questions, loads the relevant skills, and designs implementation steps — so you start coding with clarity, not guesswork.</p>
+    </div>
+
+    <div class="plan-scope-row">
+      <div class="plan-scope-chip">
+        <span class="plan-scope-dot"></span>Workspace scope
+      </div>
+      <div class="plan-scope-chip">
+        <span class="plan-scope-dot plan-scope-dot--green"></span>Plan mode
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: detail column -->
+  <div class="plan-detail">
+
+    <!-- Video — top of right column, visible on load -->
+    <div class="plan-video-wrap">
+      <div class="plan-video-frame">
+        <div class="plan-video-titlebar">
+          <div class="plan-video-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <span class="plan-video-title">IBM Bob — Plan Stage Demo</span>
+          <div class="plan-video-titlebar-right">
+            <span class="plan-video-badge">● DEMO</span>
+          </div>
+        </div>
+        <video class="plan-video" id="plan-video-el" src="asset/plan-video.mp4" controls muted playsinline preload="auto" loop></video>
+      </div>
+    </div>
+
+    <!-- Workflow steps -->
+    <div class="plan-section-label">How Bob plans</div>
+    <ol class="plan-steps">
+      <li class="plan-step">
+        <span class="plan-step-num">01</span>
+        <div class="plan-step-body">
+          <span class="plan-step-title">Load the create-plan skill</span>
+          <span class="plan-step-desc">Activates the full planning workflow with guardrails before any response.</span>
+        </div>
+      </li>
+      <li class="plan-step">
+        <span class="plan-step-num">02</span>
+        <div class="plan-step-body">
+          <span class="plan-step-title">Gather requirements</span>
+          <span class="plan-step-desc">Asks targeted questions to surface scope, constraints, and unknowns.</span>
+        </div>
+      </li>
+      <li class="plan-step">
+        <span class="plan-step-num">03</span>
+        <div class="plan-step-body">
+          <span class="plan-step-title">Research &amp; design</span>
+          <span class="plan-step-desc">Analyses the problem space and designs a step-by-step implementation approach.</span>
+        </div>
+      </li>
+      <li class="plan-step">
+        <span class="plan-step-num">04</span>
+        <div class="plan-step-body">
+          <span class="plan-step-title">Produce a structured plan</span>
+          <span class="plan-step-desc">Writes a reviewable plan — architecture decisions, sub-tasks, and file tree — ready for your approval.</span>
+        </div>
+      </li>
+      <li class="plan-step">
+        <span class="plan-step-num">05</span>
+        <div class="plan-step-body">
+          <span class="plan-step-title">Hand off to implementation</span>
+          <span class="plan-step-desc">Once approved, the plan feeds directly into the Code stage with full context.</span>
+        </div>
+      </li>
+    </ol>
+
+    <!-- Capability chips -->
+    <div class="plan-section-label" style="margin-top:24px;">What Bob produces</div>
+    <div class="plan-caps">
+      <span class="plan-cap">User stories</span>
+      <span class="plan-cap">Architecture diagrams</span>
+      <span class="plan-cap">Tech spec documents</span>
+      <span class="plan-cap">Sprint task breakdowns</span>
+      <span class="plan-cap">File &amp; folder scaffolds</span>
+      <span class="plan-cap">Risk &amp; dependency notes</span>
+    </div>
+
+    <!-- Value prop quote -->
+    <blockquote class="plan-quote">
+      "Bob reduces cognitive overhead and helps teams work more effectively across complex systems — fewer rework cycles, more predictable outcomes."
+    </blockquote>
+
+  </div>
+
+</section>
+
+<!-- Floating Bob FAB — outside plan-landing so position:fixed isn't trapped by overflow:auto -->
+<div class="plan-bob-fab-wrap" id="plan-bob-fab-wrap">
+  <div class="plan-bob-fab-label">
+    <span class="plan-bob-fab-label-title">Try the interactive demo</span>
+    <span class="plan-bob-fab-label-sub">See Bob plan a project →</span>
+  </div>
+  <button type="button" class="plan-bob-fab" id="plan-bob-fab" aria-label="Open IBM Bob interactive demo">
+    <img src="asset/IBM_Bob_hero_illustration_head_color.svg" alt="IBM Bob" class="plan-bob-fab-img" />
+  </button>
+</div>
+
+<!-- ── Plan chatbox (hidden until FAB clicked) ── -->
+<section class="bcp-page bcp-page--split plan-chat-view hidden" id="plan-chat-view">
+
+  <!-- VS Code Explorer panel -->
+  <div class="bcp-explorer">
+    <div class="bcp-exp-header">
+      <span class="bcp-exp-title">EXPLORER</span>
+      <button type="button" class="bcp-exp-more" title="More actions">···</button>
+    </div>
+    <div class="bcp-exp-tree">
+      <div class="bcp-exp-root">
+        <span class="bcp-exp-arrow bcp-exp-arrow--open">&#8964;</span>
+        <span class="bcp-exp-root-name">PLANNING</span>
+      </div>
+    </div>
+    <div class="bcp-exp-section">
+      <span class="bcp-exp-section-arrow">›</span>
+      <span class="bcp-exp-section-label">OUTLINE</span>
+    </div>
+    <div class="bcp-exp-section">
+      <span class="bcp-exp-section-arrow">›</span>
+      <span class="bcp-exp-section-label">TIMELINE</span>
+    </div>
+  </div>
+
+  <!-- MD preview panel (hidden until file clicked) -->
+  <div class="bcp-md-panel hidden" id="bcp-md-panel">
+    <div class="bcp-md-tabbar">
+      <div class="bcp-md-tab">
+        <span class="bcp-md-tab-icon">◇</span>
+        <span class="bcp-md-tab-name">datastage-mcp-server-plan.md</span>
+        <button type="button" class="bcp-md-tab-close" id="bcp-md-close" title="Close">✕</button>
+      </div>
+    </div>
+    <div class="bcp-md-breadcrumb">
+      <span class="bcp-md-bc-icon">◇</span>
+      <span>datastage-mcp-server-plan.md</span>
+    </div>
+    <div class="bcp-md-body" id="bcp-md-body"></div>
+  </div>
+
+  <!-- Resize handle -->
+  <div class="bcp-resize-handle" id="bcp-resize-handle"></div>
+
+  <!-- Bob chatbox -->
+  <div class="bcp-chat-col">
+
+    <div class="bcp-topbar">
+      <span class="bcp-topbar-title">IBM BOB</span>
+      <div class="bcp-topbar-actions">
+        <button type="button" class="bcp-icon-btn" title="Settings">⚙</button>
+        <button type="button" class="bcp-icon-btn" title="Task list">☰</button>
+        <button type="button" class="bcp-icon-btn" title="New task">＋</button>
+        <button type="button" class="bcp-icon-btn" title="More">···</button>
+        <div class="bcp-topbar-sep"></div>
+        <button type="button" class="bcp-icon-btn" title="Open in editor">⤢</button>
+        <button type="button" class="bcp-icon-btn" title="Close">✕</button>
+        <div class="bcp-topbar-sep"></div>
+        <div class="bcp-counter" id="bcp-counter" tabindex="0">
+          <svg id="bcp-counter-icon" class="bcp-counter-svg" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 10 A6 6 0 1 1 14 10" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <line x1="8" y1="10" x2="11" y2="5.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="8" cy="10" r="1.2" fill="white"/>
+          </svg>
+          <span class="bcp-counter-val" id="bcp-counter-val">13%</span>
+          <div class="bcp-counter-tip" id="bcp-counter-tip">
+            <div class="bcp-counter-tip-pct" id="bcp-counter-tip-pct">87% Budget remaining</div>
+            <div class="bcp-counter-tip-row">
+              <svg class="bcp-counter-svg" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:13px;height:13px"><circle cx="8" cy="8" r="6" stroke="#90caf9" stroke-width="1.8"/><circle cx="8" cy="8" r="3" fill="#90caf9"/></svg>
+              <span id="bcp-counter-tip-val">0.102 / 500.00</span>
+            </div>
+            <div class="bcp-counter-tip-sub">Your budget is reset every month, so use it wisely!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bcp-body" id="bcp-body">
+      <div class="bcp-welcome" id="bcp-welcome">
+        <div class="bcp-welcome-avatar-wrap">
+          <img src="asset/IBM_Bob_hero_illustration_half_body_color.svg" alt="IBM Bob" class="bcp-welcome-avatar" />
+        </div>
+        <h2 class="bcp-welcome-title">Hi, I'm <span>Bob</span></h2>
+        <p class="bcp-welcome-sub">Ask me questions or let me code for you.</p>
+        <button type="button" class="bcp-doc-btn">📖 Documentation</button>
+      </div>
+      <div class="bcp-messages" id="bcp-messages"></div>
+    </div>
+
+    <div class="bcp-inputbar" style="position:relative;">
+      <div class="bcp-hint" id="bcp-hint">
+        <div class="bcp-hint-bubble">
+          <span class="bcp-hint-text">Start planning with Bob</span>
+          <button type="button" class="bcp-hint-btn" id="bcp-hint-btn" aria-label="Start">
+            <span class="bcp-hint-ring"></span>
+            <span class="bcp-hint-ring"></span>
+            <span class="bcp-hint-ring"></span>
+            <span class="bcp-hint-dot"></span>
+          </button>
+        </div>
+      </div>
+      <div class="bcp-input-box" id="bcp-input-box">
+        <div class="bcp-scripted-input" id="bcp-scripted-input"></div>
+      </div>
+      <div class="bcp-input-footer">
+        <div class="bcp-footer-left">
+          <button type="button" class="bcp-pill">＋</button>
+          <button type="button" class="bcp-pill bcp-pill--mode" id="bcp-mode-btn">&#9654; Plan ▾</button>
+          <button type="button" class="bcp-pill" id="bcp-perm-btn">&#128274; Permissions ▾</button>
+        </div>
+
+        <!-- Mode popup -->
+        <div class="bcp-popup" id="bcp-mode-popup" aria-hidden="true">
+          <div class="bcp-popup-header">
+            <span class="bcp-popup-title">Modes</span>
+            <div class="bcp-popup-header-icons">
+              <button type="button" class="bcp-popup-icon-btn" title="Info">ⓘ</button>
+              <button type="button" class="bcp-popup-icon-btn" title="Settings">⚙</button>
+            </div>
+          </div>
+          <div class="bcp-popup-list">
+            <button type="button" class="bcp-popup-item">
+              <span class="bcp-popup-item-name">Agent</span>
+            </button>
+            <button type="button" class="bcp-popup-item bcp-popup-item--active">
+              <span class="bcp-popup-item-name">Plan</span>
+              <span class="bcp-popup-item-check">✓</span>
+            </button>
+            <button type="button" class="bcp-popup-item">
+              <span class="bcp-popup-item-name">Ask</span>
+            </button>
+            <button type="button" class="bcp-popup-item">
+              <span class="bcp-popup-item-icon">🌐</span>
+              <span class="bcp-popup-item-name">Java Modernization</span>
+            </button>
+            <button type="button" class="bcp-popup-item">
+              <span class="bcp-popup-item-icon">👷</span>
+              <span class="bcp-popup-item-name">Instana Installer</span>
+            </button>
+          </div>
+          <div class="bcp-popup-search">
+            <input type="text" class="bcp-popup-search-input" placeholder="Search modes..." />
+          </div>
+        </div>
+
+        <!-- Permissions popup -->
+        <div class="bcp-popup bcp-popup--wide" id="bcp-perm-popup" aria-hidden="true">
+          <div class="bcp-popup-header">
+            <span class="bcp-popup-title">Auto-approve Permissions</span>
+            <div class="bcp-popup-header-icons">
+              <button type="button" class="bcp-popup-icon-btn" title="Info">ⓘ</button>
+              <button type="button" class="bcp-popup-icon-btn" title="Settings">⚙</button>
+            </div>
+          </div>
+          <p class="bcp-popup-desc">Permissions granted here apply only to this task. To manage permissions across all tasks, go to <span class="bcp-popup-link">settings</span></p>
+          <div class="bcp-popup-list">
+            <div class="bcp-perm-item"><span class="bcp-perm-icon">👁</span><span class="bcp-perm-name">Read</span><span class="bcp-perm-check bcp-perm-check--on">✓</span></div>
+            <div class="bcp-perm-item"><span class="bcp-perm-icon">✏</span><span class="bcp-perm-name">Edit</span><span class="bcp-perm-check bcp-perm-check--on">✓</span></div>
+            <div class="bcp-perm-item"><span class="bcp-perm-icon">▶</span><span class="bcp-perm-name">Execute</span><span class="bcp-perm-check bcp-perm-check--on">✓</span></div>
+            <div class="bcp-perm-item"><span class="bcp-perm-icon">⬡</span><span class="bcp-perm-name">MCP</span><span class="bcp-perm-check bcp-perm-check--on">✓</span></div>
+            <div class="bcp-perm-item"><span class="bcp-perm-icon">⚡</span><span class="bcp-perm-name">Skill</span><span class="bcp-perm-check bcp-perm-check--on">✓</span></div>
+            <div class="bcp-perm-item"><span class="bcp-perm-icon">☑</span><span class="bcp-perm-name">Todo</span><span class="bcp-perm-check bcp-perm-check--on">✓</span></div>
+            <div class="bcp-perm-item"><span class="bcp-perm-icon">⧉</span><span class="bcp-perm-name">Subtask</span><span class="bcp-perm-check bcp-perm-check--on">✓</span></div>
+            <div class="bcp-perm-item"><span class="bcp-perm-icon">◎</span><span class="bcp-perm-name">Subagent</span><span class="bcp-perm-check bcp-perm-check--on">✓</span></div>
+            <div class="bcp-perm-item"><span class="bcp-perm-icon">⊞</span><span class="bcp-perm-name">Mode</span><span class="bcp-perm-check bcp-perm-check--on">✓</span></div>
+          </div>
+          <div class="bcp-perm-footer">
+            <span class="bcp-perm-footer-label">Auto-approve</span>
+            <div class="bcp-toggle bcp-toggle--on">
+              <div class="bcp-toggle-thumb"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bcp-send-wrap">
+          <div class="bcp-send-hint hidden" id="bcp-send-hint">
+            <span class="bcp-send-hint-text">Click to send →</span>
+          </div>
+          <button type="button" class="bcp-send" id="bcp-send" disabled>↑</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /bcp-chat-col -->
+</section><!-- /plan-chat-view -->
+
+<script data-page-script src="js/pages/plan.js"></script>

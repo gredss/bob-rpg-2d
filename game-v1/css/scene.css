@@ -1,0 +1,814 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   scene.css — BYTE FORCE gameplay screen
+   Layout:
+     ┌─────────────────────────────────────────────────────────────┐ HUD
+     ├──────────────────────────────────────┬──────────────────────┤
+     │  char-L (22%)  │  char-R (22%)       │   workstation        │
+     │  overlay left  │  overlay right      │   (right 58%)        │
+     │                │                     │                      │
+     │         CHOICES (above dialogue)     │                      │
+     ├─────────────────────────────────────────────────────────────┤
+     │ char-L │       DIALOGUE PANEL (centred)        │   char-R   │
+     └────────┴───────────────────────────────────────┴────────────┘
+   Characters span full viewport width, flanking the dialogue panel.
+   Chars overlay on top of choices and workstation (z-index higher).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Design tokens (game-specific extras) ───────────────────────────────── */
+:root {
+  --hud-h:          54px;   /* HUD bar height */
+  --dlg-h:         180px;   /* dialogue panel fixed height */
+  --dlg-max-w:     860px;   /* max width of the dialogue panel */
+  --dlg-pad-x:      22px;
+  --dlg-pad-y:      12px;
+  --char-w:          42%;   /* workstation left edge */
+  --char-slot-w:     22%;   /* each character slot width */
+  --char-display-h:  58vh;  /* every sprite rendered at this height — tune here */
+  --bob-box-h:     200px;   /* Bob analysis panel fixed height */
+  --ws-min-w:      200px;   /* workstation panel minimum width */
+}
+
+/* ── Scene page — full viewport, no scroll ──────────────────────────────── */
+.scene-page {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── HUD (top bar) ──────────────────────────────────────────────────────── */
+.hud {
+  position: relative;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--hud-h);
+  padding: 0 16px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  gap: 12px;
+  overflow: hidden;
+}
+.hud-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.hud-logo-img {
+  height: 30px;
+  width: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  flex-shrink: 0;
+}
+
+/* Phase pill */
+.hud-phase {
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--bob);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border: 1px solid var(--bob-glow);
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(245,158,11,.08);
+  white-space: nowrap;
+}
+
+/* SDLC progress dots */
+.hud-progress {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+  overflow: hidden;
+}
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .58rem;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  transition: color var(--transition);
+  white-space: nowrap;
+}
+.progress-step .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--border-light);
+  flex-shrink: 0;
+  transition: background var(--transition), box-shadow var(--transition);
+}
+.progress-step.done .dot   { background: var(--success); }
+.progress-step.done        { color: var(--success); }
+.progress-step.active .dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+.progress-step.active      { color: var(--accent); }
+.progress-connector {
+  width: 12px; height: 1px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* Metrics */
+.hud-metrics {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+  align-items: center;
+}
+.metric-pill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .7rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.metric-pill .val {
+  font-weight: 700;
+  font-size: .76rem;
+  color: var(--text);
+  transition: color .3s;
+  min-width: 3ch;
+  text-align: right;
+}
+.metric-pill .val.low  { color: var(--warning); }
+.metric-pill .val.crit { color: var(--danger);  }
+
+/* Timer */
+.hud-timer {
+  font-family: var(--font-mono);
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: .08em;
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: color .3s, border-color .3s, background .3s;
+  white-space: nowrap;
+}
+.hud-timer.amber { color: var(--warning); border-color: var(--warning); background: rgba(249,115,22,.1); }
+.hud-timer.red   { color: var(--danger);  border-color: var(--danger);  background: rgba(239,68,68,.1); animation: pulse .8s infinite; }
+
+/* ── Logo as home link ───────────────────────────────────────────────────── */
+.hud-logo-img.hud-home-link {
+  transition: opacity .15s ease, transform .15s ease;
+}
+.hud-logo-img.hud-home-link:hover {
+  opacity: .75;
+  transform: scale(1.06);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GAME VIEWPORT — everything below the HUD.
+   position:relative — all children use position:absolute within this.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.game-viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Background layer ────────────────────────────────────────────────────── */
+.stage-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: none;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-color: var(--bg);
+}
+.stage-bg.bg-fade-in { animation: bgFadeIn .55s ease both; }
+@keyframes bgFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Dark vignette overlay */
+.stage-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom,
+      rgba(10, 10, 26, .60) 0%,
+      rgba(10, 10, 26, .35) 50%,
+      rgba(10, 10, 26, .80) 100%),
+    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(79,142,247,.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Star particles */
+.game-viewport > .stars {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CHARACTER AREA — spans full viewport so char-left and char-right can sit
+   on opposite edges, flanking the centred dialogue panel.
+   Higher z-index than choices/workstation so chars overlay on top.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.char-area {
+  position: absolute;
+  inset: 0;
+  z-index: 22;          /* above choices (z:21) and workstation (z:2), below dialogue (z:20 — dialogue-overlay sits at 20 but char just flanks it visually) */
+  pointer-events: none;
+}
+
+/* ── Character slots ─────────────────────────────────────────────────────
+   char-left  → pinned to left edge  of the full viewport
+   char-right → pinned to right edge of the full viewport
+   Each is --char-slot-w (22%) wide — narrow enough not to bury the dialogue.
+   ──────────────────────────────────────────────────────────────────────── */
+.char-slot {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--char-slot-w);
+  display: flex;
+  align-items: flex-end;   /* characters "stand" at the bottom */
+  justify-content: center;
+  pointer-events: none;
+  transition: opacity .35s ease, filter .35s ease;
+  overflow: hidden;
+}
+.char-left  { left: 0; }
+.char-right { right: 0; left: auto; }
+
+/* Listener faces the speaker */
+.char-right .char-body { transform: scaleX(-1); }
+
+.char-body {
+  /* The slot is --char-slot-w wide × full viewport height.
+     We set the image to exactly the same fixed box (slot width × --char-display-h)
+     so every sprite — landscape or portrait — occupies identical screen space.
+     object-fit:contain fits the image inside that box without stretching. */
+  display: block;
+  width: 100%;             /* fill the slot's width (--char-slot-w) */
+  height: var(--char-display-h);
+  max-width: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  image-rendering: auto;
+  flex-shrink: 0;
+}
+
+.char-slot.is-speaker  { opacity: 1; filter: none; z-index: 3; }
+.char-slot.is-listener { opacity: .38; filter: brightness(.50) saturate(.40); z-index: 2; }
+.char-slot.is-hidden   { opacity: 0; pointer-events: none; z-index: 1; }
+
+@keyframes slideInLeft  { from { opacity:0; transform: translateX(-30px); } to { opacity:1; transform: translateX(0); } }
+@keyframes slideInRight { from { opacity:0; transform: translateX( 30px); } to { opacity:1; transform: translateX(0); } }
+.char-left.enter  { animation: slideInLeft  .28s ease both; }
+.char-right.enter { animation: slideInRight .28s ease both; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   WORKSTATION PANEL — right column, original position (left: --char-w).
+   ═══════════════════════════════════════════════════════════════════════════ */
+.workstation-panel {
+  position: absolute;
+  top: 0;
+  left: var(--char-w);
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  background: rgba(13, 13, 28, .78);
+  border-left: 1px solid var(--border);
+  overflow: hidden;
+  min-width: var(--ws-min-w);
+}
+
+.workstation-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  background: rgba(19,19,43,.95);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.workstation-icon {
+  font-size: .95rem;
+  flex-shrink: 0;
+}
+.workstation-label {
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  flex: 1;
+}
+/* Traffic-light style status dot */
+.workstation-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--success);
+  flex-shrink: 0;
+  animation: pulse 2.5s infinite;
+}
+
+.workstation-screen {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 0;
+}
+
+/* ── Workstation empty state ─────────────────────────────────────────────── */
+.workstation-screen:empty::after {
+  content: '';
+}
+.ws-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 10px;
+  padding: 20px;
+  text-align: center;
+  opacity: .55;
+  pointer-events: none;
+}
+.ws-empty-icon {
+  font-size: 1.6rem;
+  opacity: .5;
+}
+.ws-empty-label {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  color: var(--text-dim);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+.ws-empty-sub {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  color: var(--text-dim);
+  letter-spacing: .08em;
+  opacity: .6;
+}
+
+/* ── Workstation media display — fills the screen, no distortion ────────── */
+.ws-media {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: center 20%;
+  background: #000;
+}
+
+/* ── Workstation content blocks ─────────────────────────────────────────── */
+.ws-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+/* A fake "cell" / terminal row in the workstation */
+.ws-cell {
+  border-bottom: 1px solid var(--border);
+  padding: 10px 14px;
+  flex-shrink: 0;
+}
+.ws-cell-label {
+  font-family: var(--font-mono);
+  font-size: .58rem;
+  color: var(--text-dim);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.ws-cell-value {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.ws-cell-value .kw { color: var(--accent); }
+.ws-cell-value .kw-warn { color: var(--warning); }
+.ws-cell-value .kw-err  { color: var(--danger); }
+.ws-cell-value .kw-ok   { color: var(--success); }
+/* Scrollable body area inside the workstation */
+.ws-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+/* ── Bob analysis in workstation (after Bob option chosen) ───────────────── */
+.ws-bob-output {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ws-bob-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: .64rem;
+  font-weight: 700;
+  color: var(--bob);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.ws-bob-header-avatar {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--bob);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  flex-shrink: 0;
+}
+.ws-bob-text {
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DIALOGUE OVERLAY — anchored to bottom of game-viewport.
+   Fixed height. Nothing inside changes the game world above.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.dialogue-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--dlg-h);
+  z-index: 20;
+}
+
+/* ── The visible dialogue panel ────────────────────────────────────────── */
+.dialogue-panel {
+  position: absolute;
+  inset: 0;
+  max-width: var(--dlg-max-w);
+  margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(100%, var(--dlg-max-w));
+
+  background: rgba(16, 16, 34, .97);
+  border: 1.5px solid var(--border-light);
+  border-bottom: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: var(--dlg-pad-y) var(--dlg-pad-x);
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* ── Speaker nameplate ─────────────────────────────────────────────────── */
+.speaker-nameplate {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  margin-bottom: 7px;
+}
+.speaker-head {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-light);
+  background: var(--bg3);
+  flex-shrink: 0;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  transition: border-color .3s;
+}
+.speaker-head.bob-active {
+  border-color: var(--bob);
+  box-shadow: 0 0 8px var(--bob-glow);
+}
+.speaker-info { flex: 1; min-width: 0; line-height: 1; }
+.speaker-name {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: .76rem;
+  color: var(--text);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.speaker-role {
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  color: var(--accent);
+  letter-spacing: .04em;
+  margin-top: 2px;
+}
+
+/* ── Text area ─────────────────────────────────────────────────────────── */
+.dialogue-text-wrap {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  /* Reserve space at the bottom so the continue-hint never overlaps text */
+  padding-bottom: 20px;
+  overflow: hidden;
+}
+.dialogue-text {
+  font-size: .92rem;
+  line-height: 1.68;
+  color: var(--text);
+  font-family: var(--font-ui);
+  white-space: pre-wrap;
+}
+
+/* Blinking cursor — inline after the last character, not a sibling element.
+   The span sits inside .dialogue-text so it flows with the text naturally.  */
+.cursor {
+  display: inline;
+  border-left: 2px solid var(--accent);
+  margin-left: 1px;
+  animation: pulse .6s infinite;
+  /* Prevents the cursor from creating an extra blank line */
+  font-size: 0;
+  line-height: inherit;
+}
+
+/* Continue hint — pinned to the bottom of the wrap, never overlapping text */
+.continue-hint {
+  position: absolute;
+  bottom: 2px;
+  right: 0;
+  font-size: .64rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  animation: pulse 1.2s infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Keyword highlights ──────────────────────────────────────────────── */
+.kw-number  { color: var(--warning); font-weight: 700; font-family: var(--font-mono); }
+.kw-code    { color: var(--accent); font-family: var(--font-mono); background: rgba(79,142,247,.10); border-radius: 3px; padding: 0 3px; }
+.kw-danger  { color: var(--danger);  font-weight: 700; }
+.kw-success { color: var(--success); font-weight: 700; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CHOICE BUTTONS OVERLAY
+   Anchored to top of viewport, just below the HUD ribbon.
+   Width matches the left column (--char-w) — doesn't cover the workstation.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.choices-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--char-w);
+  z-index: 21;
+  padding: 8px 0 0;
+  max-height: calc(100% - var(--dlg-h));
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 10px;
+}
+
+.choice-btn {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(16,16,34,.96);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: .80rem;
+  font-family: var(--font-ui);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+  animation: fadeUp .20s ease both;
+  backdrop-filter: blur(4px);
+  width: 100%;
+}
+.choice-btn:hover {
+  border-color: var(--border-light);
+  background: var(--surface2);
+  transform: translateX(3px);
+}
+.choice-btn.bob-choice {
+  border-color: var(--bob-glow);
+  background: rgba(245,158,11,.06);
+}
+.choice-btn.bob-choice:hover {
+  border-color: var(--bob);
+  background: rgba(245,158,11,.12);
+  box-shadow: 0 0 14px var(--bob-glow);
+}
+.choice-btn.danger-choice { border-color: rgba(239,68,68,.28); }
+.choice-btn.danger-choice:hover {
+  border-color: var(--danger);
+  background: rgba(239,68,68,.08);
+}
+
+.choice-left  { display: flex; align-items: flex-start; gap: 8px; flex: 1; min-width: 0; }
+.choice-key {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 17px; height: 17px;
+  font-size: .58rem; font-family: var(--font-mono); font-weight: 700;
+  color: var(--text-dim); border: 1px solid var(--border);
+  border-radius: 3px; flex-shrink: 0; line-height: 1; margin-top: 1px;
+}
+.choice-icon  { font-size: .95rem; flex-shrink: 0; }
+.choice-icon:empty { display: none; }
+/* Allow label to wrap — buttons are narrower in the left column */
+.choice-label { font-size: .80rem; overflow: hidden; white-space: normal; line-height: 1.4; }
+.choice-meta  { font-size: .64rem; color: var(--text-muted); font-family: var(--font-mono); flex-shrink: 0; white-space: nowrap; margin-left: 6px; margin-top: 2px; }
+.choice-meta.red { color: var(--danger); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOB ANALYSIS BOX
+   Compact panel anchored at the bottom of the viewport, same z-stack as
+   dialogue. Fixed height matches --bob-box-h.
+   The workstation on the right shows the detailed scroll content;
+   this box shows the header + brief summary + action button.
+   ═══════════════════════════════════════════════════════════════════════════ */
+/* Full-width anchor — same as dialogue-overlay, so centering works correctly
+   even when fadeUp animation is running (avoids transform conflict).           */
+.bob-box-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--bob-box-h);
+  z-index: 22;
+  pointer-events: none;
+}
+.bob-box {
+  position: absolute;
+  inset: 0;
+  max-width: var(--dlg-max-w);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(100%, var(--dlg-max-w));
+
+  background: linear-gradient(160deg, rgba(28,18,4,.98), rgba(16,16,34,.98));
+  border: 1.5px solid var(--bob);
+  border-bottom: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 10px 20px 12px;
+  box-shadow: 0 0 24px var(--bob-glow), 0 -6px 28px rgba(0,0,0,.5);
+  animation: bobBoxIn .25s ease both;
+  pointer-events: all;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
+}
+@keyframes bobBoxIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+.bob-box-header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--bob);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.bob-box-avatar {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--bob);
+  background: var(--bg3);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  flex-shrink: 0;
+}
+/* Bob text — scrollable in the fixed container */
+.bob-box-text {
+  font-size: .84rem;
+  line-height: 1.65;
+  color: var(--text);
+  white-space: pre-wrap;
+  overflow-y: auto;
+  flex: 1;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bob-glow) transparent;
+}
+.bob-box-text::-webkit-scrollbar        { width: 3px; }
+.bob-box-text::-webkit-scrollbar-thumb  { background: var(--bob-glow); border-radius: 2px; }
+.bob-box-text::-webkit-scrollbar-track  { background: transparent; }
+
+/* ── Outcome toast ───────────────────────────────────────────────────────── */
+.outcome-toast {
+  position: fixed;
+  top: calc(var(--hud-h) + 8px);
+  right: 16px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: fadeUp .28s ease both;
+  box-shadow: 0 6px 20px rgba(0,0,0,.4);
+  min-width: 180px;
+  max-width: 240px;
+}
+.outcome-toast.fade-out { animation: fadeIn .3s ease reverse both; }
+.outcome-title {
+  font-size: .7rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+}
+.outcome-deltas { display: flex; flex-direction: column; gap: 3px; }
+.outcome-delta  { font-size: .72rem; font-family: var(--font-mono); }
+.outcome-delta.pos { color: var(--success); }
+.outcome-delta.neg { color: var(--danger);  }
+.outcome-delta.neu { color: var(--text-muted); }
+
+/* ── Chapter card (full-screen takeover) ────────────────────────────────── */
+.chapter-card {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  animation: fadeIn .4s ease both;
+}
+.chapter-card.out { animation: fadeIn .4s ease reverse both; }
+.chapter-label {
+  font-size: .68rem;
+  font-family: var(--font-mono);
+  letter-spacing: .3em;
+  color: var(--bob);
+  text-transform: uppercase;
+}
+.chapter-title {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-family: var(--font-mono);
+  font-weight: 900;
+  color: var(--text);
+  text-shadow: 0 0 28px var(--accent-glow);
+  text-align: center;
+  padding: 0 24px;
+}
+.chapter-sub {
+  font-size: .9rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
