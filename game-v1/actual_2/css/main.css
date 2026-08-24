@@ -1,0 +1,160 @@
+/* ============================================================
+   main.css — Global reset, design tokens, layout skeleton
+   ============================================================ */
+
+/* ── Design tokens ──────────────────────────────────────────── */
+:root {
+  /* IBM Carbon Design System palette — dark (default) */
+  --bg:          #161616;
+  --surface:     #1e1e1e;
+  --surface-2:   #262626;
+  --surface-3:   #393939;
+  --border:      #393939;
+  --text:        #f4f4f4;
+  --text-muted:  #c6c6c6;
+  --text-dim:    #6f6f6f;
+  --accent-blue: #0f62fe;
+  --ibm-blue:    #0f62fe;
+  --nav-h:       48px;
+  --font-mono:   'IBM Plex Mono', 'Courier New', monospace;
+  --radius:      4px;
+  --radius-lg:   8px;
+  --transition:  150ms cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+/* ── Light mode tokens ───────────────────────────────────────── */
+[data-theme="light"] {
+  --bg:         #ffffff;
+  --surface:    #f4f4f4;
+  --surface-2:  #e0e0e0;
+  --surface-3:  #c6c6c6;
+  --border:     #d1d1d1;
+  --text:       #161616;
+  --text-muted: #525252;
+  --text-dim:   #8d8d8d;
+  --accent-blue: #0043ce;
+  --ibm-blue:    #0043ce;
+}
+
+/* ── Theme toggle button ─────────────────────────────────────── */
+#theme-toggle {
+  position: fixed;
+  top: 8px;
+  right: 16px;
+  z-index: 200;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+  flex-shrink: 0;
+}
+
+#theme-toggle:hover {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+/* Show the right icon per theme */
+#theme-toggle .icon-moon { display: block; }
+#theme-toggle .icon-sun  { display: none;  }
+
+[data-theme="light"] #theme-toggle .icon-moon { display: none;  }
+[data-theme="light"] #theme-toggle .icon-sun  { display: block; }
+
+/* ── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Allow scroll when the viewport is very narrow (e.g. heavily zoomed in) */
+@media (max-width: 600px) {
+  html, body {
+    overflow: auto;
+    height: auto;
+  }
+  #page-view {
+    overflow: visible;
+    height: auto;
+    min-height: calc(100vh - var(--nav-h));
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Page viewport ──────────────────────────────────────────── */
+#page-view {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* In-flow spacer that reserves room for the fixed nav */
+#nav-spacer {
+  flex-shrink: 0;
+  height: 0;
+  overflow: hidden;
+  transition: height 400ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+#nav-spacer.visible {
+  height: var(--nav-h);
+}
+
+#nav-spacer.hiding {
+  height: 0;
+  transition: height 300ms cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* ── Page transitions ───────────────────────────────────────── */
+.page-enter {
+  animation: fadeSlideIn var(--transition) both;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Utility classes ────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Scrollable inner panel (used inside pages) ─────────────── */
+.panel-scroll {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface-3) transparent;
+}
+.panel-scroll::-webkit-scrollbar { width: 4px; }
+.panel-scroll::-webkit-scrollbar-track { background: transparent; }
+.panel-scroll::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 2px; }

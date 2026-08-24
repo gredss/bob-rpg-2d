@@ -1,0 +1,624 @@
+/* ── Attract screen ────────────────────────────────────────────────────────── */
+
+/* Full-viewport page override — allow the layout to fill the height */
+.attract-page {
+  overflow: hidden;
+}
+
+/* ── Two-column layout ──────────────────────────────────────────────────────── */
+.attract-layout {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;       /* both columns sit on the same baseline */
+  justify-content: center;
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 40px;
+  flex: 1;                     /* fill remaining height above ticker */
+  gap: 0;
+}
+
+/* ── Left column: Bob full body + bubble ────────────────────────────────────── */
+.attract-bob-col {
+  flex: 0 0 auto;
+  position: relative;          /* anchor for the absolutely-placed bubble */
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-right: 32px;
+  padding-bottom: 80px;
+}
+
+/* Bob — static, no float, no glow */
+.attract-bob-body {
+  width: clamp(180px, 22vw, 300px);
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  animation: fadeIn .6s ease both;
+  display: block;
+  margin-right: 73px;
+}
+
+/* Speech bubble — floats + glows, positioned upper-right of Bob's head */
+.attract-bubble {
+  position: absolute;
+  bottom: calc(80px + clamp(180px, 22vw, 300px) * 1.1);
+  right: 120px;
+  width: clamp(160px, 20vw, 260px);
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  animation: bubbleFloat 3.2s ease-in-out infinite, fadeIn .8s .2s ease both;
+  filter: drop-shadow(0 0 14px rgba(79,142,247,.5)) drop-shadow(0 0 4px rgba(139,92,246,.35));
+}
+
+@keyframes bubbleFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* ── Right column: content ──────────────────────────────────────────────────── */
+.attract-content-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 0 80px 0;
+  max-width: 560px;
+}
+
+/* ── Logo wrap — scanline sweep (same CRT technique as role-pick) ───────────── */
+.attract-logo-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 16px;
+  margin-left: 32px;
+  animation: fadeUp .7s ease both;
+}
+
+.attract-logo-wrap::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: -40%;
+  height: 40%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255,255,255,.12) 45%,
+    rgba(255,255,255,.20) 50%,
+    rgba(255,255,255,.12) 55%,
+    transparent 100%
+  );
+  animation: scanSweep 3.5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scanSweep {
+  0%   { top: -40%; }
+  100% { top: 140%; }
+}
+
+.attract-logo {
+  width: clamp(240px, 38vw, 440px);
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  display: block;
+  filter: drop-shadow(0 0 16px rgba(79,142,247,.5));
+  animation: crtFlicker 8s step-end infinite;
+}
+
+@keyframes crtFlicker {
+  0%    { filter: drop-shadow(0 0 16px rgba(79,142,247,.5))  brightness(1);    }
+  3%    { filter: drop-shadow(0 0 10px rgba(79,142,247,.3))  brightness(.92);  }
+  3.5%  { filter: drop-shadow(0 0 18px rgba(79,142,247,.6))  brightness(1.04); }
+  4%    { filter: drop-shadow(0 0 16px rgba(79,142,247,.5))  brightness(1);    }
+  55%   { filter: drop-shadow(0 0 16px rgba(79,142,247,.5))  brightness(1);    }
+  55.5% { filter: drop-shadow(0 0 8px  rgba(79,142,247,.25)) brightness(.9);   }
+  56%   { filter: drop-shadow(0 0 20px rgba(79,142,247,.65)) brightness(1.06); }
+  56.5% { filter: drop-shadow(0 0 16px rgba(79,142,247,.5))  brightness(1);    }
+  100%  { filter: drop-shadow(0 0 16px rgba(79,142,247,.5))  brightness(1);    }
+}
+
+/* ── IBM Bob logotype (above BYTE FORCE logo) ───────────────────────────────── */
+.attract-ibm-bob-logo {
+  width: clamp(120px, 16vw, 200px);
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin-bottom: 14px;
+  animation: fadeUp .6s ease both;
+  opacity: .9;
+}
+
+/* ── Divider ────────────────────────────────────────────────────────────────── */
+.attract-divider {
+  width: 100%;
+  max-width: 360px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-light), transparent);
+  margin-bottom: 20px;
+  animation: fadeIn .8s .2s ease both;
+}
+
+/* ── Taglines ───────────────────────────────────────────────────────────────── */
+.attract-tagline {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  animation: fadeUp .6s .3s ease both;
+}
+.attract-tagline2 {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  animation: fadeUp .6s .38s ease both;
+}
+
+/* ── Start button ───────────────────────────────────────────────────────────── */
+.attract-cta {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  /* entry fade + persistent pixel-shimmer pulse */
+  animation: fadeUp .6s .48s ease both, btnPulse 2.8s 1.2s ease-in-out infinite;
+  transition: transform .12s ease, filter .12s ease;
+  display: block;
+}
+
+@keyframes btnPulse {
+  0%, 100% { filter: brightness(1)    drop-shadow(0 0 8px  rgba(74,222,128,.3)); }
+  50%       { filter: brightness(1.08) drop-shadow(0 0 20px rgba(74,222,128,.65)); }
+}
+
+.attract-cta:hover {
+  transform: scale(1.06) translateY(-3px);
+  filter: brightness(1.18) drop-shadow(0 0 24px rgba(74,222,128,.7));
+  animation-play-state: running, paused;   /* freeze pulse on hover */
+}
+
+.attract-cta:active {
+  transform: scale(.97) translateY(1px);
+}
+
+.attract-cta-img {
+  width: clamp(200px, 30vw, 320px);
+  height: auto;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ── Legacy classes (kept so old references don't break) ────────────────────── */
+.attract-wrap        { display: none; }
+.attract-bob-head    { display: none; }
+
+/* ── Scenario picker modal (unchanged) ─────────────────────────────────────── */
+.scenario-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  animation: fadeIn .25s ease;
+}
+.scenario-modal-box {
+  background: var(--surface);
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: 36px 40px;
+  max-width: 560px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  animation: fadeUp .3s ease;
+}
+.scenario-modal-title-img {
+  width: clamp(220px, 70%, 380px);
+  height: auto;
+  display: block;
+  margin: 0 auto 16px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.scenario-modal-sub {
+  font-size: .9rem;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}
+.scenario-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.scenario-card {
+  background: var(--bg3);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+}
+.scenario-card:hover {
+  border-color: var(--accent);
+  background: var(--surface2);
+  transform: translateX(4px);
+}
+.scenario-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.scenario-card-client {
+  font-size: .82rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOB PORTAL — iframe-based, zero navigation, zero URL change
+   .open  = peek: circle sweeps from corner, iframe visible but click-blocked
+   .full  = switched in: clip removed, iframe fully interactive
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Portal container ────────────────────────────────────────────────────── */
+.bob-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  cursor: pointer;
+  pointer-events: none;
+  clip-path: circle(0px at calc(100% - 138px) calc(100% - 64px));
+  transition: clip-path .55s cubic-bezier(.4, 0, .2, 1);
+}
+.bob-portal.open {
+  pointer-events: all;
+  clip-path: circle(150vmax at calc(100% - 138px) calc(100% - 64px));
+}
+/* Fully switched in: no clip, iframe live and interactive */
+.bob-portal.full {
+  clip-path: none;
+  cursor: default;
+  z-index: 200;
+}
+
+/* ── iframe: blocked during peek so the portal div catches clicks ─────────── */
+.bob-portal-iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  border: none;
+  display: block;
+  pointer-events: none;
+}
+.bob-portal.full .bob-portal-iframe { pointer-events: all; }
+
+/* ── Amber ring ──────────────────────────────────────────────────────────── */
+.bob-portal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 2px var(--bob), inset 0 0 40px var(--bob-glow);
+  opacity: 0;
+  transition: opacity .3s ease .2s;
+  pointer-events: none;
+  z-index: 1;
+}
+.bob-portal.open::before { opacity: 1; }
+.bob-portal.full::before { opacity: 0; transition: none; }
+
+/* ── "Click to enter" hint — visible during peek, gone when full ─────────── */
+.bob-portal-overlay {
+  position: absolute;
+  bottom: 52px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .2s ease .35s, transform .2s ease .35s;
+  z-index: 2;
+}
+.bob-portal.open .bob-portal-overlay { opacity: 1; transform: translateY(0); }
+.bob-portal.full .bob-portal-overlay { opacity: 0 !important; pointer-events: none; }
+.bob-portal-hint {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--bob);
+  letter-spacing: .08em;
+  text-shadow: 0 0 12px var(--bob-glow), 0 2px 8px rgba(0,0,0,.8);
+  background: rgba(8,8,20,.6);
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--bob-glow);
+}
+
+/* ── "Back to game" card — game amber theme, shown on home page only ──────── */
+.bob-portal-close {
+  position: fixed;
+  bottom: 56px;
+  right: 24px;
+  z-index: 210;
+
+  display: block;
+  width: 192px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .25s ease, transform .25s ease;
+  animation: none;
+}
+
+.bob-portal-close-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px 9px 10px;
+  position: relative;
+
+  background: linear-gradient(135deg, rgba(13,13,32,.97) 0%, rgba(22,22,52,.97) 100%);
+  border: 1px solid rgba(245,158,11,.45);
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 1px rgba(245,158,11,.1) inset,
+    0 0 22px rgba(245,158,11,.18),
+    0 8px 28px rgba(0,0,0,.55);
+
+  transition: border-color .2s ease, box-shadow .2s ease, transform .15s ease;
+}
+.bob-portal-close-inner::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 14px; right: 14px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(245,158,11,.6), transparent);
+  border-radius: 0 0 14px 14px;
+  pointer-events: none;
+}
+
+.bob-portal-close:hover .bob-portal-close-inner {
+  border-color: rgba(245,158,11,.8);
+  box-shadow:
+    0 0 0 1px rgba(245,158,11,.22) inset,
+    0 0 36px rgba(245,158,11,.32),
+    0 12px 36px rgba(0,0,0,.65);
+  transform: translateY(-2px);
+}
+
+.bob-portal-close-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1.5px solid rgba(245,158,11,.5);
+  background: var(--bg3);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  flex-shrink: 0;
+  display: block;
+}
+
+.bob-portal-close-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.bob-portal-close-eyebrow {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  font-weight: 700;
+  color: rgba(245,158,11,.7);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.bob-portal-close-title {
+  font-family: var(--font-ui);
+  font-size: .8rem;
+  font-weight: 700;
+  color: #f0f0ff;
+  line-height: 1.2;
+  letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bob-portal-close-cta {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  color: rgba(245,158,11,.85);
+  letter-spacing: .04em;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.bob-portal-close-arrow {
+  display: inline-block;
+  transition: transform .18s ease;
+}
+.bob-portal-close:hover .bob-portal-close-arrow {
+  transform: translateX(-4px);
+}
+
+/* Visible only when portal is fully open AND inner page is home */
+.bob-portal.full[data-portal-page="home"] .bob-portal-close {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+  animation: bobCardFloat 3.2s ease-in-out infinite;
+}
+/* Explicitly hidden on any non-home inner page */
+.bob-portal.full:not([data-portal-page="home"]) .bob-portal-close {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(8px) !important;
+  animation: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOB CARD TRIGGER — bottom-right, themed like IBM Carbon / IBM Blue
+   ═══════════════════════════════════════════════════════════════════════════ */
+.bob-learn-btn {
+  position: fixed;
+  bottom: 56px;
+  right: 24px;
+  z-index: 200;
+
+  display: block;
+  width: 196px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  animation: bobCardFloat 3.2s ease-in-out infinite;
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+/* Card body — Carbon dark surface + IBM blue */
+.bob-learn-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px 9px 10px;
+  position: relative;
+
+  background: #1e1e1e;
+  border: 1px solid rgba(15, 98, 254, .55);
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px rgba(15, 98, 254, .1) inset,
+    0 0 20px rgba(15, 98, 254, .2),
+    0 8px 28px rgba(0,0,0,.6);
+
+  transition: border-color .18s ease, box-shadow .18s ease, transform .15s ease;
+}
+.bob-learn-inner::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(15,98,254,.7), transparent);
+  border-radius: 4px 4px 0 0;
+  pointer-events: none;
+}
+
+.bob-learn-btn:hover .bob-learn-inner {
+  border-color: rgba(15, 98, 254, .9);
+  box-shadow:
+    0 0 0 1px rgba(15, 98, 254, .18) inset,
+    0 0 32px rgba(15, 98, 254, .3),
+    0 12px 36px rgba(0,0,0,.65);
+  transform: translateY(-2px);
+}
+
+/* Avatar — SVG illustration, Carbon border */
+.bob-learn-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+  object-fit: contain;
+  border: 1px solid rgba(15, 98, 254, .45);
+  background: #262626;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* Text stack */
+.bob-learn-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.bob-learn-eyebrow {
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-size: .58rem;
+  font-weight: 400;
+  color: #0f62fe;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.bob-learn-title {
+  font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  font-size: .8rem;
+  font-weight: 600;
+  color: #f4f4f4;
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bob-learn-cta {
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-size: .6rem;
+  color: #78a9ff;
+  letter-spacing: .04em;
+  line-height: 1;
+  margin-top: 1px;
+}
+
+.bob-learn-arrow {
+  display: inline-block;
+  transition: transform .18s ease;
+}
+.bob-learn-btn:hover .bob-learn-arrow {
+  transform: translateX(4px);
+}
+
+/* Card hides when fully switched in */
+.bob-learn-btn.hidden-by-switch {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px) scale(.92);
+}
+
+@keyframes bobCardFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-5px); }
+}
+
+/* Short screens */
+@media (max-height: 680px) {
+  .bob-learn-btn    { bottom: 48px; }
+  .bob-portal-close { bottom: 48px; }
+  .bob-portal { clip-path: circle(0px at calc(100% - 138px) calc(100% - 52px)); }
+}
+
+/* Touch devices — no hover, disable portal peek */
+@media (hover: none) {
+  .bob-learn-btn { animation: bobCardFloat 3.2s ease-in-out infinite; }
+  .bob-portal    { display: none; }
+}
