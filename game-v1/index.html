@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BYTE FORCE — Powered by Bob</title>
-  <link rel="icon" type="image/jpeg" href="assets/byte-force-logo.jpg">
+  <title>IBM Bob — Powered by BYTE FORCE</title>
+  <link rel="icon" type="image/png" href="assets/bob/head.png">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/attract.css">
 </head>
@@ -12,37 +12,37 @@
   <div class="page attract-page">
     <div class="stars" id="stars"></div>
 
-    <!-- ── Two-column layout ──────────────────────────────────────────────── -->
-    <div class="attract-layout">
+    <!-- ── Centered single-column layout ──────────────────────────────────── -->
+    <div class="attract-center">
 
-      <!-- Left: Bob full body + speech bubble -->
-      <div class="attract-bob-col">
+      <!-- 1. Speech bubble — top, centered -->
+      <div class="attract-bubble-wrap">
         <img src="assets/bubble.png" alt="" class="attract-bubble">
-        <img src="assets/bob/full-body.png" alt="Bob" class="attract-bob-body">
       </div>
 
-      <!-- Right: all content -->
-      <div class="attract-content-col">
-        <img src="assets/IBM_Bob_logotype_rev_white_RGB.png" alt="IBM Bob" class="attract-ibm-bob-logo">
+      <!-- 2 + 3. Bob half-body layered over cycle ring -->
+      <div class="attract-hero">
+        <img src="assets/cycle.png"         alt="" class="attract-cycle">
+        <img src="assets/bob/half-body.png" alt="Bob" class="attract-bob-body">
+      </div>
 
-        <div class="attract-logo-wrap">
-          <img src="assets/byte-force-logo.jpg" alt="BYTE FORCE" class="attract-logo">
-        </div>
+      <!-- 4. IBM Bob logotype -->
+      <img src="../game/assets/IBM_Bob_logotype_rev_white_RGB.png"
+           alt="IBM Bob"
+           class="attract-ibm-bob-logo">
 
-        <div class="attract-divider"></div>
-
-        <p class="attract-tagline">Plan. Build. Test. Secure. Deploy.</p>
-        <p class="attract-tagline2">See how Bob supports every step of the software lifecycle.</p>
-
-        <div class="attract-divider"></div>
-
+      <!-- 5. Two bottom buttons -->
+      <div class="attract-btns">
         <button class="attract-cta" id="btn-start">
           <img src="assets/start.png" alt="Click to Start" class="attract-cta-img">
+        </button>
+
+        <button class="attract-learn" id="btn-learn-inline">
+          <img src="assets/start.png" alt="See Bob in action" class="attract-cta-img">
         </button>
       </div>
 
     </div>
-
   </div>
 
   <!-- ── IBM Bob portal — full-screen iframe, swept in from bottom-right ── -->
@@ -59,7 +59,7 @@
       <div class="bob-portal-close-inner">
         <img src="assets/bob/head.png" alt="Bob" class="bob-portal-close-avatar">
         <div class="bob-portal-close-body">
-          <span class="bob-portal-close-eyebrow">BYTE FORCE</span>
+          <span class="bob-portal-close-eyebrow">IBM BOB</span>
           <span class="bob-portal-close-title">Back to game</span>
           <span class="bob-portal-close-cta"><span class="bob-portal-close-arrow">←</span> Return to play</span>
         </div>
@@ -67,17 +67,6 @@
     </button>
   </div>
 
-  <!-- ── IBM Bob card trigger — always visible bottom-right ── -->
-  <button class="bob-learn-btn" id="btn-learn" title="Learn about IBM Bob">
-    <div class="bob-learn-inner">
-      <img src="actual_2/asset/IBM_Bob_hero_illustration_head_color.svg" alt="Bob" class="bob-learn-avatar">
-      <div class="bob-learn-body">
-        <span class="bob-learn-eyebrow">IBM Bob · SDLC Demo</span>
-        <span class="bob-learn-title">See Bob in action</span>
-        <span class="bob-learn-cta">Explore the demo <span class="bob-learn-arrow">→</span></span>
-      </div>
-    </div>
-  </button>
 
   <script src="js/state.js"></script>
   <script src="js/sfx.js"></script>
@@ -92,12 +81,11 @@
       }
     })();
 
-    // ── SFX: page load ───────────────────────────────────────────────────────
     window.addEventListener('load', () => SFX.play('pageLoad', { volume: 0.6 }));
 
     State.reset();
 
-    // ── SFX: start button ────────────────────────────────────────────────────
+    // ── Start button ─────────────────────────────────────────────────────────
     const btnStart = document.getElementById('btn-start');
     btnStart.addEventListener('mouseenter', () => SFX.play('cardHover', { debounce: true }));
     btnStart.addEventListener('click', () => {
@@ -105,10 +93,10 @@
     });
 
     // ── Portal: iframe-based switch ──────────────────────────────────────────
-    const portal   = document.getElementById('bob-portal');
-    const iframe   = document.getElementById('bob-portal-iframe');
-    const pill     = document.getElementById('btn-learn');
-    const closeBtn = document.getElementById('btn-portal-close');
+    const portal      = document.getElementById('bob-portal');
+    const iframe      = document.getElementById('bob-portal-iframe');
+    const closeBtn    = document.getElementById('btn-portal-close');
+    const learnInline = document.getElementById('btn-learn-inline');
     let closeTimer = null;
     let isFullyOpen = false;
     let portalPage = 'home';
@@ -132,7 +120,6 @@
       clearTimeout(closeTimer);
       isFullyOpen = true;
       portal.classList.add('open', 'full');
-      pill.classList.add('hidden-by-switch');
       try {
         const p = iframe.contentWindow && iframe.contentWindow.Router && iframe.contentWindow.Router.current;
         if (p) setPortalPage(p);
@@ -143,7 +130,6 @@
       isFullyOpen = false;
       portal.classList.remove('full');
       setTimeout(() => portal.classList.remove('open'), 550);
-      pill.classList.remove('hidden-by-switch');
       closeBtn.hidden = true;
     }
     function updatePortalCloseButtonVisibility(page) {
@@ -151,9 +137,10 @@
       closeBtn.hidden = !isFullyOpen || page !== 'home';
     }
 
-    pill.addEventListener('mouseenter', () => { if (!isFullyOpen) peekPortal(); });
-    pill.addEventListener('mouseleave', () => { if (!isFullyOpen) schedulePeekClose(); });
-    pill.addEventListener('click',      () => { if (!isFullyOpen) switchIn(); });
+    // inline "learn more" button — same portal behaviour as the old pill
+    learnInline.addEventListener('mouseenter', () => SFX.play('cardHover', { debounce: true }));
+    learnInline.addEventListener('click', () => { if (!isFullyOpen) switchIn(); });
+
     closeBtn.addEventListener('click',  (e) => { e.stopPropagation(); if (isFullyOpen) switchOut(); });
     window.addEventListener('message',  (e) => {
       if (e.data && e.data.type === 'bob:page-change') updatePortalCloseButtonVisibility(e.data.page);

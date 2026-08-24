@@ -16,9 +16,10 @@
 
 /* ── Design tokens (game-specific extras) ───────────────────────────────── */
 :root {
-  --hud-h:          54px;   /* HUD bar height */
-  --dlg-h:         180px;   /* dialogue panel fixed height */
-  --dlg-max-w:     860px;   /* max width of the dialogue panel */
+  --hud-h:          36px;   /* HUD bar height */
+  --dlg-h:         160px;   /* dialogue panel height */
+  --choices-h:     180px;   /* choices strip height — sits below dialogue */
+  --dlg-max-w:     860px;   /* max width of dialogue + choices */
   --dlg-pad-x:      22px;
   --dlg-pad-y:      12px;
   --char-w:          42%;   /* workstation left edge */
@@ -43,127 +44,27 @@
   z-index: 30;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   height: var(--hud-h);
-  padding: 0 16px;
+  padding: 0 12px;
   background: var(--bg2);
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
-  gap: 12px;
-  overflow: hidden;
 }
 .hud-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
 .hud-logo-img {
-  height: 30px;
+  height: 22px;
   width: auto;
   object-fit: contain;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   flex-shrink: 0;
 }
-
-/* Phase pill */
-.hud-phase {
-  font-family: var(--font-mono);
-  font-size: .7rem;
-  color: var(--bob);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  border: 1px solid var(--bob-glow);
-  padding: 3px 10px;
-  border-radius: 20px;
-  background: rgba(245,158,11,.08);
-  white-space: nowrap;
-}
-
-/* SDLC progress dots */
-.hud-progress {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex: 1;
-  justify-content: center;
-  overflow: hidden;
-}
-.progress-step {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: .58rem;
-  font-family: var(--font-mono);
-  color: var(--text-dim);
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  transition: color var(--transition);
-  white-space: nowrap;
-}
-.progress-step .dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--border-light);
-  flex-shrink: 0;
-  transition: background var(--transition), box-shadow var(--transition);
-}
-.progress-step.done .dot   { background: var(--success); }
-.progress-step.done        { color: var(--success); }
-.progress-step.active .dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
-.progress-step.active      { color: var(--accent); }
-.progress-connector {
-  width: 12px; height: 1px;
-  background: var(--border);
-  flex-shrink: 0;
-}
-
-/* Metrics */
-.hud-metrics {
-  display: flex;
-  gap: 12px;
-  flex-shrink: 0;
-  align-items: center;
-}
-.metric-pill {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: .7rem;
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-.metric-pill .val {
-  font-weight: 700;
-  font-size: .76rem;
-  color: var(--text);
-  transition: color .3s;
-  min-width: 3ch;
-  text-align: right;
-}
-.metric-pill .val.low  { color: var(--warning); }
-.metric-pill .val.crit { color: var(--danger);  }
-
-/* Timer */
-.hud-timer {
-  font-family: var(--font-mono);
-  font-size: .86rem;
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: .08em;
-  flex-shrink: 0;
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  transition: color .3s, border-color .3s, background .3s;
-  white-space: nowrap;
-}
-.hud-timer.amber { color: var(--warning); border-color: var(--warning); background: rgba(249,115,22,.1); }
-.hud-timer.red   { color: var(--danger);  border-color: var(--danger);  background: rgba(239,68,68,.1); animation: pulse .8s infinite; }
 
 /* ── Logo as home link ───────────────────────────────────────────────────── */
 .hud-logo-img.hud-home-link {
@@ -257,14 +158,16 @@
 .char-right .char-body { transform: scaleX(-1); }
 
 .char-body {
-  /* The slot is --char-slot-w wide × full viewport height.
-     We set the image to exactly the same fixed box (slot width × --char-display-h)
-     so every sprite — landscape or portrait — occupies identical screen space.
-     object-fit:contain fits the image inside that box without stretching. */
+  /* Drive by height — every sprite renders at --char-display-h tall.
+     Width auto-scales from the sprite's native aspect ratio, then
+     max-width: 100% clamps landscape sprites inside the slot.
+     This gives portrait sprites a consistent screen height and prevents
+     wide/landscape sprites from blowing out of their column. */
   display: block;
-  width: 100%;             /* fill the slot's width (--char-slot-w) */
+  width: auto;
   height: var(--char-display-h);
   max-width: 100%;
+  max-height: var(--char-display-h);
   object-fit: contain;
   object-position: bottom center;
   image-rendering: auto;
@@ -465,24 +368,24 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   DIALOGUE OVERLAY — anchored to bottom of game-viewport.
-   Fixed height. Nothing inside changes the game world above.
+   DIALOGUE OVERLAY — sits directly above the choices strip.
+   bottom = --choices-h so choices are always visible below it.
    ═══════════════════════════════════════════════════════════════════════════ */
 .dialogue-overlay {
   position: absolute;
-  bottom: 0;
+  bottom: 0;                  /* extend all the way to the viewport floor */
   left: 0;
   right: 0;
-  height: var(--dlg-h);
+  height: calc(var(--dlg-h) + var(--choices-h));   /* dialogue + choices zone */
   z-index: 20;
+  pointer-events: none;       /* let clicks pass through to choices (z:30) */
 }
 
 /* ── The visible dialogue panel ────────────────────────────────────────── */
 .dialogue-panel {
   position: absolute;
-  inset: 0;
-  max-width: var(--dlg-max-w);
-  margin: 0 auto;
+  top: 0;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: min(100%, var(--dlg-max-w));
@@ -491,12 +394,13 @@
   border: 1.5px solid var(--border-light);
   border-bottom: none;
   border-radius: var(--radius) var(--radius) 0 0;
-  padding: var(--dlg-pad-y) var(--dlg-pad-x);
+  padding: var(--dlg-pad-y) var(--dlg-pad-x) calc(var(--choices-h) + 4px);
 
   display: flex;
   flex-direction: column;
   gap: 0;
   overflow: hidden;
+  pointer-events: all;
 }
 
 /* ── Speaker nameplate ─────────────────────────────────────────────────── */
@@ -589,25 +493,33 @@
 
 /* ═══════════════════════════════════════════════════════════════════════════
    CHOICE BUTTONS OVERLAY
-   Anchored to top of viewport, just below the HUD ribbon.
-   Width matches the left column (--char-w) — doesn't cover the workstation.
+   Fixed strip anchored directly BELOW the dialogue panel.
+   Never moves — position is always (bottom: 0, height: --choices-h).
+   z-index: 30 keeps choices above the bob-box-overlay (z:22) so the
+   follow-up button is always clickable even when Bob's box is open.
    ═══════════════════════════════════════════════════════════════════════════ */
 .choices-overlay {
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
-  width: var(--char-w);
-  z-index: 21;
-  padding: 8px 0 0;
-  max-height: calc(100% - var(--dlg-h));
-  overflow-y: auto;
-  scrollbar-width: none;
+  right: 0;
+  height: var(--choices-h);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;   /* overlay is transparent; only .choices has pointer-events */
 }
 .choices {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 0 10px;
+  padding: 10px var(--dlg-pad-x);
+  width: min(100%, var(--dlg-max-w));
+  overflow-y: auto;
+  scrollbar-width: none;
+  max-height: var(--choices-h);
+  pointer-events: all;
 }
 
 .choice-btn {

@@ -1,0 +1,219 @@
+{
+  "id": "vp",
+  "workstation": {
+    "icon": "",
+    "label": "Executive Dashboard",
+    "label_id": "Dasbor Eksekutif"
+  },
+  "brief": "Three proposals. One board meeting. 45 minutes to make the call.",
+  "brief_id": "Tiga proposal. Satu rapat dewan. 45 menit untuk mengambil keputusan.",
+  "scenes": [
+
+    {
+      "type": "chapter",
+      "phase": "vp",
+      "title": "YOUR WORKDAY",
+      "subtitle": "VP / Director",
+      "id": { "title": "HARI KERJAMU", "subtitle": "VP / Direktur" }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "narrator",
+      "text": "Boardroom. Alex reads three thick proposals, one after another.",
+      "id": { "text": "Ruang boardroom. Alex membaca tiga proposal tebal, satu per satu." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "alex",
+      "text": "Three proposals from three different teams. All with different budget requests. Board meeting in 45 minutes. I have to make a decision now.",
+      "id": { "text": "Tiga proposal dari tiga tim berbeda. Budget request berbeda semua. Board meeting 45 menit lagi. Saya harus buat keputusan sekarang." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "priya",
+      "expr": "listening",
+      "text": "Alex, for a situation like this — try using Bob. He can synthesise all of this into an executive summary plus a trade-off analysis.",
+      "id": { "text": "Pak Alex, untuk kasus seperti ini — coba pakai Bob. Dia bisa synthesize semua ini jadi executive summary plus trade-off analysis." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "alex",
+      "text": "An AI can help me make decisions?",
+      "id": { "text": "AI bisa bantu saya buat keputusan?" }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "priya",
+      "expr": "listening",
+      "text": "Not replacing your decision — but giving you clarity, faster.",
+      "id": { "text": "Bukan menggantikan keputusan Anda — tapi memberi Anda clarity yang lebih cepat." }
+    },
+
+    {
+      "type": "task",
+      "char": "alex",
+      "phase": "vp",
+      "problem": "Three proposals from three teams — different scopes, different budgets. Board meeting in 45 minutes. You need a clear summary of what each proposes before you can decide.",
+      "id": { "problem": "Tiga proposal dari tiga tim — cakupan berbeda, anggaran berbeda. Board meeting 45 menit lagi. Butuh ringkasan yang jelas dari masing-masing proposal sebelum bisa memutuskan." },
+      "options": [
+        {
+          "id": "vp-1-bob",
+          "type": "bob",
+          "icon": "",
+          "label": "Ask Bob to summarise all three proposals",
+          "meta": "~45 sec saved",
+          "timeCost": 11,
+          "manualCost": 56,
+          "deltas": { "quality": 14, "satisfaction": 12 },
+          "bobResponse": "Executive Summary — 3 Proposals.\n\n**Proposal A — AI Customer Support Platform**\nTeam: Product + Engineering | Budget: $280,000\nScope: Deploy AI chatbot to handle Tier-1 support tickets. Estimated 40% reduction in support costs. Timeline: 6 months.\nRisk: Integration complexity with legacy CRM (rated medium).\n\n**Proposal B — Data Analytics Modernisation**\nTeam: Data + IT | Budget: $195,000\nScope: Migrate reporting stack to watsonx.data. Real-time dashboards for all BUs. Timeline: 4 months.\nRisk: Data migration downtime (rated low — phased approach).\n\n**Proposal C — AI Governance Framework**\nTeam: IT + Legal | Budget: $85,000\nScope: Policy documentation, access management, compliance audit trail. Timeline: 2 months.\nRisk: Minimal — documentation-only initiative.\n\nReady for trade-off analysis.",
+          "bobFollowUp": "Generate trade-off analysis and executive brief",
+          "followUpDeltas": { "quality": 9, "satisfaction": 10 },
+          "outcome": "Executive Brief Ready ✓  All three proposals summarised and compared. Board-ready.",
+          "id_text": {
+            "label": "Minta Bob meringkas ketiga proposal",
+            "meta": "~45 detik hemat",
+            "bobResponse": "Ringkasan Eksekutif — 3 Proposal.\n\n**Proposal A — Platform Dukungan Pelanggan AI**\nTim: Produk + Engineering | Anggaran: $280.000\nCakupan: Deploy chatbot AI untuk menangani tiket dukungan Tier-1. Estimasi pengurangan biaya dukungan 40%. Timeline: 6 bulan.\nRisiko: Kompleksitas integrasi dengan CRM lama (dinilai sedang).\n\n**Proposal B — Modernisasi Analitik Data**\nTim: Data + IT | Anggaran: $195.000\nCakupan: Migrasi stack pelaporan ke watsonx.data. Dashboard real-time untuk semua BU. Timeline: 4 bulan.\nRisiko: Downtime migrasi data (dinilai rendah — pendekatan bertahap).\n\n**Proposal C — Kerangka AI Governance**\nTim: IT + Legal | Anggaran: $85.000\nCakupan: Dokumentasi policy, manajemen akses, audit trail kepatuhan. Timeline: 2 bulan.\nRisiko: Minimal — hanya inisiatif dokumentasi.\n\nSiap untuk analisis trade-off.",
+            "bobFollowUp": "Hasilkan analisis trade-off dan executive brief",
+            "outcome": "Executive Brief Ready ✓  Ketiga proposal diringkas dan dibandingkan. Siap untuk board."
+          }
+        },
+        {
+          "id": "vp-1-manual",
+          "type": "manual",
+          "icon": "",
+          "label": "Read all three proposals and draft the summary manually",
+          "meta": "~56 sec",
+          "timeCost": 56,
+          "manualCost": 56,
+          "deltas": { "quality": 5, "satisfaction": 3 },
+          "outcome": "Summary written for two proposals. No time for the third before the meeting.",
+          "id_text": {
+            "label": "Baca ketiga proposal dan buat ringkasan secara manual",
+            "meta": "~56 detik",
+            "outcome": "Ringkasan ditulis untuk dua proposal. Tidak ada waktu untuk yang ketiga sebelum meeting."
+          }
+        },
+        {
+          "id": "vp-1-skip",
+          "type": "ignore",
+          "icon": "",
+          "label": "Walk into the meeting with the raw proposals and decide on the spot",
+          "meta": "high uncertainty",
+          "timeCost": 0,
+          "deltas": { "quality": -12, "satisfaction": -16 },
+          "outcome": "Board asks questions you can't answer quickly. Decision delayed by two weeks.",
+          "id_text": {
+            "label": "Masuk meeting dengan proposal mentah dan putuskan di tempat",
+            "meta": "ketidakpastian tinggi",
+            "outcome": "Board mengajukan pertanyaan yang tidak bisa dijawab cepat. Keputusan ditunda dua minggu."
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "dialogue",
+      "char": "alex",
+      "text": "Good. Now I need a recommendation on which to prioritise — and a draft decision document for the board.",
+      "id": { "text": "Bagus. Sekarang saya butuh rekomendasi mana yang harus diprioritaskan — dan draft keputusan untuk board." }
+    },
+
+    {
+      "type": "task",
+      "char": "alex",
+      "phase": "vp",
+      "problem": "Three proposals summarised. Now you need a prioritisation recommendation and a draft decision document for the board, in the next 15 minutes.",
+      "id": { "problem": "Tiga proposal sudah diringkas. Sekarang butuh rekomendasi prioritas dan draft keputusan untuk board, dalam 15 menit ke depan." },
+      "options": [
+        {
+          "id": "vp-2-bob",
+          "type": "bob",
+          "icon": "",
+          "label": "Ask Bob to generate the trade-off matrix and draft the decision",
+          "meta": "~48 sec saved",
+          "timeCost": 12,
+          "manualCost": 60,
+          "deltas": { "quality": 15, "satisfaction": 14 },
+          "bobResponse": "Trade-off Matrix + Draft Decision.\n\n| Criteria         | Proposal A | Proposal B | Proposal C |\n|------------------|-----------|-----------|------------|\n| Strategic impact | High      | High      | Medium     |\n| Budget           | $280K     | $195K     | $85K       |\n| Time to value    | 6 months  | 4 months  | 2 months   |\n| Risk             | Medium    | Low       | Minimal    |\n\n**Recommended sequencing:**\n1. Proposal C first (2 months, minimal risk — establishes governance foundation)\n2. Proposal B second (4 months — builds data infrastructure)\n3. Proposal A third (6 months — highest ROI but depends on B's data layer)\n\n**Draft decision for board:**\n\"We recommend approving all three proposals in sequence (C → B → A), with a combined budget of $560,000 over 12 months. This sequence minimises risk and ensures each initiative builds on the previous one.\"\n\nReview and sign off.",
+          "bobFollowUp": "Finalise and present to the board",
+          "followUpDeltas": { "quality": 9, "satisfaction": 12 },
+          "outcome": "Executive Brief Ready ✓  Board approves the sequenced plan unanimously.",
+          "id_text": {
+            "label": "Minta Bob menghasilkan trade-off matrix dan draft keputusan",
+            "meta": "~48 detik hemat",
+            "bobResponse": "Trade-off Matrix + Draft Keputusan.\n\n| Kriteria          | Proposal A | Proposal B | Proposal C |\n|-------------------|-----------|-----------|------------|\n| Dampak strategis  | Tinggi    | Tinggi    | Sedang     |\n| Anggaran          | $280K     | $195K     | $85K       |\n| Waktu ke nilai    | 6 bulan   | 4 bulan   | 2 bulan    |\n| Risiko            | Sedang    | Rendah    | Minimal    |\n\n**Urutan yang direkomendasikan:**\n1. Proposal C dulu (2 bulan, risiko minimal — menetapkan fondasi governance)\n2. Proposal B kedua (4 bulan — membangun infrastruktur data)\n3. Proposal A ketiga (6 bulan — ROI tertinggi tapi bergantung pada lapisan data B)\n\n**Draft keputusan untuk board:**\n\"Kami merekomendasikan menyetujui ketiga proposal secara berurutan (C → B → A), dengan anggaran gabungan $560.000 selama 12 bulan. Urutan ini meminimalkan risiko dan memastikan setiap inisiatif dibangun di atas yang sebelumnya.\"\n\nTinjau dan tanda tangani.",
+            "bobFollowUp": "Finalisasi dan presentasikan ke board",
+            "outcome": "Executive Brief Ready ✓  Board menyetujui rencana berurutan dengan suara bulat."
+          }
+        },
+        {
+          "id": "vp-2-manual",
+          "type": "manual",
+          "icon": "",
+          "label": "Manually compare the proposals and write the decision document",
+          "meta": "~60 sec",
+          "timeCost": 60,
+          "manualCost": 60,
+          "deltas": { "quality": 5, "satisfaction": 4 },
+          "outcome": "Decision drafted. No formal trade-off matrix — board asks for more analysis.",
+          "id_text": {
+            "label": "Bandingkan proposal secara manual dan tulis dokumen keputusan",
+            "meta": "~60 detik",
+            "outcome": "Keputusan di-draft. Tidak ada trade-off matrix formal — board meminta lebih banyak analisis."
+          }
+        },
+        {
+          "id": "vp-2-gut",
+          "type": "poor",
+          "icon": "",
+          "label": "Go with your gut — pick the cheapest proposal and explain later",
+          "meta": "no rationale",
+          "timeCost": 2,
+          "deltas": { "quality": -11, "satisfaction": -14 },
+          "outcome": "Board approves but requests a written justification before releasing budget. Back to square one.",
+          "id_text": {
+            "label": "Ikuti insting — pilih proposal termurah dan jelaskan nanti",
+            "meta": "tanpa alasan",
+            "outcome": "Board menyetujui tapi meminta justifikasi tertulis sebelum melepaskan anggaran. Kembali dari awal."
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "dialogue",
+      "char": "alex",
+      "text": "I'm walking into this meeting with clarity, not a stack of documents.",
+      "id": { "text": "Saya masuk meeting dengan clarity, bukan dengan tumpukan dokumen." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "priya",
+      "expr": "relief",
+      "text": "The decision is still yours. Bob just made sure you didn't miss anything important.",
+      "id": { "text": "Keputusan tetap milik Anda. Bob hanya pastikan Anda tidak kehilangan informasi penting." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "alex",
+      "text": "This is what I've always needed — not more data. Less noise.",
+      "id": { "text": "Ini yang selalu saya butuhkan — bukan lebih banyak data. Lebih sedikit kebisingan." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "bob",
+      "text": "Three proposals. One clear decision. Board meeting in 15 minutes.\n\nThe decision is always yours. I just made sure you had the right information to make it.",
+      "id": { "text": "Tiga proposal. Satu keputusan yang jelas. Board meeting dalam 15 menit.\n\nKeputusan selalu milik Anda. Saya hanya memastikan Anda punya informasi yang tepat untuk membuatnya." }
+    },
+
+    { "type": "end" }
+  ]
+}
