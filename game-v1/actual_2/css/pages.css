@@ -462,13 +462,14 @@
 /* ── Plan landing page ───────────────────────────────────────── */
 .plan-landing {
   position: relative;
-  height: 100%;
+  /* Fill the scroll viewport height; columns align to stretch */
+  min-height: 100%;
   background: #1e1e1e;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-start;
   font-family: 'IBM Plex Sans', sans-serif;
-  overflow: hidden;
   animation: planLandingIn 0.35s ease both;
 }
 
@@ -498,22 +499,22 @@
 }
 
 /* ── Two-column layout ── */
-.plan-landing {
-  overflow: hidden;
-  align-items: stretch;
-  justify-content: center;
-  padding: 0;
-  gap: 0;
-}
-
 .plan-hero {
   flex: 0 0 380px;
+  width: 380px;
   padding: 56px 32px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   border-right: 1px solid #2a2a2a;
-  overflow: hidden;
+  /* Sticky left column — scrolls with the page, not independently */
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  max-height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #2d2d2d transparent;
 }
 
 .plan-detail {
@@ -522,9 +523,6 @@
   padding: 32px 40px 120px;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #2d2d2d transparent;
 }
 
 .plan-detail::-webkit-scrollbar { width: 5px; }
@@ -560,7 +558,7 @@
 /* Subtitle */
 .plan-landing-sub {
   font-size: 14px;
-  color: #aaaaaa;
+  color: #c6c6c6;
   margin: 0 0 32px;
   line-height: 1.7;
 }
@@ -587,7 +585,7 @@
 
 .plan-role-text {
   font-size: 13px;
-  color: #cccccc;
+  color: #e0e0e0;
   line-height: 1.6;
   margin: 0;
 }
@@ -609,7 +607,7 @@
   border-radius: 20px;
   padding: 4px 12px;
   font-size: 11px;
-  color: #858585;
+  color: #c6c6c6;
 }
 
 .plan-scope-dot {
@@ -628,7 +626,7 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #888;
+  color: #a8b2c1;
   margin-bottom: 14px;
 }
 
@@ -655,7 +653,7 @@
 .plan-step-num {
   font-size: 11px;
   font-weight: 600;
-  color: #555;
+  color: #4fc3f7;
   font-family: 'IBM Plex Mono', monospace;
   flex-shrink: 0;
   margin-top: 2px;
@@ -670,13 +668,13 @@
 
 .plan-step-title {
   font-size: 13px;
-  font-weight: 500;
-  color: #cccccc;
+  font-weight: 600;
+  color: #f4f4f4;
 }
 
 .plan-step-desc {
   font-size: 12px;
-  color: #999;
+  color: #c6c6c6;
   line-height: 1.5;
 }
 
@@ -690,9 +688,9 @@
 
 .plan-cap {
   font-size: 11px;
-  color: #aaaaaa;
+  color: #c6c6c6;
   background: #2a2a2a;
-  border: 1px solid #3c3c3c;
+  border: 1px solid #444;
   border-radius: 4px;
   padding: 4px 10px;
 }
@@ -776,10 +774,10 @@
 /* Quote */
 .plan-quote {
   margin: 0;
-  padding: 14px 16px;
-  border-left: 2px solid #3c3c3c;
-  font-size: 13px;
-  color: #888;
+  padding: 14px 18px;
+  border-left: 2px solid #0f62fe;
+  font-size: 14px;
+  color: #c6c6c6;
   font-style: italic;
   line-height: 1.65;
 }
@@ -991,3 +989,1223 @@
 .plan-terminal-full .plan-terminal-output { color: #90caf9; padding-left: 0; }
 .plan-terminal-full .plan-terminal-dim    { color: #444;    padding-left: 0; }
 
+
+
+/* ============================================================
+   MCP page — transport chips, flow diagram, code block,
+   benefits grid, scope callout
+   ============================================================ */
+
+/* ── Left hero tweaks ─────────────────────────────────────── */
+.mcp-hero {
+  justify-content: flex-start;
+  padding-top: 48px;
+  gap: 20px;
+}
+
+/* ── Transport type chips ─────────────────────────────────── */
+.mcp-transport-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.mcp-transport-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #2d2d2d;
+  background: #252526;
+  transition: border-color 160ms, background 160ms;
+}
+
+.mcp-transport-chip:hover { background: #2a2d2e; border-color: #3c3c3c; }
+
+.mcp-transport--stdio { border-left: 3px solid #4caf50; }
+.mcp-transport--sse   { border-left: 3px solid #4fc3f7; }
+.mcp-transport--http  { border-left: 3px solid #ff9800; }
+
+.mcp-transport-icon {
+  flex-shrink: 0;
+  width: 36px;
+  text-align: center;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-family: 'IBM Plex Mono', monospace;
+  border-radius: 3px;
+  padding: 3px 0;
+  line-height: 1;
+}
+
+.mcp-transport-icon--stdio { background: rgba(76,175,80,0.15);  color: #4caf50; }
+.mcp-transport-icon--sse   { background: rgba(79,195,247,0.15); color: #4fc3f7; }
+.mcp-transport-icon--http  { background: rgba(255,152,0,0.15);  color: #ff9800; }
+
+.mcp-transport-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mcp-transport-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #cccccc;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.mcp-transport-desc {
+  font-size: 11px;
+  color: #858585;
+}
+
+/* ── MCP flow diagram ─────────────────────────────────────── */
+.mcp-flow-wrap {
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-radius: 10px;
+  padding: 20px 24px 18px;
+}
+
+.mcp-flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 16px;
+}
+
+.mcp-flow-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.mcp-flow-node-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.mcp-flow-icon-you {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  font-family: 'IBM Plex Mono', monospace;
+  background: rgba(133,133,133,0.15);
+  color: #858585;
+  border: 1px solid #3c3c3c;
+  border-radius: 4px;
+  padding: 5px 7px;
+  line-height: 1;
+}
+
+.mcp-flow-icon-tools {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  font-family: 'IBM Plex Mono', monospace;
+  background: rgba(76,175,80,0.12);
+  color: #4caf50;
+  border: 1px solid rgba(76,175,80,0.3);
+  border-radius: 4px;
+  padding: 5px 7px;
+  line-height: 1;
+}
+
+.mcp-flow-node-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #c6c6c6;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.mcp-flow-node--bob .mcp-flow-node-label { color: #4fc3f7; }
+.mcp-flow-node--tools .mcp-flow-node-label { color: #4caf50; }
+
+.mcp-flow-bob-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.mcp-flow-arrow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px;
+  min-width: 0;
+}
+
+.mcp-flow-arrow-line {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #3c3c3c 0%, #555 100%);
+  position: relative;
+  border-radius: 1px;
+}
+
+.mcp-flow-arrow-line::after {
+  content: '›';
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* Animated pulse on the Bob → tools arrow */
+.mcp-flow-arrow-line--pulse {
+  background: linear-gradient(90deg, #0f62fe 0%, #4fc3f7 100%);
+  animation: mcpArrowPulse 2s ease-in-out infinite;
+}
+
+.mcp-flow-arrow-line--pulse::after { color: #4fc3f7; }
+
+@keyframes mcpArrowPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+.mcp-flow-arrow-label {
+  font-size: 10px;
+  color: #a8b2c1;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* Tool badges row */
+.mcp-flow-tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mcp-tool-badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+}
+
+.mcp-tool--instana   { background: rgba(255,152,0,0.1);  border-color: rgba(255,152,0,0.3);  color: #ff9800; }
+.mcp-tool--datastage { background: rgba(79,195,247,0.1); border-color: rgba(79,195,247,0.3); color: #4fc3f7; }
+.mcp-tool--baw       { background: rgba(76,175,80,0.1);  border-color: rgba(76,175,80,0.3);  color: #4caf50; }
+.mcp-tool--rest      { background: rgba(156,100,254,0.1);border-color: rgba(156,100,254,0.3);color: #9c64fe; }
+.mcp-tool--db        { background: rgba(233,30,99,0.1);  border-color: rgba(233,30,99,0.3);  color: #e91e63; }
+.mcp-tool--custom    { background: rgba(158,158,158,0.1);border-color: rgba(158,158,158,0.3);color: #9e9e9e; }
+
+/* ── Syntax-highlighted code block ───────────────────────── */
+.mcp-code-block {
+  background: #0d0d0d;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mcp-code-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.mcp-code-filename {
+  flex: 1;
+  font-size: 11px;
+  color: #858585;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.03em;
+}
+
+.mcp-code-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: #4fc3f7;
+  background: rgba(79,195,247,0.1);
+  border: 1px solid rgba(79,195,247,0.2);
+  border-radius: 4px;
+  padding: 2px 8px;
+  letter-spacing: 0.04em;
+}
+
+.mcp-code-body {
+  margin: 0;
+  padding: 16px 20px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  line-height: 1.75;
+  overflow-x: auto;
+  white-space: pre;
+  color: #cccccc;
+}
+
+/* Token colours */
+.mcp-tok-key    { color: #9cdcfe; }
+.mcp-tok-str    { color: #ce9178; }
+.mcp-tok-env    { color: #4ec9b0; }
+.mcp-tok-brace  { color: #ffd700; }
+.mcp-tok-colon  { color: #cccccc; }
+.mcp-tok-comma  { color: #cccccc; }
+
+/* ── Benefits 2×2 grid ────────────────────────────────────── */
+.mcp-benefits-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mcp-benefit {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #1e1e1e;
+  border: 1px solid #2d2d2d;
+  border-radius: 8px;
+  transition: border-color 160ms, background 160ms;
+}
+
+.mcp-benefit:hover { background: #252526; border-color: #3c3c3c; }
+
+.mcp-benefit-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'IBM Plex Mono', monospace;
+  border-radius: 6px;
+  line-height: 1;
+  margin-top: 1px;
+}
+
+.mcp-bi--discover  { background: rgba(15,98,254,0.15);  color: #5c9aff; border: 1px solid rgba(15,98,254,0.3); }
+.mcp-bi--invoke    { background: rgba(79,195,247,0.12); color: #4fc3f7; border: 1px solid rgba(79,195,247,0.3); }
+.mcp-bi--resource  { background: rgba(76,175,80,0.12);  color: #4caf50; border: 1px solid rgba(76,175,80,0.3); }
+.mcp-bi--audit     { background: rgba(255,152,0,0.12);  color: #ff9800; border: 1px solid rgba(255,152,0,0.3); }
+
+.mcp-benefit-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.mcp-benefit-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #cccccc;
+}
+
+.mcp-benefit-desc {
+  font-size: 11px;
+  color: #858585;
+  line-height: 1.5;
+}
+
+/* ── Scope priority callout ───────────────────────────────── */
+.mcp-scope-callout {
+  margin-top: 20px;
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+
+.mcp-scope-row-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.mcp-scope-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.mcp-scope-file {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #858585;
+}
+
+.mcp-scope-label {
+  font-size: 11px;
+  color: #555;
+}
+
+.mcp-scope-item--active .mcp-scope-file { color: #4fc3f7; }
+.mcp-scope-item--active .mcp-scope-label { color: #858585; }
+
+.mcp-scope-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: #4caf50;
+  background: rgba(76,175,80,0.1);
+  border: 1px solid rgba(76,175,80,0.25);
+  border-radius: 20px;
+  padding: 2px 9px;
+  display: inline-block;
+  margin-top: 2px;
+  letter-spacing: 0.04em;
+}
+
+.mcp-scope-divider {
+  font-size: 20px;
+  color: #333;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* ============================================================
+   Responsive breakpoints — plan-landing two-column layout
+   (applies to all feature pages: Plan, MCP, Modes, CLI,
+    Security, Enterprise)
+   ============================================================ */
+
+/* ── Medium — ~1100px: shrink hero column ─────────────────── */
+@media (max-width: 1100px) {
+  .plan-hero {
+    flex: 0 0 300px;
+    width: 300px;
+    padding: 40px 24px;
+  }
+  .plan-detail {
+    padding: 28px 28px 100px;
+  }
+  .plan-landing-title {
+    font-size: 36px;
+  }
+  .mcp-hero {
+    padding-top: 36px;
+    gap: 16px;
+  }
+  .mcp-code-body {
+    font-size: 11px;
+  }
+  .mcp-benefits-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── Tablet — ~860px: hero shrinks further ────────────────── */
+@media (max-width: 860px) {
+  .plan-hero {
+    flex: 0 0 260px;
+    width: 260px;
+    padding: 32px 20px;
+  }
+  .plan-detail {
+    padding: 24px 24px 100px;
+  }
+  .plan-landing-title {
+    font-size: 30px;
+  }
+  .plan-landing-sub {
+    font-size: 12px;
+  }
+  .plan-role-block {
+    padding: 10px 12px;
+  }
+  .plan-role-text {
+    font-size: 12px;
+  }
+  .mcp-flow {
+    gap: 0;
+  }
+  .mcp-code-body {
+    font-size: 10.5px;
+    padding: 12px 14px;
+  }
+  .mcp-benefits-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Stack — ~680px: two-column collapses to single column ── */
+@media (max-width: 680px) {
+  .plan-landing {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 100%;
+  }
+
+  /* Hero becomes a top band — release sticky */
+  .plan-hero {
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+    flex: none;
+    width: 100%;
+    padding: 28px 20px 20px;
+    border-right: none;
+    border-bottom: 1px solid #2a2a2a;
+  }
+
+  /* Detail fills the rest */
+  .plan-detail {
+    flex: none;
+    width: 100%;
+    padding: 24px 20px 80px;
+  }
+
+  .plan-landing-title {
+    font-size: 28px;
+  }
+
+  /* MCP-specific responsive tweaks */
+  .mcp-hero {
+    padding-top: 28px;
+    gap: 14px;
+  }
+
+  .mcp-transport-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .mcp-transport-chip {
+    flex: 1 1 auto;
+    min-width: 120px;
+    padding: 8px 10px;
+  }
+
+  .mcp-flow-wrap {
+    padding: 14px 16px 14px;
+  }
+
+  .mcp-flow {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  .mcp-code-body {
+    font-size: 10px;
+    padding: 12px 12px;
+  }
+
+  .mcp-benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .mcp-scope-callout {
+    padding: 12px 14px;
+  }
+
+  .mcp-scope-row-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .mcp-scope-divider {
+    display: none;
+  }
+}
+
+/* ── Small — ~480px: tighten further ─────────────────────── */
+@media (max-width: 480px) {
+  .plan-hero {
+    padding: 20px 16px 16px;
+  }
+
+  .plan-detail {
+    padding: 20px 16px 72px;
+  }
+
+  .plan-landing-title {
+    font-size: 24px;
+  }
+
+  .plan-landing-badge {
+    font-size: 10px;
+    padding: 2px 10px;
+  }
+
+  .plan-landing-sub {
+    font-size: 12px;
+  }
+
+  .mcp-hero {
+    padding-top: 20px;
+    gap: 12px;
+  }
+
+  .mcp-transport-row {
+    gap: 5px;
+  }
+
+  .mcp-transport-chip {
+    min-width: 100px;
+    padding: 7px 8px;
+  }
+
+  .mcp-code-body {
+    font-size: 9.5px;
+    padding: 10px 10px;
+    line-height: 1.6;
+  }
+
+  .plan-steps { gap: 0; }
+  .plan-step { padding: 10px 0; }
+  .plan-step-title { font-size: 12px; }
+  .plan-step-desc  { font-size: 11px; }
+
+  .plan-section-label { font-size: 9px; }
+
+  .plan-video-wrap { max-width: 100%; }
+
+  .mcp-flow-bob-img { width: 24px; height: 24px; }
+
+  .mcp-scope-badge { display: none; }
+}
+
+/* ── MCP value list (presentation style) ─────────────────── */
+.mcp-value-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 28px;
+  border-top: 1px solid #2a2a2a;
+}
+
+.mcp-value-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 22px 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.mcp-value-num {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #0f62fe;
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+  width: 24px;
+}
+
+.mcp-value-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mcp-value-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.mcp-value-desc {
+  font-size: 13px;
+  color: #c6c6c6;
+  line-height: 1.65;
+}
+
+.mcp-inline-file {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: #4fc3f7;
+  background: rgba(79,195,247,0.08);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+/* ── MCP ecosystem diagram ────────────────────────────────── */
+.mcp-ecosystem-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 32px;
+}
+
+/* Inner card */
+.mcp-ecosystem-card {
+  position: relative;
+  z-index: 1;
+  width: 66%;
+  background: #111316;
+  border-radius: 14px;
+  border: 1px solid #1e2530;
+  overflow: hidden;
+  /* Faint scanline texture */
+  box-shadow:
+    0 2px 0 rgba(255,255,255,0.04) inset,
+    0 24px 64px rgba(0,0,0,0.6);
+}
+
+/* Titlebar chrome */
+.mcp-ecosystem-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #181c20;
+  border-bottom: 1px solid #1e2530;
+}
+
+.mcp-ecosystem-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.mcp-ecosystem-dots span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.mcp-ecosystem-dots span:nth-child(1) { background: #ff5f57; }
+.mcp-ecosystem-dots span:nth-child(2) { background: #febc2e; }
+.mcp-ecosystem-dots span:nth-child(3) { background: #28c840; }
+
+.mcp-ecosystem-tab {
+  flex: 1;
+  text-align: center;
+  font-size: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #4a5568;
+  letter-spacing: 0.04em;
+}
+
+.mcp-ecosystem-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #4fc3f7;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Image body */
+.mcp-ecosystem-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* Fade edges so it doesn't look stamped */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 88%, transparent 100%);
+}
+
+/* Corner accent dots */
+.mcp-ecosystem-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 30%;
+  width: 40%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(15,98,254,0.6), transparent);
+  z-index: 2;
+}
+
+/* ── What is MCP intro paragraph ─────────────────────────── */
+.mcp-what-block {
+  margin-bottom: 24px;
+}
+
+.mcp-what-lead {
+  font-size: 14px;
+  color: #c6c6c6;
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* ── MCP capabilities list ────────────────────────────────── */
+.mcp-caps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mcp-cap-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.mcp-cap-item:last-child {
+  border-bottom: none;
+}
+
+.mcp-cap-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f4f4f4;
+}
+
+.mcp-cap-desc {
+  font-size: 12px;
+  color: #c6c6c6;
+  line-height: 1.55;
+}
+
+/* ============================================================
+   Modes page — card stack + tool chips
+   ============================================================ */
+
+.modes-card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modes-card {
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-left: 3px solid #2d2d2d;
+  border-radius: 8px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 160ms, background 160ms;
+}
+
+.modes-card:hover { background: #1f1f1f; }
+
+/* Accent colours per mode */
+.modes-card--ask   { border-left-color: #858585; }
+.modes-card--plan  { border-left-color: #ff9800; }
+.modes-card--agent { border-left-color: #0f62fe; }
+
+.modes-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.modes-card-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f4f4f4;
+  letter-spacing: -0.01em;
+}
+
+.modes-card--ask   .modes-card-name { color: #c6c6c6; }
+.modes-card--plan  .modes-card-name { color: #ffb74d; }
+.modes-card--agent .modes-card-name { color: #5c9aff; }
+
+.modes-card-tool-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.modes-tool-chip {
+  font-size: 10px;
+  font-weight: 600;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.04em;
+  color: #858585;
+  background: #252526;
+  border: 1px solid #333;
+  border-radius: 3px;
+  padding: 2px 7px;
+}
+
+.modes-card--agent .modes-tool-chip { color: #a0b8ff; border-color: rgba(92,154,255,0.2); background: rgba(15,98,254,0.07); }
+.modes-card--plan  .modes-tool-chip { color: #ffcc80; border-color: rgba(255,152,0,0.2);  background: rgba(255,152,0,0.07);  }
+
+.modes-card-desc {
+  font-size: 13px;
+  color: #c6c6c6;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.modes-card-when {
+  font-size: 11px;
+  color: #666;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.modes-inline-code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #4fc3f7;
+  background: rgba(79,195,247,0.08);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+/* ── Security page — shift-left diagram ──────────────────────── */
+.sec-diagram-wrap {
+  margin-bottom: 0;
+}
+
+.sec-diagram {
+  padding: 18px 16px 14px;
+  background: #0e1117;
+}
+
+/* Five stage boxes in a row */
+.sec-stages-row {
+  display: flex;
+  gap: 0;
+  border: 1px solid #253148;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+.sec-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 10px 8px;
+  border-right: 1px solid #253148;
+  position: relative;
+}
+
+.sec-stage:last-child {
+  border-right: none;
+}
+
+/* Bob coverage — light blue tint */
+.sec-stage--bob {
+  background: rgba(15, 98, 254, 0.08);
+}
+
+/* Modern DevSecOps — neutral */
+.sec-stage--modern {
+  background: rgba(255,255,255,0.03);
+}
+
+/* Traditional — pink/red tint */
+.sec-stage--traditional {
+  background: rgba(220, 40, 60, 0.06);
+  border-left: 1px solid rgba(220,40,60,0.25);
+}
+
+.sec-stage-num {
+  font-size: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #4a6080;
+  font-weight: 600;
+  display: block;
+}
+
+.sec-stage-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #c6c6c6;
+  display: block;
+  white-space: nowrap;
+}
+
+.sec-stage-label {
+  font-size: 9px;
+  font-style: italic;
+  color: #4a6080;
+  margin-top: 4px;
+  display: block;
+  line-height: 1.3;
+}
+
+.sec-stage-label--red {
+  color: #d9534f;
+}
+
+/* Caption line */
+.sec-diagram-caption {
+  font-size: 11px;
+  color: #4fc3f7;
+  text-align: center;
+  padding: 10px 0 8px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  line-height: 1.4;
+}
+
+/* Arrow row — left-pointing IBM blue bar */
+.sec-arrow-row {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  background: transparent;
+  gap: 0;
+}
+
+.sec-arrow-head {
+  width: 24px;
+  height: 32px;
+  background: #1249c7;
+  clip-path: polygon(100% 0%, 100% 100%, 0% 50%);
+}
+
+.sec-arrow-bar {
+  background: #1a56db;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 0 4px 4px 0;
+}
+
+.sec-arrow-bar span {
+  font-size: 9.5px;
+  color: rgba(255,255,255,0.85);
+  font-family: 'IBM Plex Sans', sans-serif;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+/* ── Security — use-case results table ──────────────────────── */
+.sec-table {
+  border: 1px solid #252a35;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.sec-table-head {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  background: #161b27;
+  border-bottom: 1px solid #252a35;
+}
+
+.sec-table-head span {
+  padding: 8px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #4a6080;
+  font-family: 'IBM Plex Mono', monospace;
+  border-right: 1px solid #252a35;
+}
+
+.sec-table-head span:last-child {
+  border-right: none;
+}
+
+.sec-table-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  border-bottom: 1px solid #1e2330;
+}
+
+.sec-table-row:last-child {
+  border-bottom: none;
+}
+
+.sec-table-row:nth-child(odd) {
+  background: rgba(255,255,255,0.015);
+}
+
+.sec-table-cell {
+  padding: 10px 12px;
+  color: #a8b2c1;
+  line-height: 1.5;
+  border-right: 1px solid #1e2330;
+  font-size: 11.5px;
+}
+
+.sec-table-cell:last-child {
+  border-right: none;
+}
+
+.sec-table-cell--use {
+  color: #c6c6c6;
+  font-weight: 500;
+}
+
+.sec-table-cell--result {
+  color: #4fc3f7;
+  font-weight: 600;
+  font-size: 11px;
+}
+
+/* ── Enterprise page — pillar grid ──────────────────────────── */
+.ent-pillar-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.ent-pillar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 18px;
+  background: #111418;
+  border: 1px solid #1e2530;
+  border-radius: 10px;
+}
+
+.ent-pillar-icon {
+  font-size: 20px;
+  color: #4fc3f7;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.ent-pillar-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f4f4f4;
+}
+
+.ent-pillar-desc {
+  font-size: 12px;
+  color: #a8b2c1;
+  line-height: 1.65;
+}
+
+/* ── Enterprise page — Bobalytics block ─────────────────────── */
+.ent-bobalytics-lead {
+  font-size: 13px;
+  color: #c6c6c6;
+  line-height: 1.7;
+  margin: 0 0 18px;
+}
+
+.ent-bobalytics-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid #1e2530;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ent-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 18px;
+  border-bottom: 1px solid #1e2530;
+}
+
+.ent-metric:last-child {
+  border-bottom: none;
+}
+
+.ent-metric-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ent-metric-tag {
+  font-size: 9px;
+  font-weight: 700;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.ent-metric-tag--adoption {
+  background: rgba(92, 112, 220, 0.18);
+  color: #8fa4f8;
+  border: 1px solid rgba(92, 112, 220, 0.3);
+}
+
+.ent-metric-tag--value {
+  background: rgba(79, 195, 247, 0.12);
+  color: #4fc3f7;
+  border: 1px solid rgba(79, 195, 247, 0.25);
+}
+
+.ent-metric-tag--cost {
+  background: rgba(255, 167, 38, 0.12);
+  color: #ffa726;
+  border: 1px solid rgba(255, 167, 38, 0.25);
+}
+
+.ent-metric-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f4f4f4;
+}
+
+.ent-metric-desc {
+  font-size: 12px;
+  color: #a8b2c1;
+  line-height: 1.65;
+}
+
+/* ── Enterprise page — cost optimisation table ──────────────── */
+.ent-cost-table {
+  border: 1px solid #1e2530;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ent-cost-row {
+  display: grid;
+  grid-template-columns: 195px 1fr;
+  gap: 0;
+  border-bottom: 1px solid #1e2530;
+  align-items: start;
+}
+
+.ent-cost-row--last {
+  border-bottom: none;
+}
+
+.ent-cost-title {
+  padding: 18px 18px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #4fc3f7;
+  line-height: 1.5;
+  border-right: 1px solid #1e2530;
+  background: #0d1117;
+}
+
+.ent-cost-bullets {
+  margin: 0;
+  padding: 16px 18px 16px 32px;
+  list-style: disc;
+  background: #0a0e14;
+}
+
+.ent-cost-bullets li {
+  font-size: 12px;
+  color: #a8b2c1;
+  line-height: 1.7;
+  padding: 0;
+}
+
+.ent-cost-bullets li + li {
+  margin-top: 4px;
+}

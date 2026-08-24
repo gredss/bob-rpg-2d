@@ -5,11 +5,11 @@
   <div class="plan-hero">
     <div class="plan-landing-badge">Feature 2 · Modes</div>
     <h1 class="plan-landing-title">One Bob.<br><span class="plan-title-think">Every</span> role.</h1>
-    <p class="plan-landing-sub">Switch Bob's persona, permissions, and skill set in one click — from planning architect to security auditor to deployment engineer.</p>
+    <p class="plan-landing-sub">Bob's agentic modes let teams plan, reason, implement, and validate complex changes — using the right behaviour for each task, not just the same one every time.</p>
 
     <div class="plan-role-block">
       <span class="plan-role-label">Bob's role in this feature</span>
-      <p class="plan-role-text">Context-aware collaborator. Each mode loads specialized guardrails, tools, and behaviors tailored to that workflow stage — so Bob is always the right expert for the job.</p>
+      <p class="plan-role-text">Context-aware collaborator. Each mode loads specialised guardrails, tools, and behaviours — so Bob is always the right expert for the job.</p>
     </div>
 
     <div class="plan-scope-row">
@@ -25,76 +25,105 @@
   <!-- Right: detail column -->
   <div class="plan-detail">
 
-    <!-- Video placeholder -->
-    <div class="plan-video-wrap">
-      <div class="plan-video-frame">
-        <div class="plan-video-titlebar">
-          <div class="plan-video-dots">
+    <!-- Modes screenshot card -->
+    <div class="mcp-ecosystem-wrap">
+      <div class="mcp-ecosystem-card">
+        <div class="mcp-ecosystem-titlebar">
+          <div class="mcp-ecosystem-dots">
             <span></span><span></span><span></span>
           </div>
-          <span class="plan-video-title">IBM Bob — Modes Demo</span>
-          <div class="plan-video-titlebar-right">
-            <span class="plan-video-badge">● DEMO</span>
-          </div>
+          <span class="mcp-ecosystem-tab">IBM Bob · Modes</span>
+          <span class="mcp-ecosystem-badge">LIVE</span>
         </div>
-        <div class="plan-video plan-video--placeholder">
-          <span class="plan-video-placeholder-text">Demo video coming soon</span>
+        <img src="asset/bob-modes.avif" alt="IBM Bob Modes" class="mcp-ecosystem-img" />
+      </div>
+    </div>
+
+    <!-- Three built-in modes — card stack -->
+    <div class="plan-section-label" style="margin-bottom:14px;">Built-in modes</div>
+    <div class="modes-card-stack">
+
+      <!-- Ask -->
+      <div class="modes-card modes-card--ask">
+        <div class="modes-card-header">
+          <span class="modes-card-name">Ask</span>
+          <span class="modes-card-tool-row">
+            <span class="modes-tool-chip">Read</span>
+            <span class="modes-tool-chip">MCP</span>
+            <span class="modes-tool-chip">Skill</span>
+          </span>
+        </div>
+        <p class="modes-card-desc">Understand concepts or analyse existing code without making changes. Bob stays read-only — no edits, no surprises.</p>
+        <div class="modes-card-when">Best for: explaining code, answering technical questions, architecture reviews</div>
+      </div>
+
+      <!-- Plan -->
+      <div class="modes-card modes-card--plan">
+        <div class="modes-card-header">
+          <span class="modes-card-name">Plan</span>
+          <span class="modes-card-tool-row">
+            <span class="modes-tool-chip">Read</span>
+            <span class="modes-tool-chip">Edit</span>
+            <span class="modes-tool-chip">MCP</span>
+            <span class="modes-tool-chip">Skill</span>
+          </span>
+        </div>
+        <p class="modes-card-desc">Think through architecture or create a technical plan before implementation. Bob loads the <span class="modes-inline-code">create-plan</span> skill automatically and produces a reviewable plan.</p>
+        <div class="modes-card-when">Best for: new features, complex problems, system design, breaking down tasks</div>
+      </div>
+
+      <!-- Agent -->
+      <div class="modes-card modes-card--agent">
+        <div class="modes-card-header">
+          <span class="modes-card-name">Agent</span>
+          <span class="modes-card-tool-row">
+            <span class="modes-tool-chip">Read</span>
+            <span class="modes-tool-chip">Edit</span>
+            <span class="modes-tool-chip">Execute</span>
+            <span class="modes-tool-chip">MCP</span>
+            <span class="modes-tool-chip">+5</span>
+          </span>
+        </div>
+        <p class="modes-card-desc">Take your idea or plan and bring it to life. Full autonomy — reads and writes files, executes commands, calls tools, spawns subagents.</p>
+        <div class="modes-card-when">Best for: implementing features, fixing bugs, refactoring, file operations</div>
+      </div>
+
+    </div>
+
+    <!-- Why use different modes -->
+    <div class="plan-section-label" style="margin-top:28px; margin-bottom:14px;">Why it matters</div>
+    <div class="mcp-value-list">
+      <div class="mcp-value-item">
+        <span class="mcp-value-num">01</span>
+        <div class="mcp-value-body">
+          <span class="mcp-value-title">Task specialisation</span>
+          <span class="mcp-value-desc">Get precisely the type of assistance you need. Bob adapts its tools, permissions, and behaviour — not just its tone.</span>
+        </div>
+      </div>
+      <div class="mcp-value-item">
+        <span class="mcp-value-num">02</span>
+        <div class="mcp-value-body">
+          <span class="mcp-value-title">Safety controls</span>
+          <span class="mcp-value-desc">Ask and Plan modes are read-only by design. No accidental file modifications when you're exploring or planning.</span>
+        </div>
+      </div>
+      <div class="mcp-value-item">
+        <span class="mcp-value-num">03</span>
+        <div class="mcp-value-body">
+          <span class="mcp-value-title">Seamless mid-task switching</span>
+          <span class="mcp-value-desc">Bob can switch modes autonomously — moving from Plan into Agent once a plan is approved, without you having to intervene.</span>
+        </div>
+      </div>
+      <div class="mcp-value-item">
+        <span class="mcp-value-num">04</span>
+        <div class="mcp-value-body">
+          <span class="mcp-value-title">Build your own</span>
+          <span class="mcp-value-desc">Define tool access, file permissions, and custom instructions to enforce team standards or create purpose-specific assistants.</span>
         </div>
       </div>
     </div>
 
-    <!-- Workflow steps -->
-    <div class="plan-section-label">How modes work</div>
-    <ol class="plan-steps">
-      <li class="plan-step">
-        <span class="plan-step-num">01</span>
-        <div class="plan-step-body">
-          <span class="plan-step-title">Default Agent mode</span>
-          <span class="plan-step-desc">Bob starts in Agent mode — full autonomy, reads and writes files, executes commands, calls tools.</span>
-        </div>
-      </li>
-      <li class="plan-step">
-        <span class="plan-step-num">02</span>
-        <div class="plan-step-body">
-          <span class="plan-step-title">Switch to Plan mode</span>
-          <span class="plan-step-desc">Bob becomes a technical lead — asks questions, researches, and produces structured plans before writing code.</span>
-        </div>
-      </li>
-      <li class="plan-step">
-        <span class="plan-step-num">03</span>
-        <div class="plan-step-body">
-          <span class="plan-step-title">Switch to Ask mode</span>
-          <span class="plan-step-desc">Read-only, explanation-focused. Bob answers questions without modifying anything in your workspace.</span>
-        </div>
-      </li>
-      <li class="plan-step">
-        <span class="plan-step-num">04</span>
-        <div class="plan-step-body">
-          <span class="plan-step-title">Specialist modes</span>
-          <span class="plan-step-desc">Java Modernization, Instana Installer — deep domain expertise loaded as a dedicated mode with its own skills.</span>
-        </div>
-      </li>
-      <li class="plan-step">
-        <span class="plan-step-num">05</span>
-        <div class="plan-step-body">
-          <span class="plan-step-title">Custom modes</span>
-          <span class="plan-step-desc">Build your own mode with a custom role definition, tool permissions, and skill set — tailored to your team's workflow.</span>
-        </div>
-      </li>
-    </ol>
-
-    <!-- Capability chips -->
-    <div class="plan-section-label" style="margin-top:24px;">Available modes</div>
-    <div class="plan-caps">
-      <span class="plan-cap">Agent</span>
-      <span class="plan-cap">Plan</span>
-      <span class="plan-cap">Ask</span>
-      <span class="plan-cap">Java Modernization</span>
-      <span class="plan-cap">Instana Installer</span>
-      <span class="plan-cap">Custom modes</span>
-    </div>
-
-    <blockquote class="plan-quote">
+    <blockquote class="plan-quote" style="margin-top:28px;">
       "Modes mean Bob never gives a deploy answer when you asked a planning question."
     </blockquote>
 
@@ -105,8 +134,8 @@
 <!-- Floating Bob FAB -->
 <div class="plan-bob-fab-wrap" id="plan-bob-fab-wrap">
   <div class="plan-bob-fab-label">
-    <span class="plan-bob-fab-label-title">See the mode switcher</span>
-    <span class="plan-bob-fab-label-sub">Open Bob &amp; switch modes →</span>
+    <span class="plan-bob-fab-label-title">See modes in action</span>
+    <span class="plan-bob-fab-label-sub">Watch Bob switch from Plan to Agent →</span>
   </div>
   <button type="button" class="plan-bob-fab" id="plan-bob-fab" aria-label="Open IBM Bob modes demo">
     <img src="asset/IBM_Bob_hero_illustration_head_color.svg" alt="IBM Bob" class="plan-bob-fab-img" />
@@ -144,7 +173,7 @@
   <!-- Bob chatbox -->
   <div class="bcp-chat-col">
     <div class="bcp-topbar">
-      <span class="bcp-topbar-title">IBM BOB</span>
+      <span class="bcp-topbar-title">IBM BOB — MODES DEMO</span>
       <div class="bcp-topbar-actions">
         <button type="button" class="bcp-icon-btn" title="Settings">⚙</button>
         <button type="button" class="bcp-icon-btn" title="Task list">☰</button>
@@ -163,57 +192,22 @@
         </div>
         <h2 class="bcp-welcome-title">Hi, I'm <span>Bob</span></h2>
         <p class="bcp-welcome-sub">Switch my mode to change how I work with you.</p>
-        <button type="button" class="bcp-doc-btn">📖 Documentation</button>
+        <button type="button" class="bcp-doc-btn">Documentation</button>
       </div>
       <div class="bcp-messages" id="bcp-messages"></div>
     </div>
 
-    <div class="bcp-inputbar" style="position:relative;">
+    <div class="bcp-inputbar">
       <div class="bcp-input-box" id="bcp-input-box">
-        <div class="bcp-scripted-input" id="bcp-scripted-input">Switch to Plan mode and help me architect a new service</div>
+        <div class="bcp-scripted-input" id="bcp-scripted-input">Switch to Plan mode and help me architect a new payments service</div>
       </div>
       <div class="bcp-input-footer">
         <div class="bcp-footer-left">
           <button type="button" class="bcp-pill">＋</button>
-          <button type="button" class="bcp-pill bcp-pill--mode" id="bcp-mode-btn">&#9654; Agent ▾</button>
-          <button type="button" class="bcp-pill">&#128274; Permissions ▾</button>
+          <button type="button" class="bcp-pill bcp-pill--mode" id="bcp-mode-pill">&#9654; Agent ▾</button>
+          <button type="button" class="bcp-pill">Permissions ▾</button>
         </div>
-
-        <!-- Mode popup — open by default to showcase modes -->
-        <div class="bcp-popup open" id="bcp-mode-popup">
-          <div class="bcp-popup-header">
-            <span class="bcp-popup-title">Modes</span>
-            <div class="bcp-popup-header-icons">
-              <button type="button" class="bcp-popup-icon-btn" title="Info">ⓘ</button>
-              <button type="button" class="bcp-popup-icon-btn" title="Settings">⚙</button>
-            </div>
-          </div>
-          <div class="bcp-popup-list">
-            <button type="button" class="bcp-popup-item bcp-popup-item--active">
-              <span class="bcp-popup-item-name">Agent</span>
-              <span class="bcp-popup-item-check">✓</span>
-            </button>
-            <button type="button" class="bcp-popup-item">
-              <span class="bcp-popup-item-name">Plan</span>
-            </button>
-            <button type="button" class="bcp-popup-item">
-              <span class="bcp-popup-item-name">Ask</span>
-            </button>
-            <button type="button" class="bcp-popup-item">
-              <span class="bcp-popup-item-icon">☕</span>
-              <span class="bcp-popup-item-name">Java Modernization</span>
-            </button>
-            <button type="button" class="bcp-popup-item">
-              <span class="bcp-popup-item-icon">👷</span>
-              <span class="bcp-popup-item-name">Instana Installer</span>
-            </button>
-          </div>
-          <div class="bcp-popup-search">
-            <input type="text" class="bcp-popup-search-input" placeholder="Search modes..." />
-          </div>
-        </div>
-
-        <button type="button" class="bcp-send" id="bcp-send">↑</button>
+        <button type="button" class="bcp-send pulse" id="bcp-send">↑</button>
       </div>
     </div>
   </div>

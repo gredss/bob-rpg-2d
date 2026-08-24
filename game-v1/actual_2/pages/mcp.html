@@ -1,8 +1,8 @@
-<!-- ── MCP landing page ── -->
-<section class="plan-landing" id="mcp-landing">
+<!-- ── MCP Landing page — redesigned ── -->
+<section class="plan-landing mcp-landing" id="mcp-landing">
 
   <!-- Left: hero column -->
-  <div class="plan-hero">
+  <div class="plan-hero mcp-hero">
     <div class="plan-landing-badge">Feature 1 · MCP Integration</div>
     <h1 class="plan-landing-title"><span class="plan-title-think">Connect</span> Bob<br>to your world.</h1>
     <p class="plan-landing-sub">Bob doesn't just answer questions — it takes action inside your real tools through the Model Context Protocol. One agent, every system.</p>
@@ -25,80 +25,80 @@
   <!-- Right: detail column -->
   <div class="plan-detail">
 
-    <!-- Video placeholder -->
-    <div class="plan-video-wrap">
-      <div class="plan-video-frame">
-        <div class="plan-video-titlebar">
-          <div class="plan-video-dots">
+    <!-- Ecosystem diagram -->
+    <div class="mcp-ecosystem-wrap">
+      <div class="mcp-ecosystem-card">
+        <div class="mcp-ecosystem-titlebar">
+          <div class="mcp-ecosystem-dots">
             <span></span><span></span><span></span>
           </div>
-          <span class="plan-video-title">IBM Bob — MCP Integration Demo</span>
-          <div class="plan-video-titlebar-right">
-            <span class="plan-video-badge">● DEMO</span>
-          </div>
+          <span class="mcp-ecosystem-tab">IBM Bob · MCP Ecosystem</span>
+          <span class="mcp-ecosystem-badge">LIVE</span>
         </div>
-        <div class="plan-video plan-video--placeholder">
-          <span class="plan-video-placeholder-text">Demo video coming soon</span>
+        <img src="asset/ecosystem-dark-CtQ9Witb.svg" alt="IBM Bob MCP Ecosystem" class="mcp-ecosystem-img" />
+      </div>
+    </div>
+
+    <!-- What is MCP -->
+    <div class="mcp-what-block">
+      <p class="mcp-what-lead">An MCP server acts as a bridge between Bob and external services — databases, APIs, or custom scripts. With MCP, you extend Bob's capabilities beyond its built-in features.</p>
+    </div>
+
+    <!-- What MCP gives Bob -->
+    <div class="plan-section-label" style="margin-bottom:14px;">MCP provides Bob with</div>
+    <div class="mcp-caps-list">
+      <div class="mcp-cap-item">
+        <span class="mcp-cap-label">Tool discovery</span>
+        <span class="mcp-cap-desc">Access to available tools with their descriptions and parameters — Bob learns what it can do automatically.</span>
+      </div>
+      <div class="mcp-cap-item">
+        <span class="mcp-cap-label">Tool invocation</span>
+        <span class="mcp-cap-desc">The ability to call specific tools with arguments and receive structured responses — in context, in chat.</span>
+      </div>
+      <div class="mcp-cap-item">
+        <span class="mcp-cap-label">Resource access</span>
+        <span class="mcp-cap-desc">The capability to read live data from specific resources — without leaving your workflow.</span>
+      </div>
+    </div>
+
+    <!-- Why it matters -->
+    <div class="plan-section-label" style="margin-top:28px; margin-bottom:14px;">Why it matters</div>
+    <div class="mcp-value-list">
+      <div class="mcp-value-item">
+        <span class="mcp-value-num">01</span>
+        <div class="mcp-value-body">
+          <span class="mcp-value-title">Extend functionality</span>
+          <span class="mcp-value-desc">Add custom capabilities to Bob that aren't available out-of-the-box — connect it to your specific stack.</span>
+        </div>
+      </div>
+      <div class="mcp-value-item">
+        <span class="mcp-value-num">02</span>
+        <div class="mcp-value-body">
+          <span class="mcp-value-title">Integrate with services</span>
+          <span class="mcp-value-desc">Connect Bob to your databases, APIs, and other systems. One config file. Immediate access.</span>
+        </div>
+      </div>
+      <div class="mcp-value-item">
+        <span class="mcp-value-num">03</span>
+        <div class="mcp-value-body">
+          <span class="mcp-value-title">Automate workflows</span>
+          <span class="mcp-value-desc">Create specialised tools for your team's specific needs — Bob runs them on demand.</span>
+        </div>
+      </div>
+      <div class="mcp-value-item">
+        <span class="mcp-value-num">04</span>
+        <div class="mcp-value-body">
+          <span class="mcp-value-title">Share capabilities</span>
+          <span class="mcp-value-desc">Distribute useful MCP servers across your team. Everyone gets the same superpowers.</span>
         </div>
       </div>
     </div>
 
-    <!-- Workflow steps -->
-    <div class="plan-section-label">How Bob uses MCP</div>
-    <ol class="plan-steps">
-      <li class="plan-step">
-        <span class="plan-step-num">01</span>
-        <div class="plan-step-body">
-          <span class="plan-step-title">What is MCP?</span>
-          <span class="plan-step-desc">Model Context Protocol is an open standard that lets Bob securely connect to external tools and data sources.</span>
-        </div>
-      </li>
-      <li class="plan-step">
-        <span class="plan-step-num">02</span>
-        <div class="plan-step-body">
-          <span class="plan-step-title">Supported tools are registered</span>
-          <span class="plan-step-desc">Instana, DataStage, IBM BAW, custom REST APIs — each registered as an MCP server Bob can call.</span>
-        </div>
-      </li>
-      <li class="plan-step">
-        <span class="plan-step-num">03</span>
-        <div class="plan-step-body">
-          <span class="plan-step-title">Bob calls the right tool</span>
-          <span class="plan-step-desc">Bob decides which tool to invoke based on your request, builds the call, and executes it — all in context.</span>
-        </div>
-      </li>
-      <li class="plan-step">
-        <span class="plan-step-num">04</span>
-        <div class="plan-step-body">
-          <span class="plan-step-title">Results flow back into chat</span>
-          <span class="plan-step-desc">Tool output is interpreted, summarised, and surfaced directly in your conversation — no context switching.</span>
-        </div>
-      </li>
-      <li class="plan-step">
-        <span class="plan-step-num">05</span>
-        <div class="plan-step-body">
-          <span class="plan-step-title">Full audit trail</span>
-          <span class="plan-step-desc">Every tool call Bob makes is logged — what was called, when, with what parameters, and what came back.</span>
-        </div>
-      </li>
-    </ol>
-
-    <!-- Capability chips -->
-    <div class="plan-section-label" style="margin-top:24px;">Supported integrations</div>
-    <div class="plan-caps">
-      <span class="plan-cap">Instana</span>
-      <span class="plan-cap">DataStage</span>
-      <span class="plan-cap">IBM BAW</span>
-      <span class="plan-cap">Custom MCP servers</span>
-      <span class="plan-cap">REST APIs</span>
-      <span class="plan-cap">Databases</span>
-    </div>
-
-    <blockquote class="plan-quote">
+    <blockquote class="plan-quote" style="margin-top:28px;">
       "MCP turns Bob from a chatbot into an agent — one that can actually do the work, not just describe it."
     </blockquote>
 
-  </div>
+  </div><!-- /plan-detail -->
 
 </section>
 
@@ -106,7 +106,7 @@
 <div class="plan-bob-fab-wrap" id="plan-bob-fab-wrap">
   <div class="plan-bob-fab-label">
     <span class="plan-bob-fab-label-title">See Bob call a live tool</span>
-    <span class="plan-bob-fab-label-sub">Open Bob &amp; try an MCP command →</span>
+    <span class="plan-bob-fab-label-sub">Watch Bob query Instana via MCP →</span>
   </div>
   <button type="button" class="plan-bob-fab" id="plan-bob-fab" aria-label="Open IBM Bob MCP demo">
     <img src="asset/IBM_Bob_hero_illustration_head_color.svg" alt="IBM Bob" class="plan-bob-fab-img" />
@@ -127,6 +127,18 @@
         <span class="bcp-exp-arrow bcp-exp-arrow--open">&#8964;</span>
         <span class="bcp-exp-root-name">MCP TOOLS</span>
       </div>
+      <div class="bcp-exp-file active" id="mcp-exp-instana">
+        <span class="bcp-exp-file-icon">⬡</span>
+        <span class="bcp-exp-file-name">instana</span>
+      </div>
+      <div class="bcp-exp-file" id="mcp-exp-datastage">
+        <span class="bcp-exp-file-icon">⬡</span>
+        <span class="bcp-exp-file-name">datastage</span>
+      </div>
+      <div class="bcp-exp-file" id="mcp-exp-baw">
+        <span class="bcp-exp-file-icon">⬡</span>
+        <span class="bcp-exp-file-name">ibm-baw</span>
+      </div>
     </div>
     <div class="bcp-exp-section">
       <span class="bcp-exp-section-arrow">›</span>
@@ -144,7 +156,7 @@
   <!-- Bob chatbox -->
   <div class="bcp-chat-col">
     <div class="bcp-topbar">
-      <span class="bcp-topbar-title">IBM BOB</span>
+      <span class="bcp-topbar-title">IBM BOB — MCP DEMO</span>
       <div class="bcp-topbar-actions">
         <button type="button" class="bcp-icon-btn" title="Settings">⚙</button>
         <button type="button" class="bcp-icon-btn" title="Task list">☰</button>
@@ -162,23 +174,23 @@
           <img src="asset/IBM_Bob_hero_illustration_half_body_color.svg" alt="IBM Bob" class="bcp-welcome-avatar" />
         </div>
         <h2 class="bcp-welcome-title">Hi, I'm <span>Bob</span></h2>
-        <p class="bcp-welcome-sub">Ask me to interact with your connected tools.</p>
-        <button type="button" class="bcp-doc-btn">📖 Documentation</button>
+        <p class="bcp-welcome-sub">Ask me to interact with your connected tools via MCP.</p>
+        <button type="button" class="bcp-doc-btn">Documentation</button>
       </div>
       <div class="bcp-messages" id="bcp-messages"></div>
     </div>
 
     <div class="bcp-inputbar">
       <div class="bcp-input-box" id="bcp-input-box">
-        <div class="bcp-scripted-input" id="bcp-scripted-input">Check latency on order-service in Instana</div>
+        <div class="bcp-scripted-input" id="bcp-scripted-input">Check the latency on order-service in Instana</div>
       </div>
       <div class="bcp-input-footer">
         <div class="bcp-footer-left">
           <button type="button" class="bcp-pill">＋</button>
           <button type="button" class="bcp-pill bcp-pill--mode">&#9654; Agent ▾</button>
-          <button type="button" class="bcp-pill">&#128274; Permissions ▾</button>
+          <button type="button" class="bcp-pill">Permissions ▾</button>
         </div>
-        <button type="button" class="bcp-send" id="bcp-send">↑</button>
+        <button type="button" class="bcp-send pulse" id="bcp-send">↑</button>
       </div>
     </div>
   </div>
