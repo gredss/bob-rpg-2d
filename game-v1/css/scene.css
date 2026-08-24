@@ -23,7 +23,7 @@
   --dlg-pad-y:      12px;
   --char-w:          42%;   /* workstation left edge */
   --char-slot-w:     22%;   /* each character slot width */
-  --char-display-h:  59vh;  /* every sprite rendered at this height — tune here */
+  --char-display-h:  58vh;  /* every sprite rendered at this height — tune here */
   --bob-box-h:     200px;   /* Bob analysis panel fixed height */
   --ws-min-w:      200px;   /* workstation panel minimum width */
 }
