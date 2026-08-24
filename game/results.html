@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BYTE FORCE — Results</title>
   <link rel="icon" type="image/jpeg" href="assets/byte-force-logo.jpg">
-  <link rel="shortcut icon" type="image/jpeg" href="assets/byte-force-logo.jpg">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/results.css">
 </head>
@@ -114,17 +113,5 @@
   <script src="js/scenarios.js"></script>
   <script src="js/role-scenarios.js"></script>
   <script src="js/results.js"></script>
-  <script>
-    // Mirror bar values to secondary labels
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        const s = State.get();
-        const m = s.metrics || {};
-        document.getElementById('stat-quality2').textContent  = Math.round(m.quality||0)+'%';
-        document.getElementById('stat-security2').textContent = Math.round(m.security||0)+'%';
-        document.getElementById('stat-satisfy2').textContent  = Math.round(m.satisfaction||0)+'%';
-      }, 100);
-    });
-  </script>
 </body>
 </html>

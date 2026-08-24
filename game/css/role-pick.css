@@ -1,3 +1,20 @@
+/* ── Page background (unused QA-TESTING-LAB scene) ─────────────────────────── */
+body {
+  background-image: url('../assets/background/QA-TESTING-LAB.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 13, 26, 0.72);
+  pointer-events: none;
+  z-index: 0;
+}
+
 /* ── Language toggle — top right ────────────────────────────────────────────── */
 .lang-toggle {
   position: fixed;
@@ -57,13 +74,60 @@
 }
 
 .role-pick-eyebrow {
-  font-family: var(--font-mono);
-  font-size: .72rem;
-  letter-spacing: .25em;
-  color: var(--bob);
-  text-transform: uppercase;
   margin-bottom: 10px;
   animation: fadeUp .5s ease both;
+  display: flex;
+  justify-content: center;
+  /* scanline sweep lives on this wrapper so it clips to the logo bounds */
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+/* the sweeping scanline — a bright horizontal band moving top→bottom */
+.role-pick-eyebrow::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: -40%;
+  height: 40%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255,255,255,.13) 45%,
+    rgba(255,255,255,.22) 50%,
+    rgba(255,255,255,.13) 55%,
+    transparent 100%
+  );
+  animation: scanSweep 3.5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scanSweep {
+  0%   { top: -40%; }
+  100% { top: 140%; }
+}
+
+.byteforce-logo {
+  height: 72px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 16px rgba(79,142,247,.5));
+  animation: crtFlicker 8s step-end infinite;
+}
+
+/* very subtle brightness flicker — matches real CRT phosphor instability */
+@keyframes crtFlicker {
+  0%          { filter: drop-shadow(0 0 16px rgba(79,142,247,.5))  brightness(1);    }
+  3%          { filter: drop-shadow(0 0 10px rgba(79,142,247,.3))  brightness(.92);  }
+  3.5%        { filter: drop-shadow(0 0 18px rgba(79,142,247,.6))  brightness(1.04); }
+  4%          { filter: drop-shadow(0 0 16px rgba(79,142,247,.5))  brightness(1);    }
+  55%         { filter: drop-shadow(0 0 16px rgba(79,142,247,.5))  brightness(1);    }
+  55.5%       { filter: drop-shadow(0 0 8px  rgba(79,142,247,.25)) brightness(.9);   }
+  56%         { filter: drop-shadow(0 0 20px rgba(79,142,247,.65)) brightness(1.06); }
+  56.5%       { filter: drop-shadow(0 0 16px rgba(79,142,247,.5))  brightness(1);    }
+  100%        { filter: drop-shadow(0 0 16px rgba(79,142,247,.5))  brightness(1);    }
 }
 
 .role-pick-title {
@@ -103,85 +167,79 @@
   overflow: hidden;
   padding: 0;
   text-align: center;
-  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
-  animation: fadeUp .45s ease both;
+  transition: border-color .2s ease, box-shadow .2s ease;
+  animation: fadeUp .45s ease both, cardFloat 5s ease-in-out infinite;
+  animation-delay: 0s, var(--float-delay, 0s);
   position: relative;
 }
 
 .role-card:hover {
   border-color: var(--accent);
-  transform: translateY(-4px);
   box-shadow: 0 8px 32px rgba(79,142,247,.2);
+  animation-play-state: running, paused;
+  transform: translateY(-6px);
 }
 
-/* sprite fills the card top */
-.role-card-sprite {
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-7px); }
+}
+
+/* scene container: background image + character sprite */
+.role-card-scene {
   width: 100%;
   height: 160px;
+  position: relative;
+  background-size: cover;
+  background-position: center bottom;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.role-card-sprite {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  width: auto;
+  max-width: 100%;
   object-fit: contain;
   object-position: bottom center;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  background: linear-gradient(to bottom, var(--bg3), var(--bg2));
   display: block;
-  padding: 12px 16px 0;
-  border-bottom: 1px solid var(--border);
 }
 
 /* info section below sprite */
 .role-card-body {
-  padding: 14px 14px 16px;
+  padding: 16px 14px 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   width: 100%;
-}
-
-.role-card-head {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--accent);
-  background: var(--bg3);
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  margin-top: -32px;       /* overlap the sprite area slightly */
-  position: relative;
-  z-index: 2;
 }
 
 .role-card-name {
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: .8rem;
+  font-size: .95rem;
   color: var(--text);
-  margin-top: 4px;
   letter-spacing: .04em;
 }
 
 .role-card-role {
   font-family: var(--font-mono);
-  font-size: .68rem;
-  color: var(--accent);
-  letter-spacing: .05em;
-}
-
-.role-card-ws {
-  font-family: var(--font-mono);
-  font-size: .63rem;
-  color: var(--bob);
-  letter-spacing: .04em;
-  background: rgba(245,158,11,.08);
-  border: 1px solid var(--bob-glow);
-  border-radius: 20px;
-  padding: 2px 10px;
-  margin-top: 4px;
+  font-size: .75rem;
+  color: #4adecc;           /* bright cyan — high contrast on dark navy */
+  letter-spacing: .06em;
+  text-transform: uppercase;
 }
 
 .role-card-brief {
-  font-size: .72rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-  margin-top: 8px;
+  font-size: .76rem;
+  color: #c8c8e8;           /* near-white, clearly legible on dark surface */
+  line-height: 1.65;
+  margin-top: 6px;
 }

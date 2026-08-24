@@ -1,6 +1,16 @@
 /* ── Reset ─────────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── Game-mode UX: no text selection, no text cursor ───────────────────────── */
+* {
+  user-select: none;
+  -webkit-user-select: none;
+}
+/* Everything defaults to the arrow cursor so the I-beam never appears on text */
+html, body, * { cursor: default; }
+/* Restore pointer cursor only on interactive elements */
+button, a, [role="button"], label, select, input, textarea { cursor: pointer; }
+
 /* ── Design tokens ─────────────────────────────────────────────────────────── */
 :root {
   --bg:           #0d0d1a;
@@ -37,7 +47,7 @@ html, body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-ui);
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.6;
   overflow: hidden;
 }

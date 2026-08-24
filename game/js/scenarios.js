@@ -11,16 +11,16 @@
  */
 
 const CHARACTERS = {
-  pm:       { name: 'Alex Chen',    role: 'Product Manager',    emoji: '🧑‍💼' },
-  ux:       { name: 'Maya Osei',    role: 'UX Designer',        emoji: '' },
-  frontend: { name: 'Jordan Park',  role: 'Frontend Dev',       emoji: '' },
-  backend:  { name: 'Sam Rivera',   role: 'Backend Dev',        emoji: '' },
-  data:     { name: 'Priya Nair',   role: 'Data Scientist',     emoji: '' },
-  qa:       { name: 'Chris Dubois', role: 'QA Engineer',        emoji: '' },
-  devops:   { name: 'Taylor Kim',   role: 'DevOps / MLOps',     emoji: '' },
-  security: { name: 'Morgan Blake', role: 'Cybersecurity',      emoji: '' },
-  bob:      { name: 'Bob',          role: 'AI Teammate',        emoji: '' },
-  narrator: { name: 'NARRATOR',     role: '',                   emoji: '' },
+  pm:       { name: 'Alex Chen',    role: 'Product Manager'  },
+  ux:       { name: 'Maya Osei',    role: 'UX Designer'      },
+  frontend: { name: 'Jordan Park',  role: 'Frontend Dev'     },
+  backend:  { name: 'Sam Rivera',   role: 'Backend Dev'      },
+  data:     { name: 'Priya Nair',   role: 'Data Scientist'   },
+  qa:       { name: 'Chris Dubois', role: 'QA Engineer'      },
+  devops:   { name: 'Taylor Kim',   role: 'DevOps / MLOps'   },
+  security: { name: 'Morgan Blake', role: 'Cybersecurity'    },
+  bob:      { name: 'Bob',          role: 'AI Teammate'      },
+  narrator: { name: 'NARRATOR',     role: ''                 },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

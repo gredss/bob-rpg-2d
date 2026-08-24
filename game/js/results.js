@@ -97,10 +97,14 @@ document.addEventListener('DOMContentLoaded', () => {
   gradeBadge.textContent = gradeLabels[grade];
   gradeBadge.className   = `grade-badge grade-${grade.toLowerCase()}`;
 
-  // Score bars
+  // Score bars + secondary labels
   renderBar('bar-quality',   m.quality);
   renderBar('bar-security',  m.security);
   renderBar('bar-satisfy',   m.satisfaction);
+
+  document.getElementById('stat-quality2').textContent  = Math.round(m.quality)       + '%';
+  document.getElementById('stat-security2').textContent = Math.round(m.security)      + '%';
+  document.getElementById('stat-satisfy2').textContent  = Math.round(m.satisfaction)  + '%';
 
   // Play again
   document.getElementById('btn-play-again').addEventListener('click', () => {

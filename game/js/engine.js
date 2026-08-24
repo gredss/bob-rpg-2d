@@ -235,21 +235,6 @@ function showWorkstationBobOutput(text) {
   `;
 }
 
-function getWorkstationIcon(roleId) {
-  // Text-only abbreviations — no emoji
-  const icons = {
-    data:     '',
-    frontend: '',
-    backend:  '',
-    pm:       '',
-    ux:       '',
-    qa:       '',
-    devops:   '',
-    security: '',
-  };
-  return icons[roleId] || '';
-}
-
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
