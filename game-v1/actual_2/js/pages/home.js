@@ -24,20 +24,20 @@
     },
     cli: {
       num: '3', tag: 'Terminal scope · All platforms',
-      desc: 'No VS Code required. IBM Bob runs natively in the CLI — bringing the full AI agent experience to terminal-first developers and CI/CD pipelines.',
-      bullets: ['Same skills, MCP tools, and modes as VS Code', 'Pipe Bob into CI/CD as a pipeline step', 'Works on Linux, macOS, Windows — and remote SSH'],
+      desc: 'Not confined to your IDE. Bob Shell brings the full AI agent experience to your command line — interactive sessions, script automation, and CI/CD pipeline integration.',
+      bullets: ['Interactive and non-interactive session modes', 'Pipe Bob Shell into CI/CD as a pipeline step', 'Same MCP tools, modes, and skills as the IDE'],
       gif: ''
     },
     security: {
-      num: '4', tag: 'Enterprise grade · Compliant',
-      desc: 'Built on IBM\'s security standards — data stays in your environment, every action is auditable, and guardrails prevent unsafe outputs.',
-      bullets: ['Data never leaves your tenant', 'RBAC, audit logs, and guardrails by design', 'TLS 1.3, IBM Key Protect, FIPS 140-2 compliant'],
+      num: '4', tag: 'Enterprise grade · Continuous',
+      desc: 'As AI accelerates development, security must evolve from a checkpoint to an embedded capability. IBM Bob shifts security left — enforcing policies at every stage.',
+      bullets: ['Policy enforcement at every commit and deploy', 'Audit trail on every action Bob takes', 'Real-world: 160+ hours saved, 100% architecture compliance'],
       gif: ''
     },
     enterprise: {
-      num: '5', tag: 'Enterprise package · Admin controls',
-      desc: 'Shared token pools across your whole team, usage visibility, and budget controls — Bob is designed for enterprise scale without enterprise waste.',
-      bullets: ['One shared pool — unused tokens flow across teams', 'Per-user budget caps and real-time usage dashboard', 'Monthly reset with productivity vs. cost reporting'],
+      num: '5', tag: 'Enterprise plan · Admin controls',
+      desc: 'Centralized Bobcoin pools, Bobalytics impact tracking, and dedicated support — IBM Bob Enterprise scales AI-assisted development across your whole org.',
+      bullets: ['Shared Bobcoin pool distributed from a central budget', 'Bobalytics: measure codebase contribution & spend', 'Dedicated IBM Bob specialist support'],
       gif: ''
     }
   };
@@ -54,7 +54,7 @@
   const phLabel = document.getElementById('hp-placeholder-label');
   const ctaEl   = document.getElementById('hp-cta');
 
-  const LABELS = { mcp: 'MCP', modes: 'Modes', cli: 'CLI', security: 'Security', enterprise: 'Enterprise' };
+  const LABELS = { mcp: 'MCP', modes: 'Modes', cli: 'Bob Shell', security: 'Security', enterprise: 'Enterprise' };
 
   let hoverTimer  = null;
   let activeStage = null;

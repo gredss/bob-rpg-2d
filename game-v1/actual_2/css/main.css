@@ -80,19 +80,6 @@ html, body {
   overflow: hidden;
 }
 
-/* Allow scroll when the viewport is very narrow (e.g. heavily zoomed in) */
-@media (max-width: 600px) {
-  html, body {
-    overflow: auto;
-    height: auto;
-  }
-  #page-view {
-    overflow: visible;
-    height: auto;
-    min-height: calc(100vh - var(--nav-h));
-  }
-}
-
 body {
   background: var(--bg);
   color: var(--text);
@@ -106,7 +93,9 @@ body {
 /* ── Page viewport ──────────────────────────────────────────── */
 #page-view {
   flex: 1;
-  overflow: hidden;
+  min-height: 0;        /* allow flex child to shrink below content size */
+  overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
 }
 

@@ -1,15 +1,15 @@
-<!-- ── CLI landing page ── -->
+<!-- ── Bob Shell landing page ── -->
 <section class="plan-landing" id="cli-landing">
 
   <!-- Left: hero column -->
   <div class="plan-hero">
-    <div class="plan-landing-badge">Feature 3 · CLI</div>
-    <h1 class="plan-landing-title">Bob in your<br><span class="plan-title-think">terminal</span>.</h1>
-    <p class="plan-landing-sub">No VS Code required. IBM Bob runs natively in the CLI — bringing the full AI agent experience to terminal-first developers and CI/CD pipelines.</p>
+    <div class="plan-landing-badge">Feature 3 · Bob Shell</div>
+    <h1 class="plan-landing-title">Bring agents to your<br><span class="plan-title-think">command line</span>.</h1>
+    <p class="plan-landing-sub">I'm not confined to your IDE. With Bob Shell, I can help you work interactively, script repetitive tasks, and embed into your CI/CD pipeline across every stage of development.</p>
 
     <div class="plan-role-block">
       <span class="plan-role-label">Bob's role in this feature</span>
-      <p class="plan-role-text">Terminal-native agent. Same skills, same MCP tools, same modes — accessible from any shell, on any machine, anywhere in your pipeline.</p>
+      <p class="plan-role-text">Terminal-native agent. Bob Shell delivers the same context awareness and reasoning from IBM Bob — optimised for shell environments and automated processes.</p>
     </div>
 
     <div class="plan-scope-row">
@@ -25,66 +25,66 @@
   <!-- Right: detail column -->
   <div class="plan-detail">
 
-    <!-- Terminal mockup instead of video -->
+    <!-- Video card -->
     <div class="plan-video-wrap">
       <div class="plan-video-frame">
         <div class="plan-video-titlebar">
           <div class="plan-video-dots">
             <span></span><span></span><span></span>
           </div>
-          <span class="plan-video-title">bash — IBM Bob CLI</span>
+          <span class="plan-video-title">Bob Shell — AI in your pipeline</span>
           <div class="plan-video-titlebar-right">
             <span class="plan-video-badge">● LIVE</span>
           </div>
         </div>
-        <div class="plan-terminal">
-          <div class="plan-terminal-line"><span class="plan-terminal-prompt">$</span> <span class="plan-terminal-cmd">bob "Check if there are any security issues in src/api/"</span></div>
-          <div class="plan-terminal-line plan-terminal-output">🔍 Scanning src/api/ for security issues...</div>
-          <div class="plan-terminal-line plan-terminal-output">🔴 CRITICAL — SQL injection risk in src/api/users.js:42</div>
-          <div class="plan-terminal-line plan-terminal-output">🟡 HIGH    — Missing rate limiting on POST /api/login</div>
-          <div class="plan-terminal-line plan-terminal-output">🟢 MEDIUM  — Unvalidated redirect in src/api/auth.js:18</div>
-          <div class="plan-terminal-line plan-terminal-output plan-terminal-dim">→ Run <span class="plan-terminal-inline-cmd">bob fix --file src/api/users.js</span> to auto-remediate</div>
-          <div class="plan-terminal-line"><span class="plan-terminal-prompt">$</span> <span class="plan-terminal-cursor">▋</span></div>
-        </div>
+        <video
+          class="plan-video"
+          src="asset/AI in pipeline interface showing Bob Shell.mp4"
+          autoplay
+          loop
+          muted
+          playsinline
+          aria-label="Bob Shell demo — AI agent in pipeline interface"
+        ></video>
       </div>
     </div>
 
-    <!-- Workflow steps -->
-    <div class="plan-section-label">How Bob CLI works</div>
+    <!-- What you can do -->
+    <div class="plan-section-label">What you can do with Bob Shell</div>
     <ol class="plan-steps">
       <li class="plan-step">
         <span class="plan-step-num">01</span>
         <div class="plan-step-body">
-          <span class="plan-step-title">Install Bob CLI</span>
-          <span class="plan-step-desc">One command install via npm or direct binary download. Works on Linux, macOS, and Windows.</span>
+          <span class="plan-step-title">Automate scripts</span>
+          <span class="plan-step-desc">Embed Bob's agentic capabilities into shell scripts and invoke them anywhere in your SDLC — build, test, deploy, monitor.</span>
         </div>
       </li>
       <li class="plan-step">
         <span class="plan-step-num">02</span>
         <div class="plan-step-body">
-          <span class="plan-step-title">Authenticate once</span>
-          <span class="plan-step-desc">Authenticate with your IBM Cloud credentials. Token stored securely — no re-auth per session.</span>
+          <span class="plan-step-title">Interactive sessions</span>
+          <span class="plan-step-desc">Engage in conversational sessions directly in your terminal for complex, exploratory tasks — no IDE required.</span>
         </div>
       </li>
       <li class="plan-step">
         <span class="plan-step-num">03</span>
         <div class="plan-step-body">
-          <span class="plan-step-title">Run any task</span>
-          <span class="plan-step-desc">Pass instructions in natural language. Bob reads your codebase, uses tools, and outputs results inline.</span>
+          <span class="plan-step-title">Non-interactive automation</span>
+          <span class="plan-step-desc">Run commands or tasks programmatically — pipe Bob into CI/CD steps, batch processors, and scheduled jobs.</span>
         </div>
       </li>
       <li class="plan-step">
         <span class="plan-step-num">04</span>
         <div class="plan-step-body">
-          <span class="plan-step-title">Pipe into CI/CD</span>
-          <span class="plan-step-desc">Use Bob as a CI/CD step — scan, fix, generate, or validate before your pipeline continues.</span>
+          <span class="plan-step-title">MCP integration</span>
+          <span class="plan-step-desc">Connect to monitoring systems, deployment tools, and infrastructure APIs from the terminal to build comprehensive DevOps automation.</span>
         </div>
       </li>
       <li class="plan-step">
         <span class="plan-step-num">05</span>
         <div class="plan-step-body">
-          <span class="plan-step-title">Same MCP tools, same modes</span>
-          <span class="plan-step-desc">Every MCP integration and mode available in VS Code works identically in the CLI.</span>
+          <span class="plan-step-title">Same modes, same skills</span>
+          <span class="plan-step-desc">Agent, Plan, and Ask modes — plus custom modes — work identically in Bob Shell. Switch behaviour without switching tools.</span>
         </div>
       </li>
     </ol>
@@ -98,6 +98,7 @@
       <span class="plan-cap">CI/CD pipelines</span>
       <span class="plan-cap">Docker containers</span>
       <span class="plan-cap">Remote SSH</span>
+      <span class="plan-cap">Editor terminals</span>
     </div>
 
     <blockquote class="plan-quote">
@@ -111,34 +112,94 @@
 <!-- Floating Bob FAB -->
 <div class="plan-bob-fab-wrap" id="plan-bob-fab-wrap">
   <div class="plan-bob-fab-label">
-    <span class="plan-bob-fab-label-title">See Bob in the terminal</span>
-    <span class="plan-bob-fab-label-sub">Open the CLI mockup →</span>
+    <span class="plan-bob-fab-label-title">Try the Bob Shell demo</span>
+    <span class="plan-bob-fab-label-sub">Run Bob from your terminal →</span>
   </div>
-  <button type="button" class="plan-bob-fab" id="plan-bob-fab" aria-label="Open IBM Bob CLI demo">
+  <button type="button" class="plan-bob-fab" id="plan-bob-fab" aria-label="Open IBM Bob Shell demo">
     <img src="asset/IBM_Bob_hero_illustration_head_color.svg" alt="IBM Bob" class="plan-bob-fab-img" />
   </button>
 </div>
 
-<!-- ── Full-screen terminal mockup (hidden until FAB clicked) ── -->
-<section class="bcp-page plan-chat-view hidden" id="plan-chat-view" style="background:#0d0d0d;">
-  <div class="bcp-topbar" style="background:#1a1a1a; border-bottom:1px solid #2a2a2a;">
-    <span class="bcp-topbar-title" style="font-family:'IBM Plex Mono',monospace;">bash — IBM Bob CLI</span>
-    <div class="bcp-topbar-actions">
-      <button type="button" class="bcp-icon-btn" title="Close" id="bcp-close-btn">✕</button>
+<!-- ── Bob chatbox (hidden until FAB clicked) ── -->
+<section class="bcp-page bcp-page--split plan-chat-view hidden" id="plan-chat-view">
+
+  <!-- VS Code Explorer panel -->
+  <div class="bcp-explorer">
+    <div class="bcp-exp-header">
+      <span class="bcp-exp-title">EXPLORER</span>
+      <button type="button" class="bcp-exp-more" title="More actions">···</button>
+    </div>
+    <div class="bcp-exp-tree">
+      <div class="bcp-exp-root">
+        <span class="bcp-exp-arrow bcp-exp-arrow--open">&#8964;</span>
+        <span class="bcp-exp-root-name">WORKSPACE</span>
+      </div>
+      <div class="bcp-exp-file active">
+        <span class="bcp-exp-file-icon">&#9654;</span>
+        <span>src / api / users.js</span>
+      </div>
+      <div class="bcp-exp-file">
+        <span class="bcp-exp-file-icon">&#9654;</span>
+        <span>src / api / auth.js</span>
+      </div>
+      <div class="bcp-exp-file">
+        <span class="bcp-exp-file-icon">&#9654;</span>
+        <span>.github / workflows / ci.yml</span>
+      </div>
+    </div>
+    <div class="bcp-exp-section">
+      <span class="bcp-exp-section-arrow">›</span>
+      <span class="bcp-exp-section-label">OUTLINE</span>
+    </div>
+    <div class="bcp-exp-section">
+      <span class="bcp-exp-section-arrow">›</span>
+      <span class="bcp-exp-section-label">TIMELINE</span>
     </div>
   </div>
-  <div class="plan-terminal-full" id="bcp-body">
-    <div class="plan-terminal-line"><span class="plan-terminal-prompt">$</span> <span class="plan-terminal-cmd">bob --version</span></div>
-    <div class="plan-terminal-line plan-terminal-output">IBM Bob CLI v1.4.2 — AI Agent for developers</div>
-    <div class="plan-terminal-line plan-terminal-dim">&nbsp;</div>
-    <div class="plan-terminal-line"><span class="plan-terminal-prompt">$</span> <span class="plan-terminal-cmd">bob "Refactor the authentication module to use JWT"</span></div>
-    <div class="plan-terminal-line plan-terminal-output">📂 Reading workspace... found 42 files</div>
-    <div class="plan-terminal-line plan-terminal-output">🧠 Analysing src/auth/ (3 files)...</div>
-    <div class="plan-terminal-line plan-terminal-output">✏️  Rewriting src/auth/login.js</div>
-    <div class="plan-terminal-line plan-terminal-output">✏️  Rewriting src/auth/middleware.js</div>
-    <div class="plan-terminal-line plan-terminal-output">✅ Done — 2 files updated, 1 test file generated</div>
-    <div class="plan-terminal-line plan-terminal-dim">&nbsp;</div>
-    <div class="plan-terminal-line"><span class="plan-terminal-prompt">$</span> <span class="plan-terminal-cursor">▋</span></div>
+
+  <!-- Resize handle -->
+  <div class="bcp-resize-handle" id="bcp-resize-handle"></div>
+
+  <!-- Bob chatbox -->
+  <div class="bcp-chat-col">
+    <div class="bcp-topbar">
+      <span class="bcp-topbar-title">BOB SHELL</span>
+      <div class="bcp-topbar-actions">
+        <button type="button" class="bcp-icon-btn" title="Settings">⚙</button>
+        <button type="button" class="bcp-icon-btn" title="Task list">☰</button>
+        <button type="button" class="bcp-icon-btn" title="New task">＋</button>
+        <button type="button" class="bcp-icon-btn" title="More">···</button>
+        <div class="bcp-topbar-sep"></div>
+        <button type="button" class="bcp-icon-btn" title="Open in editor">⤢</button>
+        <button type="button" class="bcp-icon-btn" title="Close" id="bcp-close-btn">✕</button>
+      </div>
+    </div>
+
+    <div class="bcp-body" id="bcp-body">
+      <div class="bcp-welcome" id="bcp-welcome">
+        <div class="bcp-welcome-avatar-wrap">
+          <img src="asset/IBM_Bob_hero_illustration_half_body_color.svg" alt="IBM Bob" class="bcp-welcome-avatar" />
+        </div>
+        <h2 class="bcp-welcome-title">Hi, I'm <span>Bob</span></h2>
+        <p class="bcp-welcome-sub">Same Bob. Same power. Now in your terminal.</p>
+        <button type="button" class="bcp-doc-btn">Documentation</button>
+      </div>
+      <div class="bcp-messages" id="bcp-messages"></div>
+    </div>
+
+    <div class="bcp-inputbar">
+      <div class="bcp-input-box" id="bcp-input-box">
+        <div class="bcp-scripted-input" id="bcp-scripted-input">bob "Scan src/api/ for security vulnerabilities"</div>
+      </div>
+      <div class="bcp-input-footer">
+        <div class="bcp-footer-left">
+          <button type="button" class="bcp-pill">＋</button>
+          <button type="button" class="bcp-pill bcp-pill--mode">&#9654; Agent ▾</button>
+          <button type="button" class="bcp-pill">&#128274; Permissions ▾</button>
+        </div>
+        <button type="button" class="bcp-send" id="bcp-send">↑</button>
+      </div>
+    </div>
   </div>
 </section>
 
