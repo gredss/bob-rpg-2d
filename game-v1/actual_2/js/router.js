@@ -105,6 +105,10 @@ const Router = (() => {
     document.querySelectorAll('.stage-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.page === pageName);
     });
+    // Notify parent frame so it can show/hide the back-to-game button
+    try {
+      window.parent.postMessage({ type: 'bob:page-change', page: pageName }, '*');
+    } catch (e) {}
   }
 
   // ── Re-execute <script data-page-script> tags ────────────────

@@ -137,7 +137,10 @@
 }
 .bcp-resize-handle:hover,
 .bcp-resize-handle.dragging { background: #0078d4; }
-.bcp-md-panel.hidden ~ .bcp-resize-handle { display: none; }
+/* Hide the MD-panel resize handle when MD panel is closed */
+.bcp-md-panel.hidden ~ .bcp-md-resize-handle { display: none; }
+/* Hide the settings-side resize handle when settings col is collapsed */
+.bob-settings-col.hidden ~ .bcp-resize-handle:not(.bcp-md-resize-handle) { display: none; }
 
 /* ── Chat column ─────────────────────────────────────────────── */
 .bcp-chat-col { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; background: #1e1e1e; }
@@ -557,8 +560,9 @@
 
 /* Subtitle */
 .plan-landing-sub {
-  font-size: 14px;
-  color: #c6c6c6;
+  font-size: 16px;
+  font-weight: 400;
+  color: #a8b8cc;
   margin: 0 0 32px;
   line-height: 1.7;
 }
@@ -622,11 +626,11 @@
 
 /* Section labels */
 .plan-section-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #a8b2c1;
+  color: #6ea8d0;
   margin-bottom: 14px;
 }
 
@@ -850,6 +854,10 @@
   position: relative;
   box-shadow: 0 4px 20px rgba(15, 98, 254, 0.45);
   transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+  /* Support <a> as well as <button> */
+  text-decoration: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 @keyframes fabIn {
@@ -2208,4 +2216,865 @@
 
 .ent-cost-bullets li + li {
   margin-top: 4px;
+}
+
+/* ── Bob Settings middle column ─────────────────────────────── */
+.bob-settings-col {
+  display: flex;
+  flex-direction: column;
+  width: 520px;
+  flex-shrink: 0;
+  border-right: 1px solid #191919;
+  overflow: hidden;
+  /* Must have a defined height so .bob-settings flex: 1 can fill it */
+  height: 100%;
+}
+
+.bob-settings-col.hidden { display: none; }
+
+.bob-settings {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #1e1e1e;
+  font-family: 'IBM Plex Sans', sans-serif;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.bob-settings.hidden { display: none; }
+
+/* Tab bar at the top */
+.bob-settings-tabbar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 36px;
+  background: #2d2d2d;
+  border-bottom: 1px solid #191919;
+  flex-shrink: 0;
+  padding-right: 8px;
+}
+
+.bob-settings-tab {
+  height: 100%;
+  padding: 0 14px;
+  font-size: 12px;
+  color: #858585;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bob-settings-tab:hover { color: #cccccc; background: #333; }
+
+.bob-settings-tab.active {
+  color: #cccccc;
+  border-bottom-color: #0f62fe;
+  background: #1e1e1e;
+}
+
+.bob-settings-tab.hidden { display: none; }
+
+.bob-tab-close {
+  font-size: 11px;
+  color: #666;
+  margin-left: 2px;
+  padding: 1px 3px;
+  border-radius: 2px;
+  line-height: 1;
+}
+
+.bob-settings-tab:hover .bob-tab-close,
+.bob-tab-close:hover { color: #cccccc; background: #4a4a4a; }
+
+/* Spacer pushes close button to the right */
+.bob-settings-tabbar .bob-settings-close {
+  margin-left: auto;
+}
+
+.bob-settings-close {
+  background: transparent;
+  border: none;
+  color: #858585;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 3px 5px;
+  border-radius: 3px;
+  line-height: 1;
+}
+
+.bob-settings-close:hover { color: #cccccc; background: #3a3a3a; }
+
+/* Two-column body — fills the remaining height below the tabbar */
+.bob-settings-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.bob-settings-body.hidden { display: none; }
+
+/* Left nav */
+.bob-settings-nav {
+  width: 160px;
+  flex-shrink: 0;
+  background: #252526;
+  border-right: 1px solid #191919;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  overflow-y: auto;
+}
+
+.bob-settings-nav-item {
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 7px 16px;
+  font-size: 13px;
+  color: #cccccc;
+  cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif;
+  border-radius: 0;
+  transition: background 80ms;
+}
+
+.bob-settings-nav-item:hover { background: #2a2d2e; }
+
+.bob-settings-nav-item.active {
+  background: #094771;
+  color: #ffffff;
+}
+
+.bob-settings-nav-item--muted { color: #858585; font-size: 12px; }
+
+.bob-settings-nav-spacer { flex: 1; }
+
+.bob-settings-version {
+  font-size: 11px;
+  color: #555;
+  padding: 6px 16px 4px;
+}
+
+/* Right content */
+.bob-settings-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+  background: #1e1e1e;
+}
+
+.bob-settings-section-title {
+  font-size: 18px;
+  font-weight: 400;
+  color: #cccccc;
+  margin: 0 0 10px;
+}
+
+.bob-settings-section-desc {
+  font-size: 13px;
+  color: #a0a0a0;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.bob-settings-link {
+  color: #4fc3f7;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Toggle row */
+.bob-settings-toggle-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid #2d2d2d;
+  border-bottom: 1px solid #2d2d2d;
+  margin-bottom: 20px;
+}
+
+.bob-settings-toggle-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bob-settings-toggle-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #cccccc;
+}
+
+.bob-settings-toggle-desc {
+  font-size: 12px;
+  color: #858585;
+  line-height: 1.5;
+}
+
+/* Toggle switch */
+.bob-settings-toggle {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: #555;
+  flex-shrink: 0;
+  position: relative;
+  cursor: pointer;
+  margin-top: 2px;
+  transition: background 150ms;
+}
+
+.bob-settings-toggle.on { background: #0f62fe; }
+
+.bob-settings-toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 150ms;
+}
+
+.bob-settings-toggle.on .bob-settings-toggle-thumb {
+  transform: translateX(16px);
+}
+
+/* Search + filter row */
+.bob-settings-search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0;
+}
+
+.bob-settings-search-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #3c3c3c;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 5px 10px;
+}
+
+.bob-settings-search-icon { font-size: 12px; color: #858585; }
+
+.bob-settings-search {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 12px;
+  color: #cccccc;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.bob-settings-search::placeholder { color: #666; }
+
+.bob-settings-filter {
+  background: #3c3c3c;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #cccccc;
+  font-size: 12px;
+  padding: 5px 8px;
+  outline: none;
+  cursor: pointer;
+}
+
+.bob-settings-icon-btn {
+  background: #3c3c3c;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #cccccc;
+  font-size: 14px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bob-settings-icon-btn:hover { background: #4a4a4a; }
+
+/* MCP server table */
+.bob-settings-table {
+  border: 1px solid #2d2d2d;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.bob-settings-table-head {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1.2fr 0.8fr;
+  background: #252526;
+  border-bottom: 1px solid #2d2d2d;
+  padding: 7px 12px;
+  gap: 8px;
+}
+
+.bob-settings-table-head span {
+  font-size: 11px;
+  font-weight: 600;
+  color: #858585;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bob-settings-table-row {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1.2fr 0.8fr;
+  padding: 9px 12px;
+  gap: 8px;
+  border-bottom: 1px solid #2a2a2a;
+  align-items: center;
+  transition: background 80ms;
+}
+
+.bob-settings-table-row:last-child { border-bottom: none; }
+.bob-settings-table-row:hover { background: #252526; }
+
+.bob-settings-server-name {
+  font-size: 13px;
+  color: #cccccc;
+}
+
+.bob-settings-server-desc {
+  font-size: 12px;
+  color: #555;
+}
+
+.bob-settings-status {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.bob-settings-status--on  { color: #4caf50; }
+.bob-settings-status--off { color: #f44336; }
+
+.bob-settings-scope {
+  font-size: 12px;
+  color: #858585;
+}
+
+
+/* ── Add MCP Server modal ────────────────────────────────────── */
+.bob-mcp-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bob-mcp-modal.hidden { display: none; }
+
+.bob-mcp-modal-box {
+  background: #252526;
+  border: 1px solid #3c3c3c;
+  border-radius: 8px;
+  width: 480px;
+  max-width: 92%;
+  padding: 24px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+}
+
+.bob-mcp-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bob-mcp-modal-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #cccccc;
+}
+
+.bob-mcp-modal-close {
+  background: transparent;
+  border: none;
+  color: #858585;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 3px 5px;
+  border-radius: 3px;
+  line-height: 1;
+}
+
+.bob-mcp-modal-close:hover { color: #cccccc; background: #3a3a3a; }
+
+.bob-mcp-modal-desc {
+  font-size: 13px;
+  color: #a0a0a0;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.bob-mcp-modal-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #cccccc;
+  margin-bottom: 10px;
+}
+
+.bob-mcp-scope-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bob-mcp-scope-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #1e1e1e;
+  border: 1px solid #3c3c3c;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'IBM Plex Sans', sans-serif;
+  transition: border-color 100ms, background 100ms;
+}
+
+.bob-mcp-scope-item:hover {
+  background: #2a2d2e;
+  border-color: #555;
+}
+
+.bob-mcp-scope-item.selected {
+  border-color: #0f62fe;
+  background: rgba(15, 98, 254, 0.08);
+}
+
+.bob-mcp-scope-radio {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #555;
+  flex-shrink: 0;
+  position: relative;
+  transition: border-color 100ms;
+}
+
+.bob-mcp-scope-item.selected .bob-mcp-scope-radio {
+  border-color: #0f62fe;
+}
+
+.bob-mcp-scope-item.selected .bob-mcp-scope-radio::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: #0f62fe;
+}
+
+.bob-mcp-scope-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bob-mcp-scope-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #cccccc;
+}
+
+.bob-mcp-scope-desc {
+  font-size: 12px;
+  color: #858585;
+}
+
+.bob-mcp-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.bob-mcp-btn {
+  padding: 7px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-weight: 500;
+}
+
+.bob-mcp-btn--cancel {
+  background: transparent;
+  border-color: #555;
+  color: #cccccc;
+}
+
+.bob-mcp-btn--cancel:hover { background: #3a3a3a; }
+
+.bob-mcp-btn--confirm {
+  background: #0f62fe;
+  color: #fff;
+  border-color: #0f62fe;
+}
+
+.bob-mcp-btn--confirm:hover:not(:disabled) { background: #0353e9; }
+
+.bob-mcp-btn--confirm:disabled {
+  background: #2a3a5e;
+  border-color: #2a3a5e;
+  color: #5a7aaa;
+  cursor: not-allowed;
+}
+
+/* ── JSON viewer panel ───────────────────────────────────────── */
+/* Replaces the .bob-settings-body when the JSON tab is active.
+   Must fill the full remaining height below the tabbar. */
+.bob-json-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #1e1e1e;
+  min-height: 0;
+}
+
+.bob-json-view.hidden { display: none; }
+
+.bob-json-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 14px;
+  background: #1e1e1e;
+  border-bottom: 1px solid #2a2a2a;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.bob-json-bc-seg {
+  font-size: 11px;
+  color: #858585;
+  font-family: 'IBM Plex Sans', sans-serif;
+  cursor: default;
+}
+
+.bob-json-bc-seg--file { color: #cccccc; }
+.bob-json-bc-seg--dim  { color: #555; }
+
+.bob-json-bc-sep {
+  font-size: 11px;
+  color: #444;
+}
+
+/* Scrollable code area */
+.bob-json-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: auto;
+  display: flex;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+/* Line number gutter — each span must match the code's line-height */
+.bob-json-gutter {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0 12px;
+  min-width: 42px;
+  text-align: right;
+  background: #1e1e1e;
+  border-right: 1px solid #2a2a2a;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.bob-json-gutter span {
+  font-size: 12.5px;   /* match .bob-json-body font-size */
+  color: #4a4a4a;
+  line-height: 1.65;   /* match .bob-json-body line-height */
+  padding: 0 10px 0 6px;
+  display: block;
+}
+
+/* Code content */
+.bob-json-code {
+  flex: 1;
+  margin: 0;
+  padding: 12px 16px;
+  white-space: pre;
+  color: #d4d4d4;
+  background: transparent;
+  overflow: visible;
+  font-size: 12.5px;  /* match gutter */
+  line-height: 1.65;  /* match gutter */
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Syntax token colours — matching VS Code Dark+ */
+.jk { color: #9cdcfe; } /* key    */
+.js { color: #ce9178; } /* string */
+.jn { color: #b5cea8; } /* number */
+.jv { color: #569cd6; } /* boolean/null */
+.jb { color: #ffd700; } /* bracket/brace */
+.jp { color: #d4d4d4; } /* punctuation */
+
+
+/* ============================================================
+   MCP page — rich chat renderer (bcpr-* components)
+   ============================================================ */
+
+/* ── "Called MCP N tools · Xs ›" row ──────────────────────── */
+.bcpr-mcp-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 4px;
+  padding: 4px 10px 4px 8px;
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-radius: 5px;
+  cursor: default;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  color: #858585;
+  transition: background 100ms, border-color 100ms;
+  max-width: 100%;
+}
+
+.bcpr-mcp-call:hover { background: #222; border-color: #3c3c3c; }
+
+.bcpr-mcp-icon {
+  font-size: 11px;
+  color: #555;
+  flex-shrink: 0;
+}
+
+.bcpr-mcp-label {
+  color: #858585;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.bcpr-mcp-meta {
+  color: #555;
+  white-space: nowrap;
+}
+
+.bcpr-mcp-arrow {
+  color: #444;
+  font-size: 13px;
+  margin-left: 2px;
+}
+
+/* ── "Writing file" working bar ────────────────────────────── */
+.bcpr-working-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 6px 0 4px;
+  padding: 0;
+  font-family: 'IBM Plex Sans', sans-serif;
+  animation: workingFadeIn 0.2s ease both;
+}
+
+/* ── "Wrote file filename.md ›" ────────────────────────────── */
+/* (uses existing .bcp-wrote-file styles — just ensure margin) */
+.bcp-wrote-file {
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+/* ── Rich summary block ─────────────────────────────────────── */
+.bcpr-rich {
+  margin-top: 4px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  color: #cccccc;
+  line-height: 1.6;
+}
+
+.bcpr-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.bcpr-divider {
+  border: none;
+  border-top: 1px solid #2d2d2d;
+  margin: 10px 0 12px;
+}
+
+.bcpr-lead {
+  font-size: 13px;
+  color: #cccccc;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.bcpr-h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 8px;
+}
+
+.bcpr-p {
+  font-size: 13px;
+  color: #cccccc;
+  line-height: 1.6;
+  margin: 0 0 10px;
+}
+
+.bcpr-strong {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Section heading labels (🔴 Critical Issues etc.) */
+.bcpr-section-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #cccccc;
+  margin: 12px 0 8px;
+}
+
+/* Table */
+.bcpr-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-bottom: 4px;
+  border: 1px solid #2d2d2d;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.bcpr-table thead tr {
+  background: #252526;
+}
+
+.bcpr-table th {
+  text-align: left;
+  padding: 7px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #858585;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #2d2d2d;
+}
+
+.bcpr-table td {
+  padding: 9px 12px;
+  color: #cccccc;
+  vertical-align: top;
+  border-bottom: 1px solid #2a2a2a;
+  line-height: 1.5;
+}
+
+.bcpr-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.bcpr-table tbody tr:nth-child(even) {
+  background: rgba(255,255,255,0.02);
+}
+
+/* List */
+.bcpr-list {
+  margin: 0 0 8px 16px;
+  padding: 0;
+  font-size: 13px;
+  color: #cccccc;
+  line-height: 1.65;
+}
+
+.bcpr-list li {
+  margin-bottom: 4px;
+}
+
+/* ── "1 file changed" footer bar ───────────────────────────── */
+.bcpr-file-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-radius: 6px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  color: #858585;
+}
+
+.bcpr-file-footer-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.bcpr-file-footer-count {
+  font-weight: 500;
+  color: #cccccc;
+}
+
+.bcpr-file-footer-sep {
+  flex: 1;
+}
+
+.bcpr-file-footer-btn {
+  background: transparent;
+  border: 1px solid #3c3c3c;
+  color: #858585;
+  font-size: 12px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 80ms, color 80ms;
+}
+
+.bcpr-file-footer-btn:hover { background: #2a2d2e; color: #cccccc; }
+
+.bcpr-file-footer-chevron {
+  font-size: 13px;
+  color: #555;
+}
+
+/* ── "bcp-done-wrap" kbd chip ───────────────────────────────── */
+.bcp-done-wrap kbd {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  background: #2a2d2e;
+  border: 1px solid #3c3c3c;
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: #858585;
 }
