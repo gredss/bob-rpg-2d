@@ -38,7 +38,7 @@
         </button>
 
         <button class="attract-learn" id="btn-learn-inline">
-          <img src="assets/start.png" alt="See Bob in action" class="attract-cta-img">
+          <img src="assets/learn.png" alt="Learn more about Bob" class="attract-cta-img">
         </button>
       </div>
 
@@ -107,17 +107,28 @@
     }
     setPortalPage('home');
 
-    function peekPortal() {
+    // Set the clip-path origin to the center of a given element
+    function setRevealOrigin(el) {
+      const r = el.getBoundingClientRect();
+      const cx = Math.round(r.left + r.width  / 2);
+      const cy = Math.round(r.top  + r.height / 2);
+      portal.style.setProperty('--cx', cx + 'px');
+      portal.style.setProperty('--cy', cy + 'px');
+    }
+
+    function peekPortal(el) {
       if (isFullyOpen) return;
       clearTimeout(closeTimer);
+      if (el) setRevealOrigin(el);
       portal.classList.add('open');
     }
     function schedulePeekClose() {
       if (isFullyOpen) return;
       closeTimer = setTimeout(() => portal.classList.remove('open'), 80);
     }
-    function switchIn() {
+    function switchIn(el) {
       clearTimeout(closeTimer);
+      if (el) setRevealOrigin(el);
       isFullyOpen = true;
       portal.classList.add('open', 'full');
       try {
@@ -137,9 +148,13 @@
       closeBtn.hidden = !isFullyOpen || page !== 'home';
     }
 
-    // inline "learn more" button — same portal behaviour as the old pill
-    learnInline.addEventListener('mouseenter', () => SFX.play('cardHover', { debounce: true }));
-    learnInline.addEventListener('click', () => { if (!isFullyOpen) switchIn(); });
+    // inline "learn more" — circle-wipe reveal from the button's center
+    learnInline.addEventListener('mouseenter', () => {
+      SFX.play('cardHover', { debounce: true });
+      peekPortal(learnInline);
+    });
+    learnInline.addEventListener('mouseleave', schedulePeekClose);
+    learnInline.addEventListener('click', () => { if (!isFullyOpen) switchIn(learnInline); });
 
     closeBtn.addEventListener('click',  (e) => { e.stopPropagation(); if (isFullyOpen) switchOut(); });
     window.addEventListener('message',  (e) => {

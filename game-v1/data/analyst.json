@@ -5,8 +5,8 @@
     "label": "watsonx.data Console",
     "label_id": "Konsol watsonx.data"
   },
-  "brief": "40 columns of raw data. One integration job. Deadline is tomorrow morning.",
-  "brief_id": "40 kolom data mentah. Satu integration job. Deadline besok pagi.",
+  "brief": "A data request that normally takes a week. She needs it done today.",
+  "brief_id": "Data request yang biasanya seminggu. Dia butuhnya hari ini.",
   "scenes": [
 
     {
@@ -20,171 +20,57 @@
     {
       "type": "dialogue",
       "char": "narrator",
-      "text": "A desk full of monitors. A PostgreSQL table glows on the screen.",
-      "id": { "text": "Meja penuh monitor. Tabel PostgreSQL nyala di layar." }
+      "text": "Priya needs to combine three datasets — customers, orders, and support tickets — to find out why revenue is slipping.",
+      "id": { "text": "Priya perlu menggabungkan tiga dataset — pelanggan, pesanan, dan tiket support — untuk mencari tahu kenapa pendapatan turun." }
     },
 
     {
       "type": "dialogue",
       "char": "priya",
       "expr": "confused",
-      "text": "How am I supposed to... there are 40 raw columns, nothing is clean, and I have to build an integration job in watsonx.data. Deadline is tomorrow morning.",
-      "id": { "text": "Ini gimana caranya... raw data-nya ada 40 kolom, belum di-clean, terus harus bikin integration job di watsonx.data. Mana deadline-nya besok pagi." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "taylor",
-      "expr": "lecturing",
-      "text": "Priya, have you tried using Bob?",
-      "id": { "text": "Priya, kamu pernah coba pakai Bob?" }
+      "text": "Normally I'd submit a data request to the engineering team. One week turnaround. I don't have a week.",
+      "id": { "text": "Biasanya saya submit data request ke tim engineering. Satu minggu prosesnya. Saya nggak punya waktu seminggu." }
     },
 
     {
       "type": "dialogue",
       "char": "priya",
       "expr": "confused",
-      "text": "Bob? The AI? Can it actually help with pipelines?",
-      "id": { "text": "Bob? Yang AI itu? Emang bisa bantu urusan pipeline?" }
+      "text": "I need to cross-reference customers whose spending is declining with their support ticket history. If service issues are driving churn — I need to know now.",
+      "id": { "text": "Saya perlu cross-reference pelanggan yang pengeluarannya turun dengan riwayat tiket support mereka. Kalau masalah layanan yang bikin mereka pergi — saya harus tahu sekarang." }
     },
 
     {
       "type": "dialogue",
       "char": "taylor",
       "expr": "lecturing",
-      "text": "Not just help — he understands everything from PostgreSQL to watsonx. Let me show you the fundamentals first.",
-      "id": { "text": "Bukan cuma bisa — dia ngerti dari PostgreSQL sampai watsonx. Sini, saya tunjukin dulu fundamentalnya." }
+      "text": "You don't need to wait for engineering. Bob can pull and combine all three sources directly.",
+      "id": { "text": "Kamu nggak perlu nunggu engineering. Bob bisa tarik dan gabungkan ketiga sumber data itu langsung." }
     },
 
     {
-      "type": "task",
+      "type": "video-task",
       "char": "priya",
       "expr": "confused",
       "phase": "data",
-      "problem": "Raw data: 40 columns in PostgreSQL, uncleaned, no integration job — deadline is tomorrow morning. Taylor offers to show how Bob can help. Where do you start?",
-      "id": { "problem": "Raw data: 40 kolom di PostgreSQL, belum di-clean, belum ada integration job — deadline besok pagi. Taylor menawarkan untuk tunjukkan cara Bob bisa bantu. Mulai dari mana?" },
+      "problem": "Combine customer info, orders, and support tickets to identify declining spenders — and find out if service issues are the cause.",
+      "id": { "problem": "Gabungkan data pelanggan, pesanan, dan tiket support untuk identifikasi pelanggan yang pengeluarannya turun — dan cari tahu apakah masalah layanan yang jadi penyebabnya." },
       "options": [
         {
           "id": "an-1-bob",
           "type": "bob",
           "icon": "",
-          "label": "Ask Bob to profile the 40-column dataset and generate a cleaning plan",
-          "meta": "~40 sec saved",
-          "timeCost": 10,
-          "manualCost": 50,
-          "deltas": { "quality": 14, "satisfaction": 10 },
-          "bobResponse": "Dataset profile complete — PostgreSQL source detected.\n\nColumn audit (40 cols):\n• 12 columns: >30% null values → recommend median/mode imputation or drop\n• 6 columns: inconsistent data types (e.g. dates stored as VARCHAR, booleans as INT)\n• 4 columns: duplicate semantic meaning (e.g. `cust_id` and `customer_id`)\n• 18 columns: clean and ready\n\nCleaning plan:\n1. Drop 3 near-empty columns (>80% null, low signal)\n2. Normalise date columns to ISO 8601 via CAST in SQL\n3. Deduplicate semantic twins — keep canonical column names\n4. Impute remaining nulls with category median\n\nEstimated output: 37 clean columns, ready for watsonx.data ingestion.",
-          "bobFollowUp": "Apply the full cleaning plan and prepare for ingestion",
-          "followUpDeltas": { "quality": 8, "satisfaction": 6 },
-          "outcome": "Dataset cleaned. 37 structured columns ready. watsonx.data ingestion can begin. ✓",
-          "id_text": {
-            "label": "Minta Bob membuat profil 40 kolom dataset dan rencana pembersihan",
-            "meta": "~40 detik hemat",
-            "bobResponse": "Profil dataset selesai — sumber PostgreSQL terdeteksi.\n\nAudit kolom (40 kolom):\n• 12 kolom: nilai null >30% → rekomendasikan imputasi median/modus atau hapus\n• 6 kolom: tipe data tidak konsisten (misal tanggal sebagai VARCHAR, boolean sebagai INT)\n• 4 kolom: makna semantik duplikat (misal `cust_id` dan `customer_id`)\n• 18 kolom: bersih dan siap\n\nRencana pembersihan:\n1. Hapus 3 kolom hampir kosong (>80% null, sinyal rendah)\n2. Normalisasi kolom tanggal ke ISO 8601 via CAST di SQL\n3. Deduplikasi kembar semantik — pertahankan nama kolom kanonik\n4. Imputasi nilai null yang tersisa dengan median kategori\n\nOutput yang diestimasi: 37 kolom bersih, siap untuk ingesti watsonx.data.",
-            "bobFollowUp": "Terapkan rencana pembersihan lengkap dan siapkan untuk ingesti",
-            "outcome": "Dataset dibersihkan. 37 kolom terstruktur siap. Ingesti watsonx.data dapat dimulai. ✓"
-          }
-        },
-        {
-          "id": "an-1-manual",
-          "type": "manual",
-          "icon": "",
-          "label": "Inspect all 40 columns manually in PostgreSQL",
-          "meta": "~50 sec",
-          "timeCost": 50,
-          "manualCost": 50,
-          "deltas": { "quality": 5, "satisfaction": 3 },
-          "outcome": "Cleaned the obvious issues. Several edge cases missed. Integration job may fail later.",
-          "id_text": {
-            "label": "Periksa semua 40 kolom secara manual di PostgreSQL",
-            "meta": "~50 detik",
-            "outcome": "Masalah yang jelas sudah bersih. Beberapa kasus tepi terlewat. Integration job mungkin gagal nanti."
-          }
-        },
-        {
-          "id": "an-1-skip",
-          "type": "ignore",
-          "icon": "",
-          "label": "Skip cleaning — ingest raw data directly into watsonx.data",
-          "meta": "pipeline risk",
-          "timeCost": 0,
-          "deltas": { "quality": -16, "satisfaction": -12 },
-          "outcome": "Ingestion failed at 3 type-mismatch columns. Job stopped. Tomorrow's deadline is now at risk.",
-          "id_text": {
-            "label": "Lewati pembersihan — langsung ingest data mentah ke watsonx.data",
-            "meta": "risiko pipeline",
-            "outcome": "Ingesti gagal di 3 kolom type-mismatch. Job berhenti. Deadline besok kini terancam."
-          }
-        }
-      ]
-    },
-
-    {
-      "type": "dialogue",
-      "char": "taylor",
-      "expr": "lecturing",
-      "text": "Good. Data is clean. Now Bob can help you generate the SQL query and configure the integration job directly.",
-      "id": { "text": "Bagus. Data sudah bersih. Sekarang Bob bisa bantu kamu generate SQL query dan konfigurasi integration job-nya langsung." }
-    },
-
-    {
-      "type": "task",
-      "char": "priya",
-      "expr": "listening",
-      "phase": "data",
-      "problem": "Data is clean. Now you need to query the data and configure the watsonx.data integration job — connect to the PostgreSQL source, define transformation rules, and schedule the pipeline run.",
-      "id": { "problem": "Data sudah bersih. Sekarang perlu query data dan konfigurasi integration job watsonx.data — hubungkan ke sumber PostgreSQL, tentukan aturan transformasi, dan jadwalkan pipeline run." },
-      "options": [
-        {
-          "id": "an-2-bob",
-          "type": "bob",
-          "icon": "",
-          "label": "Ask Bob to generate the SQL query and integration job configuration",
-          "meta": "~44 sec saved",
+          "label": "Ask Bob to run the data request",
+          "meta": "1 week → minutes",
           "timeCost": 11,
-          "manualCost": 55,
-          "deltas": { "quality": 15, "satisfaction": 12 },
-          "bobResponse": "SQL query generated:\n\n```sql\nSELECT\n  customer_id, event_date, product_sku,\n  purchase_amount, customer_region\nFROM analytics_db.public.transactions\nWHERE event_date >= CURRENT_DATE - INTERVAL '90 days'\n  AND purchase_amount IS NOT NULL\nORDER BY event_date DESC;\n```\n\nIntegration job config for watsonx.data:\n• Source: PostgreSQL → `analytics_db.public.transactions`\n• Transformation: date normalisation + null imputation (as per cleaning plan)\n• Target: `wx_analytics_mart` — partitioned by `event_date`\n• Schedule: daily 02:00 UTC\n\nStatus: ready to submit.",
-          "bobFollowUp": "Run query and create the integration job",
-          "followUpDeltas": { "quality": 8, "satisfaction": 10 },
-          "outcome": "Job Created ✓  Query output visible. Pipeline live, running nightly at 02:00 UTC.",
+          "manualCost": 56,
+          "deltas": { "quality": 15, "satisfaction": 13 },
+          "videoSrc": "assets/media/wxdi.MOV",
+          "outcome": "Data request complete. Declining customers identified. Service correlation visible. ✓",
           "id_text": {
-            "label": "Minta Bob menghasilkan SQL query dan konfigurasi integration job",
-            "meta": "~44 detik hemat",
-            "bobResponse": "SQL query dihasilkan:\n\n```sql\nSELECT\n  customer_id, event_date, product_sku,\n  purchase_amount, customer_region\nFROM analytics_db.public.transactions\nWHERE event_date >= CURRENT_DATE - INTERVAL '90 days'\n  AND purchase_amount IS NOT NULL\nORDER BY event_date DESC;\n```\n\nKonfigurasi integration job untuk watsonx.data:\n• Sumber: PostgreSQL → `analytics_db.public.transactions`\n• Transformasi: normalisasi tanggal + imputasi null (sesuai rencana pembersihan)\n• Target: `wx_analytics_mart` — dipartisi berdasarkan `event_date`\n• Jadwal: harian 02:00 UTC\n\nStatus: siap dikirim.",
-            "bobFollowUp": "Jalankan query dan buat integration job",
-            "outcome": "Job Created ✓  Output query terlihat. Pipeline aktif, berjalan setiap malam pukul 02:00 UTC."
-          }
-        },
-        {
-          "id": "an-2-manual",
-          "type": "manual",
-          "icon": "",
-          "label": "Write the SQL and configure the job manually in the watsonx.data UI",
-          "meta": "~55 sec",
-          "timeCost": 55,
-          "manualCost": 55,
-          "deltas": { "quality": 6, "satisfaction": 4 },
-          "outcome": "Job configured. Missing partition key — queries will be slower but it runs.",
-          "id_text": {
-            "label": "Tulis SQL dan konfigurasi job secara manual di UI watsonx.data",
-            "meta": "~55 detik",
-            "outcome": "Job dikonfigurasi. Partition key terlewat — query akan lebih lambat tapi berjalan."
-          }
-        },
-        {
-          "id": "an-2-guesswork",
-          "type": "poor",
-          "icon": "",
-          "label": "Copy a configuration from a Stack Overflow post and adapt it",
-          "meta": "untested",
-          "timeCost": 20,
-          "deltas": { "quality": -12, "satisfaction": -8 },
-          "outcome": "Config uses deprecated API fields. Job fails on first run with a schema validation error.",
-          "id_text": {
-            "label": "Salin konfigurasi dari Stack Overflow dan adaptasi",
-            "meta": "belum teruji",
-            "outcome": "Config menggunakan field API yang sudah usang. Job gagal saat pertama dijalankan dengan error validasi skema."
+            "label": "Minta Bob jalankan data request",
+            "meta": "1 minggu → menit",
+            "outcome": "Data request selesai. Pelanggan yang menurun teridentifikasi. Korelasi layanan terlihat. ✓"
           }
         }
       ]
@@ -194,31 +80,23 @@
       "type": "dialogue",
       "char": "priya",
       "expr": "relief",
-      "text": "This... is done? Two hours turned into 10 minutes?",
-      "id": { "text": "Ini... selesai? 2 jam jadi 10 menit?" }
+      "text": "This would have taken a week through the normal process. I have the answer in minutes.",
+      "id": { "text": "Ini biasanya seminggu lewat proses normal. Saya dapat jawabannya dalam menit." }
     },
 
     {
       "type": "dialogue",
       "char": "taylor",
       "expr": "relief",
-      "text": "That's just the basics. Tomorrow, try asking Bob directly when you're stuck.",
-      "id": { "text": "Itu baru dasarnya. Besok coba tanya ke Bob langsung kalau stuck." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "priya",
-      "expr": "relief",
-      "text": "Why didn't anyone tell me about this sooner.",
-      "id": { "text": "Kenapa nggak ada yang kasih tahu saya dari dulu." }
+      "text": "Now you can act on the insight — not wait for the data.",
+      "id": { "text": "Sekarang kamu bisa bertindak berdasarkan insight-nya — bukan nunggu datanya." }
     },
 
     {
       "type": "dialogue",
       "char": "bob",
-      "text": "Clean data. Live query. Job scheduled.\n\nThat's a full watsonx.data integration — done in minutes, not hours. You understood the problem; I just helped you move faster.",
-      "id": { "text": "Data bersih. Query berjalan. Job terjadwal.\n\nItulah integrasi watsonx.data yang lengkap — selesai dalam menit, bukan jam. Kamu memahami masalahnya; saya hanya membantu kamu bergerak lebih cepat." }
+      "text": "Three datasets. One request. Answers in minutes.\n\nThe bottleneck was never the data — it was the wait. That's gone now.",
+      "id": { "text": "Tiga dataset. Satu request. Jawaban dalam menit.\n\nBottleneck-nya bukan datanya — tapi nunggu prosesnya. Sekarang sudah tidak ada lagi." }
     },
 
     { "type": "end" }
