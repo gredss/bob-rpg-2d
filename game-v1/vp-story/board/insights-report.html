@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Board Meeting Insights — Q3 Vendor Analysis</title>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+      background: #0f0f0f;
+      color: #cccccc;
+    }
+
+    /* ── Top bar ── */
+    .report-topbar {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 24px;
+      background: #1a1a1a;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .report-topbar-back {
+      background: transparent; border: 1px solid #3c3c3c; color: #858585;
+      font-family: 'IBM Plex Sans', sans-serif; font-size: 12px;
+      padding: 4px 12px; border-radius: 4px; cursor: pointer;
+      transition: border-color 120ms, color 120ms;
+    }
+    .report-topbar-back:hover { border-color: #858585; color: #cccccc; }
+    .report-topbar-title { font-size: 13px; font-weight: 600; color: #cccccc; letter-spacing: 0.04em; }
+    .report-topbar-badge {
+      margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      color: #4ade80; background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.25);
+      padding: 2px 8px; border-radius: 4px; text-transform: uppercase;
+    }
+    .report-topbar-avatar { width: 24px; height: 24px; object-fit: contain; }
+
+    /* ── Layout ── */
+    .report-wrap { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    /* ── Cover band ── */
+    .report-cover {
+      background: linear-gradient(135deg, #0f1a2e 0%, #101010 100%);
+      border: 1px solid #1e3a5f;
+      border-radius: 10px;
+      padding: 36px 40px;
+      margin-bottom: 40px;
+    }
+    .report-cover-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+      color: #4fc3f7; text-transform: uppercase; margin-bottom: 10px;
+    }
+    .report-cover-title {
+      font-size: 28px; font-weight: 600; color: #f4f4f4; line-height: 1.25; margin-bottom: 8px;
+    }
+    .report-cover-sub { font-size: 13px; color: #858585; margin-bottom: 24px; }
+    .report-cover-meta {
+      display: flex; flex-wrap: wrap; gap: 20px;
+    }
+    .report-cover-meta-item { display: flex; flex-direction: column; gap: 2px; }
+    .report-cover-meta-label { font-size: 10px; font-weight: 600; color: #555; letter-spacing: 0.08em; text-transform: uppercase; }
+    .report-cover-meta-value { font-size: 13px; color: #cccccc; }
+
+    /* ── Recommendation banner ── */
+    .report-reco {
+      background: rgba(74,222,128,0.05);
+      border: 1px solid rgba(74,222,128,0.2);
+      border-left: 3px solid #4ade80;
+      border-radius: 6px;
+      padding: 20px 24px;
+      margin-bottom: 40px;
+    }
+    .report-reco-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: #4ade80;
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .report-reco-title { font-size: 18px; font-weight: 600; color: #f4f4f4; margin-bottom: 8px; }
+    .report-reco-body { font-size: 13px; color: #a0a0a0; line-height: 1.7; }
+
+    /* ── Section ── */
+    .report-section { margin-bottom: 40px; }
+    .report-section-title {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: #555;
+      text-transform: uppercase; border-bottom: 1px solid #1e1e1e;
+      padding-bottom: 8px; margin-bottom: 20px;
+    }
+
+    /* ── Scorecard table ── */
+    .report-table-wrap { overflow-x: auto; margin-bottom: 8px; }
+    .report-table {
+      width: 100%; border-collapse: collapse; font-size: 13px;
+    }
+    .report-table th {
+      text-align: left; padding: 8px 12px;
+      border-bottom: 1px solid #2a2a2a;
+      color: #858585; font-size: 11px; font-weight: 600;
+      white-space: nowrap; background: #161616;
+    }
+    .report-table td {
+      padding: 9px 12px; border-bottom: 1px solid #1e1e1e; color: #cccccc;
+      vertical-align: top;
+    }
+    .report-table tr:last-child td { border-bottom: none; }
+    .report-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .score-winner { color: #4ade80; font-weight: 700; }
+    .score-mid { color: #facc15; }
+    .score-low { color: #f87171; }
+
+    /* ── Proposal cards ── */
+    .proposal-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 8px; }
+    .proposal-card {
+      background: #161616; border: 1px solid #2a2a2a; border-radius: 8px;
+      padding: 20px; display: flex; flex-direction: column; gap: 12px;
+      transition: border-color 150ms;
+    }
+    .proposal-card:hover { border-color: #3c3c3c; }
+    .proposal-card.winner { border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.03); }
+    .proposal-card-header { display: flex; align-items: center; gap: 10px; }
+    .proposal-card-icon { font-size: 20px; }
+    .proposal-card-name { font-size: 14px; font-weight: 600; color: #cccccc; }
+    .proposal-card-vendor { font-size: 11px; color: #555; }
+    .proposal-card-cost { font-size: 22px; font-weight: 700; color: #f4f4f4; }
+    .proposal-card-cost-label { font-size: 11px; color: #555; }
+    .proposal-card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .proposal-tag {
+      font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .tag-green  { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
+    .tag-yellow { background: rgba(250,204,21,0.1);  color: #facc15; border: 1px solid rgba(250,204,21,0.2); }
+    .tag-red    { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.2); }
+    .tag-blue   { background: rgba(96,165,250,0.1);  color: #60a5fa; border: 1px solid rgba(96,165,250,0.2); }
+    .proposal-card-verdict {
+      font-size: 12px; color: #858585; line-height: 1.5;
+      border-top: 1px solid #2a2a2a; padding-top: 10px;
+    }
+    .proposal-card-file-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; color: #4fc3f7; cursor: pointer;
+      background: rgba(79,195,247,0.06); border: 1px solid rgba(79,195,247,0.15);
+      border-radius: 4px; padding: 4px 10px; margin-top: 4px;
+      text-decoration: none; transition: background 120ms;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .proposal-card-file-link:hover { background: rgba(79,195,247,0.12); }
+
+    /* ── Motions ── */
+    .motion-list { display: flex; flex-direction: column; gap: 12px; }
+    .motion-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: #161616; border: 1px solid #2a2a2a; border-radius: 6px; padding: 16px 20px;
+    }
+    .motion-num {
+      font-size: 12px; font-weight: 700; color: #4fc3f7;
+      font-family: 'IBM Plex Mono', monospace; flex-shrink: 0; min-width: 28px; margin-top: 1px;
+    }
+    .motion-body { display: flex; flex-direction: column; gap: 3px; }
+    .motion-title { font-size: 14px; font-weight: 600; color: #f4f4f4; }
+    .motion-desc { font-size: 12px; color: #858585; line-height: 1.6; }
+
+    /* ── Two-column consequence block ── */
+    .consequence-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .consequence-grid { grid-template-columns: 1fr; } }
+    .consequence-card {
+      background: #161616; border: 1px solid #2a2a2a; border-radius: 6px; padding: 16px 20px;
+    }
+    .consequence-card.avoids { border-left: 3px solid #f87171; }
+    .consequence-card.enables { border-left: 3px solid #4ade80; }
+    .consequence-card-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .consequence-card.avoids .consequence-card-label { color: #f87171; }
+    .consequence-card.enables .consequence-card-label { color: #4ade80; }
+    .consequence-list { display: flex; flex-direction: column; gap: 8px; }
+    .consequence-item { font-size: 12px; color: #a0a0a0; line-height: 1.55; }
+
+    /* ── Footer ── */
+    .report-footer {
+      margin-top: 56px; padding-top: 20px; border-top: 1px solid #1e1e1e;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .report-footer-dot { color: #4ade80; font-size: 10px; }
+    .report-footer-text { font-size: 11px; color: #555; }
+    .report-footer-text em { color: #858585; font-style: normal; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Top bar ── -->
+  <div class="report-topbar">
+    <img src="../assets/bob/head.png" alt="IBM Bob" class="report-topbar-avatar">
+    <span class="report-topbar-title">BOARD MEETING INSIGHTS</span>
+    <span class="report-topbar-badge">Q3 · 2026</span>
+    <button class="report-topbar-back" onclick="history.back()">← Back</button>
+  </div>
+
+  <div class="report-wrap">
+
+    <!-- ── Cover ── -->
+    <div class="report-cover">
+      <div class="report-cover-eyebrow">IBM Bob · Executive Analysis</div>
+      <div class="report-cover-title">Q3 Vendor Proposal Analysis</div>
+      <div class="report-cover-sub">Three proposals reviewed. One board-ready recommendation.</div>
+      <div class="report-cover-meta">
+        <div class="report-cover-meta-item">
+          <span class="report-cover-meta-label">Prepared for</span>
+          <span class="report-cover-meta-value">Alex Chen, VP / Director</span>
+        </div>
+        <div class="report-cover-meta-item">
+          <span class="report-cover-meta-label">Date</span>
+          <span class="report-cover-meta-value">25 August 2026</span>
+        </div>
+        <div class="report-cover-meta-item">
+          <span class="report-cover-meta-label">Proposals reviewed</span>
+          <span class="report-cover-meta-value">3 documents · 99 pages total</span>
+        </div>
+        <div class="report-cover-meta-item">
+          <span class="report-cover-meta-label">Analysis time</span>
+          <span class="report-cover-meta-value">&lt; 5 minutes</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Recommendation ── -->
+    <div class="report-reco">
+      <div class="report-reco-label">★ Singular Recommendation</div>
+      <div class="report-reco-title">Approve Security Uplift (Proposal C) now. Sequence the rest.</div>
+      <div class="report-reco-body">
+        Proposal C is the only proposal that addresses confirmed, documented risk from the Q2 penetration test.
+        It is also a prerequisite — both Proposals A and B carry compliance exposure without the security baseline it establishes.
+        Fastest delivery (9 months), lowest cost ($1.4M fixed-price), zero budget overrun risk.
+      </div>
+    </div>
+
+    <!-- ── Proposals ── -->
+    <div class="report-section">
+      <div class="report-section-title">Proposals at a glance</div>
+      <div class="proposal-cards">
+
+        <div class="proposal-card">
+          <div class="proposal-card-header">
+            <span class="proposal-card-icon">☁</span>
+            <div>
+              <div class="proposal-card-name">Cloud Migration</div>
+              <div class="proposal-card-vendor">Apex Cloud Solutions</div>
+            </div>
+          </div>
+          <div>
+            <div class="proposal-card-cost">$4.2M</div>
+            <div class="proposal-card-cost-label">+ $380K/yr · 18 months</div>
+          </div>
+          <div class="proposal-card-tags">
+            <span class="proposal-tag tag-yellow">Medium-High Risk</span>
+            <span class="proposal-tag tag-blue">18 months</span>
+          </div>
+          <div class="proposal-card-verdict">Strong long-term value but depends on security baseline. Approve in Q1 2027.</div>
+          <a class="proposal-card-file-link" href="proposal-cloud.md" target="_blank">📄 proposal-cloud.md ↗</a>
+        </div>
+
+        <div class="proposal-card">
+          <div class="proposal-card-header">
+            <span class="proposal-card-icon">🤖</span>
+            <div>
+              <div class="proposal-card-name">AI Platform</div>
+              <div class="proposal-card-vendor">Nexus AI Technologies</div>
+            </div>
+          </div>
+          <div>
+            <div class="proposal-card-cost">$2.8M</div>
+            <div class="proposal-card-cost-label">+ $600K/yr perpetual · 12 months MVP</div>
+          </div>
+          <div class="proposal-card-tags">
+            <span class="proposal-tag tag-red">High Risk</span>
+            <span class="proposal-tag tag-blue">12 months</span>
+          </div>
+          <div class="proposal-card-verdict">ROI unvalidated against current data estate. Needs 6-week data quality assessment first.</div>
+          <a class="proposal-card-file-link" href="proposal-ai.csv" target="_blank">📊 proposal-ai.csv ↗</a>
+        </div>
+
+        <div class="proposal-card winner">
+          <div class="proposal-card-header">
+            <span class="proposal-card-icon">🔐</span>
+            <div>
+              <div class="proposal-card-name">Security Uplift</div>
+              <div class="proposal-card-vendor">ShieldTech Cybersecurity</div>
+            </div>
+          </div>
+          <div>
+            <div class="proposal-card-cost">$1.4M</div>
+            <div class="proposal-card-cost-label">fixed-price · 9 months · $210K/yr support</div>
+          </div>
+          <div class="proposal-card-tags">
+            <span class="proposal-tag tag-green">Low Risk</span>
+            <span class="proposal-tag tag-green">Fixed-Price</span>
+            <span class="proposal-tag tag-green">Recommended</span>
+          </div>
+          <div class="proposal-card-verdict">Resolves Q2 pentest findings. Fastest delivery. Prerequisites both other proposals. Approve now.</div>
+          <a class="proposal-card-file-link" href="proposal-security.docx">📋 proposal-security.docx ↓</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Scorecard ── -->
+    <div class="report-section">
+      <div class="report-section-title">Cross-Proposal Scorecard — weighted out of 100</div>
+      <div class="report-table-wrap">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Criterion (weight)</th>
+              <th>☁ Cloud Migration</th>
+              <th>🤖 AI Platform</th>
+              <th>🔐 Security Uplift</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Strategic alignment (25%)</td><td class="score-mid">22 / 25</td><td class="score-low">16 / 25</td><td class="score-winner">24 / 25</td></tr>
+            <tr><td>Financial risk (20%)</td><td class="score-mid">11 / 20</td><td class="score-low">9 / 20</td><td class="score-winner">19 / 20</td></tr>
+            <tr><td>Delivery confidence (20%)</td><td class="score-mid">12 / 20</td><td class="score-low">11 / 20</td><td class="score-winner">18 / 20</td></tr>
+            <tr><td>Regulatory compliance (20%)</td><td class="score-mid">13 / 20</td><td class="score-mid">14 / 20</td><td class="score-winner">20 / 20</td></tr>
+            <tr><td>Scalability &amp; longevity (15%)</td><td class="score-winner">13 / 15</td><td class="score-low">10 / 15</td><td class="score-mid">12 / 15</td></tr>
+            <tr>
+              <td><strong>TOTAL SCORE</strong></td>
+              <td class="score-mid"><strong>71 / 100</strong></td>
+              <td class="score-low"><strong>60 / 100</strong></td>
+              <td class="score-winner"><strong>93 / 100</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── Board Motions ── -->
+    <div class="report-section">
+      <div class="report-section-title">Three Board Motions</div>
+      <div class="motion-list">
+        <div class="motion-item">
+          <span class="motion-num">M1</span>
+          <div class="motion-body">
+            <span class="motion-title">Approve Proposal C — Security Uplift ($1.4M, fixed-price, 9 months)</span>
+            <span class="motion-desc">CFO sign-off within existing budget authority. Instruct CTO to commence Phase 1 within 30 days. No further committee required.</span>
+          </div>
+        </div>
+        <div class="motion-item">
+          <span class="motion-num">M2</span>
+          <div class="motion-body">
+            <span class="motion-title">Note Proposals A and B — defer pending security baseline</span>
+            <span class="motion-desc">Instruct CTO to present a sequencing plan for Proposal A in Q4 2026, contingent on Proposal C Month 3 milestone report confirming compliance readiness.</span>
+          </div>
+        </div>
+        <div class="motion-item">
+          <span class="motion-num">M3</span>
+          <div class="motion-body">
+            <span class="motion-title">Commission 6-week data quality assessment for Proposal B ROI validation</span>
+            <span class="motion-desc">Proposal B ROI assumes a clean, structured data estate. This assumption is currently unverified. Results to be presented at next board cycle before any licence commitment.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Consequences ── -->
+    <div class="report-section">
+      <div class="report-section-title">What this decision does</div>
+      <div class="consequence-grid">
+        <div class="consequence-card avoids">
+          <div class="consequence-card-label">What it avoids</div>
+          <div class="consequence-list">
+            <div class="consequence-item">A potential regulatory finding in the next external audit — $2M+ remediation risk if surfaced mid-migration</div>
+            <div class="consequence-item">A $600K/yr AI licence commitment on ROI assumptions that haven't been validated against your data estate</div>
+            <div class="consequence-item">An $4.2M migration programme overlapping two product release cycles with an unresolved compliance gap</div>
+          </div>
+        </div>
+        <div class="consequence-card enables">
+          <div class="consequence-card-label">What it enables</div>
+          <div class="consequence-list">
+            <div class="consequence-item">A clean, certified security baseline — estimated 18% reduction in cyber insurance premiums</div>
+            <div class="consequence-item">A cloud migration business case with verified data-residency compliance and no audit exposure</div>
+            <div class="consequence-item">An AI programme built on a data estate that can actually support the projected $4.1M Year-3 savings</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Footer ── -->
+    <div class="report-footer">
+      <span class="report-footer-dot">●</span>
+      <span class="report-footer-text">
+        Generated by <em>IBM Bob</em> · 3 proposals · 99 pages · analysis &lt; 5 minutes ·
+        The decision is yours. Bob made sure you had the right information to make it.
+      </span>
+    </div>
+
+  </div>
+</body>
+</html>

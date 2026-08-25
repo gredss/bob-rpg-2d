@@ -71,6 +71,12 @@
 
   <div class="outcome-toast hidden" id="outcome-toast"></div>
 
+  <!-- Fullscreen video overlay — shown for video-task scenes -->
+  <div class="video-overlay hidden" id="video-overlay">
+    <video class="video-overlay-player" id="video-overlay-player" playsinline></video>
+    <button class="video-overlay-skip" id="video-overlay-skip">Skip ▶</button>
+  </div>
+
   <script>
     (function () {
       if (sessionStorage.getItem('byteforce_lang') === 'id') {

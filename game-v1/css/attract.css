@@ -15,37 +15,37 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* push everything into the lower 60% of the screen */
-  justify-content: flex-end;
+  justify-content: center;
   gap: 0;
   width: 100%;
   height: 100%;
-  padding: 0 24px 40px;
+  /* nudge the group down just enough to show the bubble above center */
+  padding: 6vh 24px 24px;
 }
 
 /* ── 1. Speech bubble ────────────────────────────────────────────────────── */
 .attract-bubble-wrap {
   display: flex;
   justify-content: center;
-  margin-bottom: -24px;   /* tighten overlap with hero */
+  margin-bottom: -16px;
   z-index: 2;
 }
 
 .attract-bubble {
-  width: clamp(160px, 22vw, 300px);   /* bigger */
+  width: clamp(100px, 12vw, 160px);
   height: auto;
   object-fit: contain;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   animation: bubbleFloat 3.2s ease-in-out infinite,
              fadeIn .8s .2s ease both;
-  filter: drop-shadow(0 0 18px rgba(79,142,247,.65))
-          drop-shadow(0 0 6px  rgba(139,92,246,.45));
+  filter: drop-shadow(0 0 14px rgba(79,142,247,.65))
+          drop-shadow(0 0 5px  rgba(139,92,246,.45));
 }
 
 @keyframes bubbleFloat {
-  0%, 100% { transform: translateY(0)     scale(1);    }
-  50%       { transform: translateY(-12px) scale(1.02); }
+  0%, 100% { transform: translateY(0)    scale(1);    }
+  50%       { transform: translateY(-8px) scale(1.02); }
 }
 
 /* ── 2+3. Hero: cycle ring behind Bob ────────────────────────────────────── */
@@ -54,9 +54,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(380px, 58vw, 780px);   /* bigger */
+  width: clamp(300px, 42vw, 580px);
   height: auto;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 /* cycle.png — gentle pulse scale + breathing glow */
@@ -86,33 +86,33 @@
 .attract-bob-body {
   position: relative;
   z-index: 1;
-  width: clamp(180px, 24vw, 340px);   /* bigger */
+  width: clamp(120px, 16vw, 220px);
   height: auto;
   object-fit: contain;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  animation: bobFloat    3.6s ease-in-out infinite,
-             bobAmbient  5s   ease-in-out infinite,
+  animation: bobFloat   3.6s ease-in-out infinite,
+             bobAmbient 5s   ease-in-out infinite,
              fadeIn .6s .1s ease both;
-  margin: clamp(28px, 5vw, 64px) 0;
+  margin: clamp(16px, 3vw, 36px) 0;
 }
 
 @keyframes bobFloat {
   0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-10px); }
+  50%       { transform: translateY(-8px); }
 }
 @keyframes bobAmbient {
   0%, 100% { filter: drop-shadow(0 0 8px  rgba(245,158,11,.25)); }
-  50%       { filter: drop-shadow(0 0 22px rgba(245,158,11,.55)) brightness(1.04); }
+  50%       { filter: drop-shadow(0 0 20px rgba(245,158,11,.55)) brightness(1.04); }
 }
 
 /* ── 4. IBM Bob logotype ──────────────────────────────────────────────────── */
 .attract-ibm-bob-logo {
-  width: clamp(140px, 20vw, 260px);
+  width: clamp(120px, 16vw, 200px);
   height: auto;
   object-fit: contain;
   display: block;
-  margin-bottom: clamp(18px, 3vh, 32px);
+  margin-bottom: clamp(10px, 2vh, 20px);
   animation: fadeUp .6s .25s ease both;
   opacity: .95;
 }
@@ -146,6 +146,15 @@
 @keyframes btnPulse {
   0%, 100% { filter: brightness(1)    drop-shadow(0 0 8px  rgba(74,222,128,.3)); }
   50%       { filter: brightness(1.08) drop-shadow(0 0 20px rgba(74,222,128,.65)); }
+}
+
+@keyframes btnPulseCyan {
+  0%, 100% { filter: brightness(1)    drop-shadow(0 0 8px  rgba(0,180,255,.3)); }
+  50%       { filter: brightness(1.08) drop-shadow(0 0 20px rgba(0,180,255,.65)); }
+}
+
+.attract-cta {
+  animation-name: fadeUp, btnPulseCyan;
 }
 
 .attract-cta:hover,
@@ -185,11 +194,11 @@
 }
 
 @media (max-height: 620px) {
-  .attract-bubble   { width: clamp(100px, 13vw, 180px); }
-  .attract-bob-body { width: clamp(130px, 18vw, 220px); }
-  .attract-hero     { width: clamp(280px, 42vw, 520px); }
-  .attract-ibm-bob-logo { margin-bottom: 10px; }
-  .attract-center   { padding-bottom: 24px; }
+  .attract-center   { padding-top: 2vh; padding-bottom: 12px; }
+  .attract-bubble   { width: clamp(80px, 9vw, 120px); }
+  .attract-bob-body { width: clamp(90px, 12vw, 160px); }
+  .attract-hero     { width: clamp(240px, 34vw, 420px); }
+  .attract-ibm-bob-logo { width: clamp(100px, 12vw, 160px); margin-bottom: 8px; }
 }
 
 
@@ -205,12 +214,15 @@
   z-index: 50;
   cursor: pointer;
   pointer-events: none;
-  clip-path: circle(0px at calc(100% - 138px) calc(100% - 64px));
-  transition: clip-path .55s cubic-bezier(.4, 0, .2, 1);
+  /* origin is set dynamically via --cx / --cy from JS */
+  --cx: 50%;
+  --cy: 100%;
+  clip-path: circle(0px at var(--cx) var(--cy));
+  transition: clip-path 1s cubic-bezier(.22, 1, .36, 1);
 }
 .bob-portal.open {
   pointer-events: all;
-  clip-path: circle(150vmax at calc(100% - 138px) calc(100% - 64px));
+  clip-path: circle(150vmax at var(--cx) var(--cy));
 }
 .bob-portal.full {
   clip-path: none;
@@ -405,7 +417,6 @@
 /* Short screens */
 @media (max-height: 680px) {
   .bob-portal-close { bottom: 48px; }
-  .bob-portal { clip-path: circle(0px at calc(100% - 138px) calc(100% - 52px)); }
 }
 
 /* Touch devices — disable portal peek */

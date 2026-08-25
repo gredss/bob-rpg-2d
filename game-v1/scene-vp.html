@@ -85,6 +85,9 @@
   <script>
     (function () {
       const s = State.get();
+      // Fresh start only if this is a new session for the VP role.
+      // On return from vp-story/ the saved sceneIndex lets the engine
+      // resume at the first epilogue scene (open-chat saved index+1).
       if (s.roleId !== 'vp' || !s.startedAt) {
         State.reset();
         State.set({ roleId:'vp', sceneIndex:0, metrics:{quality:100,security:100,satisfaction:100,cost:0}, bobCount:0, totalTasks:0, timeSaved:0, startedAt:Date.now(), timerLeft:600 });

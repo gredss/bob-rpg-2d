@@ -38,7 +38,7 @@
         </button>
 
         <button class="attract-learn" id="btn-learn-inline">
-          <img src="assets/start.png" alt="See Bob in action" class="attract-cta-img">
+          <img src="assets/learn.png" alt="Learn more about Bob" class="attract-cta-img">
         </button>
       </div>
 
@@ -97,7 +97,6 @@
     const iframe      = document.getElementById('bob-portal-iframe');
     const closeBtn    = document.getElementById('btn-portal-close');
     const learnInline = document.getElementById('btn-learn-inline');
-    let closeTimer = null;
     let isFullyOpen = false;
     let portalPage = 'home';
 
@@ -107,24 +106,29 @@
     }
     setPortalPage('home');
 
-    function peekPortal() {
-      if (isFullyOpen) return;
-      clearTimeout(closeTimer);
-      portal.classList.add('open');
+    // Set the clip-path origin to the center of a given element
+    function setRevealOrigin(el) {
+      const r = el.getBoundingClientRect();
+      const cx = Math.round(r.left + r.width  / 2);
+      const cy = Math.round(r.top  + r.height / 2);
+      portal.style.setProperty('--cx', cx + 'px');
+      portal.style.setProperty('--cy', cy + 'px');
     }
-    function schedulePeekClose() {
-      if (isFullyOpen) return;
-      closeTimer = setTimeout(() => portal.classList.remove('open'), 80);
-    }
-    function switchIn() {
-      clearTimeout(closeTimer);
+
+    function switchIn(el) {
+      if (el) setRevealOrigin(el);
       isFullyOpen = true;
-      portal.classList.add('open', 'full');
-      try {
-        const p = iframe.contentWindow && iframe.contentWindow.Router && iframe.contentWindow.Router.current;
-        if (p) setPortalPage(p);
-      } catch (e) {}
-      closeBtn.hidden = portalPage !== 'home';
+      // Add .open first so the clip-path wipe transition plays,
+      // then add .full after it completes to enable iframe interaction.
+      portal.classList.add('open');
+      setTimeout(() => {
+        portal.classList.add('full');
+        try {
+          const p = iframe.contentWindow && iframe.contentWindow.Router && iframe.contentWindow.Router.current;
+          if (p) setPortalPage(p);
+        } catch (e) {}
+        closeBtn.hidden = portalPage !== 'home';
+      }, 1010);
     }
     function switchOut() {
       isFullyOpen = false;
@@ -137,9 +141,10 @@
       closeBtn.hidden = !isFullyOpen || page !== 'home';
     }
 
-    // inline "learn more" button — same portal behaviour as the old pill
+    // inline "learn more" — click opens the portal (no peek; full-screen context
+    // means there's nowhere to hover off to close a peek overlay).
     learnInline.addEventListener('mouseenter', () => SFX.play('cardHover', { debounce: true }));
-    learnInline.addEventListener('click', () => { if (!isFullyOpen) switchIn(); });
+    learnInline.addEventListener('click', () => { if (!isFullyOpen) switchIn(learnInline); });
 
     closeBtn.addEventListener('click',  (e) => { e.stopPropagation(); if (isFullyOpen) switchOut(); });
     window.addEventListener('message',  (e) => {

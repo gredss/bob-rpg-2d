@@ -143,6 +143,9 @@ function init() {
     dialogueOverlay:    document.getElementById('dialogue-overlay'),
     workstationLabel:   document.getElementById('workstation-label'),
     workstationScreen:  document.getElementById('workstation-screen'),
+    videoOverlay:       document.getElementById('video-overlay'),
+    videoPlayer:        document.getElementById('video-overlay-player'),
+    videoSkip:          document.getElementById('video-overlay-skip'),
   };
 
   buildStars();
@@ -180,7 +183,10 @@ function _startEngine(s) {
   startRealTimer();
   showWorkstationIdle();
 
-  dom.dialogueBox.addEventListener('click', onDialogueClick);
+  // dialogueBox is inside stage — use stopPropagation so a single click
+  // on the dialogue panel doesn't also fire the stage listener, which
+  // would invoke onDialogueClick twice and stomp the open-chat redirect.
+  dom.dialogueBox.addEventListener('click', (e) => { e.stopPropagation(); onDialogueClick(); });
   dom.stage.addEventListener('click', onDialogueClick);
   document.addEventListener('keydown', onKeyDown);
 
@@ -285,11 +291,13 @@ function runScene(index) {
   hideBobBox();
   dom.continueHint.classList.add('hidden');
 
-  if      (scene.type === 'chapter')  showChapterCard(scene);
-  else if (scene.type === 'end')      goToResults();
-  else if (scene.type === 'narration') showNarration(scene);
-  else if (scene.type === 'dialogue') showDialogue(scene);
-  else if (scene.type === 'task')     showTask(scene);
+  if      (scene.type === 'chapter')    showChapterCard(scene);
+  else if (scene.type === 'end')        goToResults();
+  else if (scene.type === 'narration')  showNarration(scene);
+  else if (scene.type === 'dialogue')   showDialogue(scene);
+  else if (scene.type === 'task')       showTask(scene);
+  else if (scene.type === 'video-task') showVideoTask(scene);
+  else if (scene.type === 'open-chat')  showOpenChat(scene);
 }
 
 // ── Chapter card ──────────────────────────────────────────────────────────────
@@ -404,6 +412,20 @@ function showNarration(scene) {
   showWorkstationIdle(scene);
   // null onAllDone -> onDialogueClick falls through to runScene(sceneIndex + 1)
   typewritePaged(t(scene, 'text'), null);
+}
+
+// ── Open-chat — show narration text then redirect to a chatbox mockup ────────
+// Scenes can specify a `url` field to override the default dev-story target.
+// Saves sceneIndex+1 before redirecting so returning from the chatbox lands on
+// the next scene rather than re-triggering the open-chat redirect.
+function showOpenChat(scene) {
+  setStage('narrator', null);
+  setNameplate('narrator');
+  showWorkstationIdle(scene);
+  typewritePaged(t(scene, 'text'), () => {
+    State.set({ sceneIndex: sceneIndex + 1 });
+    location.href = scene.url || 'dev-story/index.html';
+  });
 }
 
 // ── Dialogue ──────────────────────────────────────────────────────────────────
@@ -854,6 +876,92 @@ function updateHUD() { /* metrics/timer removed */ }
 function startRealTimer() {}
 
 // ── Navigation ────────────────────────────────────────────────────────────────
+// ── Video-task scene ──────────────────────────────────────────────────────────
+// Shows choices normally; when the bob option is picked, plays the video fullscreen.
+// After the video ends (or is skipped), shows the outcome and advances.
+function showVideoTask(scene) {
+  const newSpeaker  = scene.char;
+  const newListener = (currentSpeaker && currentSpeaker !== newSpeaker) ? currentSpeaker : currentListener;
+
+  setStage(newSpeaker, newListener !== newSpeaker ? newListener : null, scene.expr);
+  setNameplate(newSpeaker);
+  showWorkstationTask(scene);
+  typewritePaged(t(scene, 'problem'), () => showVideoChoices(scene), true);
+}
+
+function showVideoChoices(scene) {
+  dom.choices.innerHTML = '';
+  dom.choices.classList.remove('hidden');
+
+  scene.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    if (opt.type === 'bob') btn.classList.add('bob-choice');
+    btn.style.animationDelay = `${i * 0.06}s`;
+
+    btn.innerHTML = `
+      <div class="choice-left">
+        <span class="choice-key">${i + 1}</span>
+        <span class="choice-icon">${opt.icon}</span>
+        <span class="choice-label">${tOpt(opt, 'label')}</span>
+      </div>
+      <span class="choice-meta">${tOpt(opt, 'meta')}</span>
+    `;
+    btn.addEventListener('click', () => handleVideoChoice(scene, opt));
+    dom.choices.appendChild(btn);
+  });
+}
+
+function handleVideoChoice(scene, opt) {
+  hideChoices();
+
+  const timeSaved = opt.type === 'bob' ? Math.max(0, (opt.manualCost || 45) - (opt.timeCost || 10)) : 0;
+  State.applyDeltas({ ...(opt.deltas || {}), timeCost: opt.timeCost || 0, bobUsed: opt.type === 'bob', timeSaved });
+  updateHUD();
+
+  if (opt.type === 'bob' && opt.videoSrc && dom.videoOverlay) {
+    playVideoScene(opt.videoSrc, () => {
+      showOutcome(tOpt(opt, 'outcome') || '✓', opt.deltas, () => runScene(sceneIndex + 1));
+    });
+  } else {
+    showOutcome(tOpt(opt, 'outcome') || '✓', opt.deltas, () => runScene(sceneIndex + 1));
+  }
+}
+
+function playVideoScene(src, onDone) {
+  const overlay = dom.videoOverlay;
+  const player  = dom.videoPlayer;
+  const skipBtn = dom.videoSkip;
+
+  if (!overlay || !player) { onDone(); return; }
+
+  // Hide the game stage while video plays
+  if (dom.stage)          dom.stage.style.visibility = 'hidden';
+  if (dom.dialogueOverlay) dom.dialogueOverlay.classList.add('hidden');
+
+  player.src = src;
+  overlay.classList.remove('hidden');
+  player.play().catch(() => {});
+
+  function finish() {
+    player.pause();
+    player.src = '';
+    overlay.classList.add('hidden');
+    if (dom.stage) dom.stage.style.visibility = '';
+    onDone();
+  }
+
+  player.onended = finish;
+
+  // Skip button — one-time listener
+  function onSkip() {
+    skipBtn.removeEventListener('click', onSkip);
+    player.onended = null;
+    finish();
+  }
+  skipBtn.addEventListener('click', onSkip);
+}
+
 function goToResults() {
   clearInterval(realTimerInterval);
   location.href = 'results.html';

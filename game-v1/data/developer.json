@@ -2,11 +2,11 @@
   "id": "developer",
   "workstation": {
     "icon": "",
-    "label": "watsonx.ai Studio",
-    "label_id": "Studio watsonx.ai"
+    "label": "Nuvora Website",
+    "label_id": "Website Nuvora"
   },
-  "brief": "Unfamiliar API. VP demo tomorrow. No time to read 200 pages of docs.",
-  "brief_id": "API yang belum dikenal. Demo VP besok. Tidak ada waktu baca 200 halaman dokumentasi.",
+  "brief": "CEO wants a full website redesign by Monday. Sam is the only frontend dev.",
+  "brief_id": "CEO minta redesign website sebelum Senin. Sam satu-satunya frontend dev.",
   "scenes": [
 
     {
@@ -18,207 +18,202 @@
     },
 
     {
-      "type": "dialogue",
-      "char": "narrator",
-      "text": "Sam stares at the watsonx.ai API docs. The page keeps scrolling.",
-      "id": { "text": "Sam menatap dokumentasi API watsonx.ai. Halaman terus scroll." }
+      "type": "narration",
+      "text": "Friday, 3:47 PM.\nThe CEO just forwarded a Slack message to the entire engineering channel.",
+      "id": { "text": "Jumat, 15:47.\nCEO baru saja forward pesan Slack ke seluruh channel engineering." }
     },
 
     {
       "type": "dialogue",
       "char": "sam",
       "expr": "stressed",
-      "text": "I've never touched this API before. The auth is different, the response schema is complicated, and the VP demo is tomorrow.",
-      "id": { "text": "Ini API-nya belum pernah saya sentuh. Auth-nya beda, response schema-nya ribet, deadline demo ke VP besok." }
+      "text": "Taylor. TAYLOR.\n\nDid you see the Slack? The CEO wants the company website redesigned. By Monday. I'm the only frontend dev on this. I haven't touched that CSS in two years.",
+      "id": { "text": "Taylor. TAYLOR.\n\nKamu lihat Slack-nya? CEO minta website perusahaan didesain ulang. Sebelum Senin. Aku satu-satunya frontend dev di sini. CSS itu nggak pernah aku sentuh dua tahun terakhir." }
     },
 
     {
       "type": "dialogue",
       "char": "taylor",
       "expr": "lecturing",
-      "text": "Sam, have you tried using Bob for this integration?",
-      "id": { "text": "Sam, udah pakai Bob belum buat integrasi ini?" }
+      "text": "I saw it. How bad is the current site?",
+      "id": { "text": "Udah lihat. Separah apa sih situsnya?" }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "sam",
+      "expr": "stressed",
+      "text": "It's flat white with system fonts and hardcoded hex colours everywhere. No variables, no responsive layout, nothing. The CEO called it \"embarrassing\" in the message. In writing. To everyone.",
+      "id": { "text": "Putih polos, font sistem, hex warna hardcoded di mana-mana. Nggak ada variabel, nggak ada responsive layout, nggak ada apa-apa. CEO nyebutnya \"memalukan\" di pesan itu. Tertulis. Ke semua orang." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "taylor",
+      "expr": "lecturing",
+      "text": "Okay. Before you spiral — have you tried Bob?",
+      "id": { "text": "Oke. Sebelum kamu panik — udah coba Bob belum?" }
     },
 
     {
       "type": "dialogue",
       "char": "sam",
       "expr": "skeptical",
-      "text": "Bob can help with code?",
-      "id": { "text": "Bob bisa bantu code?" }
+      "text": "Bob. The AI thing IT rolled out last month?",
+      "id": { "text": "Bob. Itu tool AI yang IT deploy bulan lalu?" }
     },
 
     {
       "type": "dialogue",
       "char": "taylor",
       "expr": "lecturing",
-      "text": "He can generate boilerplate, explain schemas, even debug errors. Let me show you.",
-      "id": { "text": "Dia bisa generate boilerplate, explain schema, bahkan debug error. Mari saya tunjukin." }
-    },
-
-    {
-      "type": "task",
-      "char": "sam",
-      "expr": "stressed",
-      "phase": "developer",
-      "problem": "The watsonx.ai API is unfamiliar — auth is different, response schema is complex, and the VP demo is tomorrow. How do you get started without wasting hours on docs?",
-      "id": { "problem": "API watsonx.ai belum pernah disentuh — auth-nya berbeda, response schema-nya kompleks, dan demo VP besok. Bagaimana memulai tanpa buang waktu berjam-jam baca dokumentasi?" },
-      "options": [
-        {
-          "id": "dev-1-bob",
-          "type": "bob",
-          "icon": "",
-          "label": "Ask Bob to generate the watsonx.ai API boilerplate and explain the auth",
-          "meta": "~45 sec saved",
-          "timeCost": 11,
-          "manualCost": 56,
-          "deltas": { "quality": 15, "satisfaction": 12 },
-          "bobResponse": "watsonx.ai API boilerplate generated.\n\nAuth: IAM token-based. Exchange your API key once per session:\n```python\nimport requests\n\nIAM_URL = \"https://iam.cloud.ibm.com/identity/token\"\ntoken_resp = requests.post(IAM_URL, data={\n  \"apikey\": API_KEY, \"grant_type\": \"urn:ibm:params:oauth:grant-type:apikey\"\n})\ntoken = token_resp.json()[\"access_token\"]\n```\n\nGeneration call:\n```python\nWX_URL = \"https://us-south.ml.cloud.ibm.com/ml/v1/text/generation\"\nheaders = {\"Authorization\": f\"Bearer {token}\", \"Content-Type\": \"application/json\"}\npayload = {\"model_id\": \"ibm/granite-13b-instruct-v2\",\n           \"input\": \"Explain watsonx in one sentence.\",\n           \"parameters\": {\"max_new_tokens\": 100}}\nresp = requests.post(WX_URL, json=payload, headers=headers)\nprint(resp.json()[\"results\"][0][\"generated_text\"])\n```\n\nReady to test. Run this and check the output.",
-          "bobFollowUp": "Run the test against watsonx.ai",
-          "followUpDeltas": { "quality": 8, "satisfaction": 8 },
-          "outcome": "Boilerplate runs. Auth works. First API response received. ✓",
-          "id_text": {
-            "label": "Minta Bob menghasilkan boilerplate API watsonx.ai dan menjelaskan auth",
-            "meta": "~45 detik hemat",
-            "bobResponse": "Boilerplate API watsonx.ai dihasilkan.\n\nAuth: berbasis token IAM. Tukar API key sekali per sesi:\n```python\nimport requests\n\nIAM_URL = \"https://iam.cloud.ibm.com/identity/token\"\ntoken_resp = requests.post(IAM_URL, data={\n  \"apikey\": API_KEY, \"grant_type\": \"urn:ibm:params:oauth:grant-type:apikey\"\n})\ntoken = token_resp.json()[\"access_token\"]\n```\n\nPanggilan generasi:\n```python\nWX_URL = \"https://us-south.ml.cloud.ibm.com/ml/v1/text/generation\"\nheaders = {\"Authorization\": f\"Bearer {token}\", \"Content-Type\": \"application/json\"}\npayload = {\"model_id\": \"ibm/granite-13b-instruct-v2\",\n           \"input\": \"Jelaskan watsonx dalam satu kalimat.\",\n           \"parameters\": {\"max_new_tokens\": 100}}\nresp = requests.post(WX_URL, json=payload, headers=headers)\nprint(resp.json()[\"results\"][0][\"generated_text\"])\n```\n\nSiap untuk diuji. Jalankan ini dan cek hasilnya.",
-            "bobFollowUp": "Jalankan test terhadap watsonx.ai",
-            "outcome": "Boilerplate berjalan. Auth berhasil. Respons API pertama diterima. ✓"
-          }
-        },
-        {
-          "id": "dev-1-manual",
-          "type": "manual",
-          "icon": "",
-          "label": "Read through the official API docs and write the boilerplate manually",
-          "meta": "~56 sec",
-          "timeCost": 56,
-          "manualCost": 56,
-          "deltas": { "quality": 5, "satisfaction": 3 },
-          "outcome": "Boilerplate written after a while. Auth still unclear — will need to revisit.",
-          "id_text": {
-            "label": "Baca dokumentasi API resmi dan tulis boilerplate secara manual",
-            "meta": "~56 detik",
-            "outcome": "Boilerplate selesai ditulis setelah beberapa saat. Auth masih belum jelas — perlu dikunjungi lagi."
-          }
-        },
-        {
-          "id": "dev-1-skip",
-          "type": "ignore",
-          "icon": "",
-          "label": "Copy a random GitHub example and hope it still works",
-          "meta": "outdated risk",
-          "timeCost": 5,
-          "deltas": { "quality": -14, "satisfaction": -10 },
-          "outcome": "Example uses a deprecated endpoint. Auth fails with 401. Back to square one.",
-          "id_text": {
-            "label": "Salin contoh GitHub acak dan berharap masih berfungsi",
-            "meta": "risiko usang",
-            "outcome": "Contoh menggunakan endpoint yang sudah deprecated. Auth gagal dengan 401. Kembali dari awal."
-          }
-        }
-      ]
+      "text": "It's not just an AI thing. I used it last week to audit our entire infrastructure config. It found three misconfigurations I'd been missing for months.\n\nJust open it. Tell it your problem. Exactly like you told me.",
+      "id": { "text": "Bukan sekadar tool AI. Minggu lalu aku pakai buat audit seluruh config infrastruktur. Nemu tiga konfigurasi salah yang sudah aku lewatkan berbulan-bulan.\n\nBuka aja. Ceritakan masalahmu. Persis seperti kamu cerita ke aku." }
     },
 
     {
       "type": "dialogue",
       "char": "sam",
-      "expr": "stressed",
-      "text": "Okay, the API runs. But when I ran the first test, I got an error — `KeyError: results`. The schema is different from what I expected.",
-      "id": { "text": "Oke, API-nya jalan. Tapi waktu saya run test pertama, ada error — `KeyError: results`. Schema-nya beda dari yang saya kira." }
-    },
-
-    {
-      "type": "task",
-      "char": "sam",
-      "expr": "stressed",
-      "phase": "developer",
-      "problem": "The API call runs but the test throws `KeyError: results`. The response schema is not what the docs describe. Need to debug and fix before the VP demo.",
-      "id": { "problem": "API sudah berjalan tapi test melempar `KeyError: results`. Response schema tidak sesuai dengan yang ada di dokumentasi. Perlu debug dan perbaiki sebelum demo VP." },
-      "options": [
-        {
-          "id": "dev-2-bob",
-          "type": "bob",
-          "icon": "",
-          "label": "Ask Bob to debug the error and suggest the fix",
-          "meta": "~42 sec saved",
-          "timeCost": 10,
-          "manualCost": 52,
-          "deltas": { "quality": 14, "satisfaction": 12 },
-          "bobResponse": "Debug complete.\n\n`KeyError: results` — the response key changed in API v2. The actual structure is:\n```json\n{\n  \"model_id\": \"ibm/granite-13b-instruct-v2\",\n  \"created_at\": \"...\",\n  \"results\": [{ \"generated_text\": \"...\" }]\n}\n```\n\nYour code accesses `resp.json()[\"results\"]` correctly, but the error fires when the request itself fails (non-200). Add a guard:\n```python\nif resp.status_code != 200:\n    raise RuntimeError(f\"API error {resp.status_code}: {resp.text}\")\nprint(resp.json()[\"results\"][0][\"generated_text\"])\n```\n\nRoot cause: missing `project_id` parameter in payload. Add `\"project_id\": PROJECT_ID` to the payload dict.",
-          "bobFollowUp": "Apply the fix and re-run the tests",
-          "followUpDeltas": { "quality": 9, "satisfaction": 9 },
-          "outcome": "✓ All 3 tests passed. API integration solid. Demo-ready.",
-          "id_text": {
-            "label": "Minta Bob debug error dan sarankan perbaikan",
-            "meta": "~42 detik hemat",
-            "bobResponse": "Debug selesai.\n\n`KeyError: results` — kunci respons berubah di API v2. Struktur sebenarnya:\n```json\n{\n  \"model_id\": \"ibm/granite-13b-instruct-v2\",\n  \"created_at\": \"...\",\n  \"results\": [{ \"generated_text\": \"...\" }]\n}\n```\n\nKode Anda mengakses `resp.json()[\"results\"]` dengan benar, tapi error muncul saat request gagal (non-200). Tambahkan guard:\n```python\nif resp.status_code != 200:\n    raise RuntimeError(f\"API error {resp.status_code}: {resp.text}\")\nprint(resp.json()[\"results\"][0][\"generated_text\"])\n```\n\nAkar masalah: parameter `project_id` yang hilang di payload. Tambahkan `\"project_id\": PROJECT_ID` ke dict payload.",
-            "bobFollowUp": "Terapkan perbaikan dan jalankan ulang test",
-            "outcome": "✓ All 3 tests passed. Integrasi API solid. Siap untuk demo."
-          }
-        },
-        {
-          "id": "dev-2-manual",
-          "type": "manual",
-          "icon": "",
-          "label": "Read through the error trace and debug manually",
-          "meta": "~52 sec",
-          "timeCost": 52,
-          "manualCost": 52,
-          "deltas": { "quality": 5, "satisfaction": 4 },
-          "outcome": "Fixed the KeyError. Missed the missing project_id — one test still flaky.",
-          "id_text": {
-            "label": "Baca error trace dan debug secara manual",
-            "meta": "~52 detik",
-            "outcome": "KeyError diperbaiki. project_id yang hilang terlewat — satu test masih flaky."
-          }
-        },
-        {
-          "id": "dev-2-workaround",
-          "type": "poor",
-          "icon": "",
-          "label": "Wrap everything in a try/except and suppress the error",
-          "meta": "hides the bug",
-          "timeCost": 5,
-          "deltas": { "quality": -12, "satisfaction": -10 },
-          "outcome": "No crash — but the demo returns empty output silently. VP notices immediately.",
-          "id_text": {
-            "label": "Bungkus semua dengan try/except dan sembunyikan error",
-            "meta": "menyembunyikan bug",
-            "outcome": "Tidak crash — tapi demo mengembalikan output kosong diam-diam. VP langsung menyadarinya."
-          }
-        }
-      ]
-    },
-
-    {
-      "type": "dialogue",
-      "char": "sam",
-      "expr": "relief",
-      "text": "PR is ready. Just needs review.",
-      "id": { "text": "PR siap. Tinggal review." }
+      "expr": "skeptical",
+      "text": "You're serious.",
+      "id": { "text": "Serius kamu." }
     },
 
     {
       "type": "dialogue",
       "char": "taylor",
       "expr": "relief",
-      "text": "So? How many hours did that save?",
-      "id": { "text": "Gimana? Menghemat berapa jam?" }
+      "text": "Monday delivery. Open Bob.",
+      "id": { "text": "Deadline Senin. Buka Bob." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "sam",
+      "expr": "stressed",
+      "text": "Fine. If this doesn't work I'm blaming you.\n\n...Okay. Opening it now.",
+      "id": { "text": "Baiklah. Kalau nggak berhasil, aku salahkan kamu.\n\n...Oke. Lagi dibuka." }
+    },
+
+    {
+      "type": "open-chat",
+      "text": "Sam opens IBM Bob inside VS Code.\nFor the first time.",
+      "id": { "text": "Sam membuka IBM Bob di dalam VS Code.\nUntuk pertama kalinya." }
+    },
+
+    {
+      "type": "narration",
+      "text": "Friday, 6:08 PM.\nSam closes the Bob chat window.",
+      "id": { "text": "Jumat, 18:08.\nSam menutup jendela chat Bob." }
     },
 
     {
       "type": "dialogue",
       "char": "sam",
       "expr": "relief",
-      "text": "At least I'm not pulling an all-nighter tonight.",
-      "id": { "text": "Setidaknya tidak begadang malam ini." }
+      "text": "Taylor. It's done.",
+      "id": { "text": "Taylor. Selesai." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "taylor",
+      "expr": "lecturing",
+      "text": "The whole thing? In two hours?",
+      "id": { "text": "Seluruhnya? Dalam dua jam?" }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "sam",
+      "expr": "relief",
+      "text": "Full audit, design system, new page built from scratch, mobile responsive, WCAG contrast passing. Bob even ran a 6-task todo list while it worked and checked them off one by one.",
+      "id": { "text": "Audit penuh, design system, halaman baru dibangun dari nol, mobile responsif, kontras WCAG lulus. Bob bahkan membuat daftar 6 tugas sambil bekerja dan mencentangnya satu per satu." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "taylor",
+      "expr": "relief",
+      "text": "That would have been your entire weekend.",
+      "id": { "text": "Itu harusnya bisa memakan seluruh akhir pekanmu." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "sam",
+      "expr": "relief",
+      "text": "Easily. And I would've missed the contrast failures. And the viewport meta tag. And the duplicate SEO description. Bob found all of it before writing a single line.",
+      "id": { "text": "Mudah. Dan aku pasti melewatkan kegagalan kontras. Dan meta tag viewport. Dan duplikasi deskripsi SEO. Bob menemukan semuanya sebelum menulis satu baris pun." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "taylor",
+      "expr": "lecturing",
+      "text": "That's the thing people miss about Bob. It's not autocomplete. It actually reads your files, understands the context, and then decides what needs fixing.",
+      "id": { "text": "Itulah yang orang-orang lewatkan soal Bob. Ini bukan autocomplete. Bob benar-benar membaca file-mu, memahami konteksnya, lalu memutuskan apa yang perlu diperbaiki." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "sam",
+      "expr": "relief",
+      "text": "It also generated a full report I can hand to the CEO. Contrast ratios, before and after, next steps. I looked like I'd been planning this for weeks.",
+      "id": { "text": "Bob juga membuat laporan lengkap yang bisa aku berikan ke CEO. Rasio kontras, sebelum dan sesudah, langkah selanjutnya. Aku terlihat seolah sudah merencanakan ini berminggu-minggu." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "taylor",
+      "expr": "relief",
+      "text": "How long would this have taken without Bob?",
+      "id": { "text": "Berapa lama ini tanpa Bob?" }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "sam",
+      "expr": "stressed",
+      "text": "Honestly? Three hours minimum just to audit the old site. Then another four or five to write everything. Sunday night, probably. Stressed the whole time.",
+      "id": { "text": "Jujur? Tiga jam minimal hanya untuk mengaudit situs lama. Lalu empat atau lima jam lagi untuk menulis semuanya. Malam Minggu, mungkin. Stres sepanjang waktu." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "taylor",
+      "expr": "relief",
+      "text": "And now?",
+      "id": { "text": "Dan sekarang?" }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "sam",
+      "expr": "relief",
+      "text": "Now I'm going home at 6 PM on a Friday.\n\n...Okay. You win. Bob is actually insane.",
+      "id": { "text": "Sekarang aku pulang jam 6 sore di hari Jumat.\n\n...Oke. Kamu menang. Bob benar-benar luar biasa." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "taylor",
+      "expr": "relief",
+      "text": "I told you. It doesn't replace the engineer — it just removes everything that was wasting your time.",
+      "id": { "text": "Sudah kubilang. Bob tidak menggantikan engineer — hanya menghilangkan semua yang membuang waktumu." }
     },
 
     {
       "type": "dialogue",
       "char": "bob",
-      "text": "Boilerplate, debug, tests passed.\n\nYou didn't read 200 pages. You shipped working code. That's what matters before a VP demo.",
-      "id": { "text": "Boilerplate, debug, test lulus.\n\nKamu tidak membaca 200 halaman. Kamu mengirimkan kode yang berfungsi. Itu yang penting sebelum demo VP." }
+      "text": "Full audit. Premium redesign. Accessibility passing. Report generated.\n\nFriday evening, not Sunday night. That's what Bob is for.",
+      "id": { "text": "Audit penuh. Redesign premium. Aksesibilitas lulus. Laporan dibuat.\n\nJumat sore, bukan Minggu malam. Itulah kegunaan Bob." }
+    },
+
+    {
+      "type": "narration",
+      "text": "Sam Rivera shipped the redesign at 6:12 PM on Friday.\nThe CEO called it \"a massive improvement\" on Monday morning.\n\nTime saved: ~6 hours.",
+      "id": { "text": "Sam Rivera mengirimkan redesign pukul 18:12 hari Jumat.\nCEO menyebutnya \"peningkatan besar\" pada Senin pagi.\n\nWaktu yang dihemat: ~6 jam." }
     },
 
     { "type": "end" }
