@@ -131,86 +131,13 @@
 
 </section>
 
-<!-- Floating Bob FAB -->
+<!-- Floating Bob FAB — opens Mode Hub -->
 <div class="plan-bob-fab-wrap" id="plan-bob-fab-wrap">
   <div class="plan-bob-fab-label">
-    <span class="plan-bob-fab-label-title">See modes in action</span>
-    <span class="plan-bob-fab-label-sub">Watch Bob switch from Plan to Agent →</span>
+    <span class="plan-bob-fab-label-title">Explore the Mode Hub</span>
+    <span class="plan-bob-fab-label-sub">Browse &amp; download community modes →</span>
   </div>
-  <button type="button" class="plan-bob-fab" id="plan-bob-fab" aria-label="Open IBM Bob modes demo">
+  <a href="https://bob-modes.2azhe5jwptg4.au-syd.codeengine.appdomain.cloud/" target="_blank" rel="noopener noreferrer" class="plan-bob-fab" aria-label="Open IBM Bob Mode Hub">
     <img src="asset/IBM_Bob_hero_illustration_head_color.svg" alt="IBM Bob" class="plan-bob-fab-img" />
-  </button>
+  </a>
 </div>
-
-<!-- ── Bob chatbox (hidden until FAB clicked) ── -->
-<section class="bcp-page bcp-page--split plan-chat-view hidden" id="plan-chat-view">
-
-  <!-- VS Code Explorer panel -->
-  <div class="bcp-explorer">
-    <div class="bcp-exp-header">
-      <span class="bcp-exp-title">EXPLORER</span>
-      <button type="button" class="bcp-exp-more" title="More actions">···</button>
-    </div>
-    <div class="bcp-exp-tree">
-      <div class="bcp-exp-root">
-        <span class="bcp-exp-arrow bcp-exp-arrow--open">&#8964;</span>
-        <span class="bcp-exp-root-name">WORKSPACE</span>
-      </div>
-    </div>
-    <div class="bcp-exp-section">
-      <span class="bcp-exp-section-arrow">›</span>
-      <span class="bcp-exp-section-label">OUTLINE</span>
-    </div>
-    <div class="bcp-exp-section">
-      <span class="bcp-exp-section-arrow">›</span>
-      <span class="bcp-exp-section-label">TIMELINE</span>
-    </div>
-  </div>
-
-  <!-- Resize handle -->
-  <div class="bcp-resize-handle" id="bcp-resize-handle"></div>
-
-  <!-- Bob chatbox -->
-  <div class="bcp-chat-col">
-    <div class="bcp-topbar">
-      <span class="bcp-topbar-title">IBM BOB — MODES DEMO</span>
-      <div class="bcp-topbar-actions">
-        <button type="button" class="bcp-icon-btn" title="Settings">⚙</button>
-        <button type="button" class="bcp-icon-btn" title="Task list">☰</button>
-        <button type="button" class="bcp-icon-btn" title="New task">＋</button>
-        <button type="button" class="bcp-icon-btn" title="More">···</button>
-        <div class="bcp-topbar-sep"></div>
-        <button type="button" class="bcp-icon-btn" title="Open in editor">⤢</button>
-        <button type="button" class="bcp-icon-btn" title="Close" id="bcp-close-btn">✕</button>
-      </div>
-    </div>
-
-    <div class="bcp-body" id="bcp-body">
-      <div class="bcp-welcome" id="bcp-welcome">
-        <div class="bcp-welcome-avatar-wrap">
-          <img src="asset/IBM_Bob_hero_illustration_half_body_color.svg" alt="IBM Bob" class="bcp-welcome-avatar" />
-        </div>
-        <h2 class="bcp-welcome-title">Hi, I'm <span>Bob</span></h2>
-        <p class="bcp-welcome-sub">Switch my mode to change how I work with you.</p>
-        <button type="button" class="bcp-doc-btn">Documentation</button>
-      </div>
-      <div class="bcp-messages" id="bcp-messages"></div>
-    </div>
-
-    <div class="bcp-inputbar">
-      <div class="bcp-input-box" id="bcp-input-box">
-        <div class="bcp-scripted-input" id="bcp-scripted-input">Switch to Plan mode and help me architect a new payments service</div>
-      </div>
-      <div class="bcp-input-footer">
-        <div class="bcp-footer-left">
-          <button type="button" class="bcp-pill">＋</button>
-          <button type="button" class="bcp-pill bcp-pill--mode" id="bcp-mode-pill">&#9654; Agent ▾</button>
-          <button type="button" class="bcp-pill">Permissions ▾</button>
-        </div>
-        <button type="button" class="bcp-send pulse" id="bcp-send">↑</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<script data-page-script src="js/pages/modes.js"></script>
