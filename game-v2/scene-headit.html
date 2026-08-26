@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BYTE FORCE — Head IT</title>
+  <link rel="icon" type="image/png" href="assets/bob/head.png">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/scene.css">
+</head>
+<body>
+  <div class="scene-page">
+
+    <div class="hud">
+      <div class="hud-left">
+        <img src="assets/bob/head.png" alt="BYTE FORCE" class="hud-logo-img hud-home-link" onclick="location.href='index.html'" title="Home" role="button" style="cursor:pointer">
+      </div>
+    </div>
+
+    <div class="game-viewport" id="stage">
+      <div class="stage-bg"></div>
+      <div class="stars" id="stars"></div>
+
+      <div class="char-area">
+        <div class="char-slot char-left" id="char-left">
+          <img class="char-body" id="char-left-img" src="" alt="">
+        </div>
+        <div class="char-slot char-right" id="char-right">
+          <img class="char-body" id="char-right-img" src="" alt="">
+        </div>
+      </div>
+
+      <div class="dialogue-overlay" id="dialogue-overlay">
+        <div class="dialogue-panel" id="dialogue-box">
+          <div class="speaker-nameplate" id="speaker-nameplate">
+            <img class="speaker-head" id="speaker-head" src="" alt="">
+            <div class="speaker-info">
+              <div class="speaker-name" id="speaker-name">NARRATOR</div>
+              <div class="speaker-role" id="speaker-role"></div>
+            </div>
+          </div>
+          <div class="dialogue-text-wrap">
+            <div class="dialogue-text" id="dialogue-text"><span class="cursor hidden" id="cursor"></span></div>
+          </div>
+          <div class="continue-hint hidden" id="continue-hint"
+               data-en="▼ click to continue" data-id="▼ klik untuk lanjut">▼ click to continue</div>
+        </div>
+      </div>
+
+      <div class="choices-overlay" id="choices-overlay">
+        <div class="choices hidden" id="choices"></div>
+      </div>
+
+      <div class="bob-box-overlay hidden" id="bob-box">
+        <div class="bob-box">
+          <div class="bob-box-header">
+            <img class="bob-box-avatar" src="assets/bob/head.png" alt="Bob">
+            <span id="bob-analysis-label">BOB ANALYSIS</span>
+          </div>
+          <div class="bob-box-text" id="bob-box-text"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapter-card hidden" id="chapter-card">
+    <div class="chapter-label" id="chapter-label">CHAPTER 1</div>
+    <div class="chapter-title" id="chapter-title">Plan</div>
+    <div class="chapter-sub" id="chapter-sub"></div>
+  </div>
+
+  <div class="outcome-toast hidden" id="outcome-toast"></div>
+
+  <!-- Fullscreen video overlay — shown for video-task scenes -->
+  <div class="video-overlay hidden" id="video-overlay">
+    <video class="video-overlay-player" id="video-overlay-player" playsinline></video>
+    <div class="video-controls" id="video-controls">
+      <button class="video-ctrl-playpause" id="video-playpause" aria-label="Pause">
+        <span class="video-ctrl-icon" id="video-playpause-icon">&#10074;&#10074;</span>
+      </button>
+      <div class="video-progress-wrap" id="video-progress-wrap">
+        <div class="video-progress-bar" id="video-progress-bar"></div>
+      </div>
+      <span class="video-time" id="video-time">0:00</span>
+      <button class="video-overlay-skip" id="video-overlay-skip">Skip ▶</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      if (sessionStorage.getItem('byteforce_lang') === 'id') {
+        document.getElementById('html-root').lang = 'id';
+        const el = document.getElementById('continue-hint');
+        if (el) el.textContent = '▼ klik untuk lanjut';
+      }
+    })();
+  </script>
+
+  <script src="js/state.js"></script>
+  <script>
+    (function () {
+      const s = State.get();
+      if (s.roleId !== 'headit' || !s.startedAt) {
+        State.reset();
+        State.set({ roleId:'headit', sceneIndex:0, metrics:{quality:100,security:100,satisfaction:100,cost:0}, bobCount:0, totalTasks:0, timeSaved:0, startedAt:Date.now(), timerLeft:600 });
+      }
+    })();
+  </script>
+  <script src="js/scenarios.js"></script>
+  <script src="js/engine.js"></script>
+</body>
+</html>

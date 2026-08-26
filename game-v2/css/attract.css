@@ -1,0 +1,425 @@
+/* ── Attract screen ────────────────────────────────────────────────────────── */
+
+.attract-page {
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CENTERED SINGLE-COLUMN LAYOUT
+   Stack: bubble → hero (cycle + bob) → logotype → two buttons
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.attract-center {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+  /* nudge the group down just enough to show the bubble above center */
+  padding: 6vh 24px 24px;
+}
+
+/* ── 1. Speech bubble ────────────────────────────────────────────────────── */
+.attract-bubble-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: -16px;
+  z-index: 2;
+}
+
+.attract-bubble {
+  width: clamp(100px, 12vw, 160px);
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  animation: bubbleFloat 3.2s ease-in-out infinite,
+             fadeIn .8s .2s ease both;
+  filter: drop-shadow(0 0 14px rgba(79,142,247,.65))
+          drop-shadow(0 0 5px  rgba(139,92,246,.45));
+}
+
+@keyframes bubbleFloat {
+  0%, 100% { transform: translateY(0)    scale(1);    }
+  50%       { transform: translateY(-8px) scale(1.02); }
+}
+
+/* ── 2+3. Hero: cycle ring behind Bob ────────────────────────────────────── */
+.attract-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(300px, 42vw, 580px);
+  height: auto;
+  margin-bottom: 10px;
+}
+
+/* cycle.png — gentle pulse scale + breathing glow */
+.attract-cycle {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  animation: cyclePulse 5s ease-in-out infinite,
+             cycleGlow  5s ease-in-out infinite,
+             fadeIn .8s ease both;
+  z-index: 0;
+}
+
+@keyframes cyclePulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.03); }
+}
+@keyframes cycleGlow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(79,142,247,.30)) brightness(1);    }
+  50%       { filter: drop-shadow(0 0 26px rgba(79,142,247,.65)) brightness(1.06); }
+}
+
+/* Bob half-body — gentle float + ambient glow */
+.attract-bob-body {
+  position: relative;
+  z-index: 1;
+  width: clamp(120px, 16vw, 220px);
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  animation: bobFloat   3.6s ease-in-out infinite,
+             bobAmbient 5s   ease-in-out infinite,
+             fadeIn .6s .1s ease both;
+  margin: clamp(16px, 3vw, 36px) 0;
+}
+
+@keyframes bobFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes bobAmbient {
+  0%, 100% { filter: drop-shadow(0 0 8px  rgba(245,158,11,.25)); }
+  50%       { filter: drop-shadow(0 0 20px rgba(245,158,11,.55)) brightness(1.04); }
+}
+
+/* ── 4. IBM Bob logotype ──────────────────────────────────────────────────── */
+.attract-ibm-bob-logo {
+  width: clamp(120px, 16vw, 200px);
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin-bottom: clamp(10px, 2vh, 20px);
+  animation: fadeUp .6s .25s ease both;
+  opacity: .95;
+}
+
+/* ── 5. Button row ────────────────────────────────────────────────────────── */
+.attract-btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3vw, 48px);
+  flex-wrap: wrap;
+}
+
+/* shared button shell */
+.attract-cta,
+.attract-learn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: block;
+  animation: fadeUp .6s .4s ease both, btnPulse 2.8s 1.2s ease-in-out infinite;
+  transition: transform .15s ease, filter .15s ease, opacity .15s ease;
+}
+
+.attract-learn {
+  animation-delay: .52s, 1.35s;
+}
+
+@keyframes btnPulse {
+  0%, 100% { filter: brightness(1)    drop-shadow(0 0 8px  rgba(74,222,128,.3)); }
+  50%       { filter: brightness(1.08) drop-shadow(0 0 20px rgba(74,222,128,.65)); }
+}
+
+@keyframes btnPulseCyan {
+  0%, 100% { filter: brightness(1)    drop-shadow(0 0 8px  rgba(0,180,255,.3)); }
+  50%       { filter: brightness(1.08) drop-shadow(0 0 20px rgba(0,180,255,.65)); }
+}
+
+.attract-cta {
+  animation-name: fadeUp, btnPulseCyan;
+}
+
+.attract-cta:hover,
+.attract-learn:hover {
+  transform: scale(1.07) translateY(-4px);
+  filter: brightness(1.2) drop-shadow(0 0 28px rgba(74,222,128,.75));
+  animation-play-state: running, paused;
+}
+
+.attract-cta:active,
+.attract-learn:active {
+  transform: scale(.96) translateY(1px);
+  filter: brightness(.95);
+}
+
+.attract-cta-img {
+  width: clamp(160px, 22vw, 280px);
+  height: auto;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ── Legacy stubs ─────────────────────────────────────────────────────────── */
+.attract-wrap     { display: none; }
+.attract-bob-head { display: none; }
+
+/* ── Responsive: stack buttons vertically on mobile ─────────────────────── */
+@media (max-width: 480px) {
+  .attract-btns {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .attract-cta-img {
+    width: clamp(180px, 60vw, 260px);
+  }
+}
+
+@media (max-height: 620px) {
+  .attract-center   { padding-top: 2vh; padding-bottom: 12px; }
+  .attract-bubble   { width: clamp(80px, 9vw, 120px); }
+  .attract-bob-body { width: clamp(90px, 12vw, 160px); }
+  .attract-hero     { width: clamp(240px, 34vw, 420px); }
+  .attract-ibm-bob-logo { width: clamp(100px, 12vw, 160px); margin-bottom: 8px; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOB PORTAL — iframe-based, zero navigation, zero URL change
+   .open  = peek: circle sweeps from corner, iframe visible but click-blocked
+   .full  = switched in: clip removed, iframe fully interactive
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.bob-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  cursor: pointer;
+  pointer-events: none;
+  /* origin is set dynamically via --cx / --cy from JS */
+  --cx: 50%;
+  --cy: 100%;
+  clip-path: circle(0px at var(--cx) var(--cy));
+  transition: clip-path 1s cubic-bezier(.22, 1, .36, 1);
+}
+.bob-portal.open {
+  pointer-events: all;
+  clip-path: circle(150vmax at var(--cx) var(--cy));
+}
+.bob-portal.full {
+  clip-path: none;
+  cursor: default;
+  z-index: 200;
+}
+
+.bob-portal-iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  border: none;
+  display: block;
+  pointer-events: none;
+}
+.bob-portal.full .bob-portal-iframe { pointer-events: all; }
+
+.bob-portal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 2px var(--bob), inset 0 0 40px var(--bob-glow);
+  opacity: 0;
+  transition: opacity .3s ease .2s;
+  pointer-events: none;
+  z-index: 1;
+}
+.bob-portal.open::before { opacity: 1; }
+.bob-portal.full::before { opacity: 0; transition: none; }
+
+.bob-portal-overlay {
+  position: absolute;
+  bottom: 52px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .2s ease .35s, transform .2s ease .35s;
+  z-index: 2;
+}
+.bob-portal.open .bob-portal-overlay { opacity: 1; transform: translateY(0); }
+.bob-portal.full .bob-portal-overlay { opacity: 0 !important; pointer-events: none; }
+.bob-portal-hint {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--bob);
+  letter-spacing: .08em;
+  text-shadow: 0 0 12px var(--bob-glow), 0 2px 8px rgba(0,0,0,.8);
+  background: rgba(8,8,20,.6);
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--bob-glow);
+}
+
+/* ── "Back to game" card ──────────────────────────────────────────────────── */
+.bob-portal-close {
+  position: fixed;
+  bottom: 56px;
+  right: 24px;
+  z-index: 210;
+
+  display: block;
+  width: 192px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .25s ease, transform .25s ease;
+  animation: none;
+}
+
+.bob-portal-close-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px 9px 10px;
+  position: relative;
+
+  background: linear-gradient(135deg, rgba(13,13,32,.97) 0%, rgba(22,22,52,.97) 100%);
+  border: 1px solid rgba(245,158,11,.45);
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 1px rgba(245,158,11,.1) inset,
+    0 0 22px rgba(245,158,11,.18),
+    0 8px 28px rgba(0,0,0,.55);
+
+  transition: border-color .2s ease, box-shadow .2s ease, transform .15s ease;
+}
+.bob-portal-close-inner::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 14px; right: 14px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(245,158,11,.6), transparent);
+  border-radius: 0 0 14px 14px;
+  pointer-events: none;
+}
+
+.bob-portal-close:hover .bob-portal-close-inner {
+  border-color: rgba(245,158,11,.8);
+  box-shadow:
+    0 0 0 1px rgba(245,158,11,.22) inset,
+    0 0 36px rgba(245,158,11,.32),
+    0 12px 36px rgba(0,0,0,.65);
+  transform: translateY(-2px);
+}
+
+.bob-portal-close-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1.5px solid rgba(245,158,11,.5);
+  background: var(--bg3);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  flex-shrink: 0;
+  display: block;
+}
+
+.bob-portal-close-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.bob-portal-close-eyebrow {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  font-weight: 700;
+  color: rgba(245,158,11,.7);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.bob-portal-close-title {
+  font-family: var(--font-ui);
+  font-size: .8rem;
+  font-weight: 700;
+  color: #f0f0ff;
+  line-height: 1.2;
+  letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bob-portal-close-cta {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  color: rgba(245,158,11,.85);
+  letter-spacing: .04em;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.bob-portal-close-arrow {
+  display: inline-block;
+  transition: transform .18s ease;
+}
+.bob-portal-close:hover .bob-portal-close-arrow {
+  transform: translateX(-4px);
+}
+
+.bob-portal.full[data-portal-page="home"] .bob-portal-close {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+  animation: bobCardFloat 3.2s ease-in-out infinite;
+}
+.bob-portal.full:not([data-portal-page="home"]) .bob-portal-close {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(8px) !important;
+  animation: none !important;
+}
+
+@keyframes bobCardFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-5px); }
+}
+
+/* Short screens */
+@media (max-height: 680px) {
+  .bob-portal-close { bottom: 48px; }
+}
+
+/* Touch devices — disable portal peek */
+@media (hover: none) {
+  .bob-portal { display: none; }
+}
