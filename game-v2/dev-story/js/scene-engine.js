@@ -337,7 +337,9 @@
 
   /* ── Handoff — redirect to the developer scene ──────────────────────────── */
   function handOffToBob() {
-    location.href = 'http://127.0.0.1:5500/scene-developer.html';
+    // Use a relative path so the game works on any host, not just localhost:5500
+    const base = location.pathname.replace(/\/dev-story\/.*$/, '');
+    location.href = base + '/scene-developer.html';
   }
 
   /* ── Boot ────────────────────────────────────────────────────────────────── */
