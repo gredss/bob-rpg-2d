@@ -143,128 +143,217 @@
     },
 
     /* ═══════════════════════════════════════════════════════════════════════
-       Turn 3 — VP asks for a visual. Bob renders three inline SVG charts.
+       Turn 3 — VP asks for a visual. Bob renders four accurate inline SVG charts.
        ═══════════════════════════════════════════════════════════════════════ */
     {
       user: "Can you visualise the data? I need something I can glance at in the boardroom.",
       bob: [
-        { type: 'text', text: "Here are three charts built directly from the proposal data — budget comparison, 3-year cost trajectory, and risk vs strategic value. No external tools needed." },
+        { type: 'text', text: "Running create_chart four times — one chart per insight." },
+
+        /* ── Chart 1: Bar — Program Budget ──
+           viewBox 300×150: plot area y=20→120 (h=100), x=46→284 (w=238)
+           Scale: max $5.5M → 100px  →  1px=$55K
+           Cloud  $4.2M → h=76  y=44
+           AI impl $2.8M→ h=51  y=69   AI 3yr $5.2M→ h=95  y=25
+           Security $1.4M→ h=25  y=95
+           x-axis labels y=133, value labels 8px above bar top
+        ── */
         { type: 'rich', html: `
-<div class="ds-charts-wrap">
-
-  <!-- ── Chart 1: Budget Comparison Bar ── -->
-  <div class="ds-chart-card">
-    <div class="ds-chart-title">Programme Budget — Total Cost</div>
-    <svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg" class="ds-chart-svg">
-      <!-- Grid lines -->
-      <line x1="48" y1="10" x2="48" y2="120" stroke="#2a2a2a" stroke-width="1"/>
-      <line x1="48" y1="120" x2="308" y2="120" stroke="#2a2a2a" stroke-width="1"/>
-      <line x1="48" y1="85"  x2="308" y2="85"  stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,3"/>
-      <line x1="48" y1="55"  x2="308" y2="55"  stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,3"/>
-      <line x1="48" y1="25"  x2="308" y2="25"  stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,3"/>
-      <!-- Y labels -->
-      <text x="42" y="124" text-anchor="end" fill="#555" font-size="9">$0</text>
-      <text x="42" y="89"  text-anchor="end" fill="#555" font-size="9">$2M</text>
-      <text x="42" y="59"  text-anchor="end" fill="#555" font-size="9">$3.5M</text>
-      <text x="42" y="29"  text-anchor="end" fill="#555" font-size="9">$5M</text>
-      <!-- Bar: Cloud $4.2M → height ~91px -->
-      <rect x="64"  y="29" width="54" height="91" rx="3" fill="#60a5fa" opacity="0.85"/>
-      <text x="91"  y="24" text-anchor="middle" fill="#60a5fa" font-size="9" font-weight="600">$4.2M</text>
-      <text x="91"  y="135" text-anchor="middle" fill="#858585" font-size="9">☁ Cloud</text>
-      <!-- Bar: AI $2.8M → height ~60px -->
-      <rect x="148" y="60" width="54" height="60" rx="3" fill="#a78bfa" opacity="0.85"/>
-      <text x="175" y="55" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="600">$2.8M</text>
-      <text x="175" y="135" text-anchor="middle" fill="#858585" font-size="9">🤖 AI</text>
-      <!-- Bar: Security $1.4M → height ~30px -->
-      <rect x="232" y="90" width="54" height="30" rx="3" fill="#4ade80" opacity="0.9"/>
-      <text x="259" y="85" text-anchor="middle" fill="#4ade80" font-size="9" font-weight="600">$1.4M</text>
-      <text x="259" y="135" text-anchor="middle" fill="#858585" font-size="9">🔐 Security</text>
-    </svg>
+<div class="ds-interactive-chart-container">
+  <div class="bcpr-mcp-call" style="margin-bottom:8px">
+    <span class="bcpr-mcp-icon">✦</span>
+    <span class="bcpr-mcp-label">create_chart</span>
+    <span class="bcpr-mcp-meta">BarChart · Program Budget Comparison · 1s</span>
+    <span class="bcpr-mcp-arrow">›</span>
   </div>
-
-  <!-- ── Chart 2: 3-Year Total Cost Line ── -->
-  <div class="ds-chart-card">
-    <div class="ds-chart-title">3-Year Total Cost (incl. annual ongoing)</div>
-    <svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg" class="ds-chart-svg">
-      <!-- Grid -->
-      <line x1="48" y1="10" x2="48" y2="120" stroke="#2a2a2a" stroke-width="1"/>
-      <line x1="48" y1="120" x2="308" y2="120" stroke="#2a2a2a" stroke-width="1"/>
-      <line x1="48" y1="40"  x2="308" y2="40"  stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,3"/>
-      <line x1="48" y1="75"  x2="308" y2="75"  stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,3"/>
-      <!-- Y labels -->
-      <text x="42" y="124" text-anchor="end" fill="#555" font-size="9">$0</text>
-      <text x="42" y="79"  text-anchor="end" fill="#555" font-size="9">$4M</text>
-      <text x="42" y="44"  text-anchor="end" fill="#555" font-size="9">$6M</text>
-      <!-- X labels -->
-      <text x="108" y="136" text-anchor="middle" fill="#555" font-size="9">Year 1</text>
-      <text x="188" y="136" text-anchor="middle" fill="#555" font-size="9">Year 2</text>
-      <text x="268" y="136" text-anchor="middle" fill="#555" font-size="9">Year 3</text>
-      <!-- Cloud: Y1=$4.2M(y≈34), Y2=$4.58M(y≈30), Y3=$4.96M(y≈26) -->
-      <polyline points="108,34 188,30 268,26" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linejoin="round"/>
-      <circle cx="108" cy="34" r="3" fill="#60a5fa"/>
-      <circle cx="188" cy="30" r="3" fill="#60a5fa"/>
-      <circle cx="268" cy="26" r="3" fill="#60a5fa"/>
-      <!-- AI: Y1=$3.4M(y≈56), Y2=$4.0M(y≈45), Y3=$4.6M(y≈32) -->
-      <polyline points="108,56 188,45 268,32" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linejoin="round"/>
-      <circle cx="108" cy="56" r="3" fill="#a78bfa"/>
-      <circle cx="188" cy="45" r="3" fill="#a78bfa"/>
-      <circle cx="268" cy="32" r="3" fill="#a78bfa"/>
-      <!-- Security: Y1=$1.4M(y≈99), Y2=$1.61M(y≈96), Y3=$1.82M(y≈93) -->
-      <polyline points="108,99 188,96 268,93" fill="none" stroke="#4ade80" stroke-width="2" stroke-linejoin="round"/>
-      <circle cx="108" cy="99" r="3" fill="#4ade80"/>
-      <circle cx="188" cy="96" r="3" fill="#4ade80"/>
-      <circle cx="268" cy="93" r="3" fill="#4ade80"/>
-      <!-- Legend -->
-      <rect x="52" y="12" width="8" height="8" rx="2" fill="#60a5fa" opacity="0.85"/>
-      <text x="64" y="20" fill="#858585" font-size="8">Cloud</text>
-      <rect x="96" y="12" width="8" height="8" rx="2" fill="#a78bfa" opacity="0.85"/>
-      <text x="108" y="20" fill="#858585" font-size="8">AI</text>
-      <rect x="132" y="12" width="8" height="8" rx="2" fill="#4ade80" opacity="0.9"/>
-      <text x="144" y="20" fill="#858585" font-size="8">Security</text>
-    </svg>
+  <div class="ds-echarts-tile">
+    <div class="ds-echarts-tile-header">
+      <div class="ds-echarts-tile-title"><span class="ds-echarts-tile-icon">📊</span><span>Program Budget Comparison (USD)</span></div>
+      <span class="ds-echarts-tile-badge">BarChart</span>
+    </div>
+    <div class="ds-chart-card">
+      <svg viewBox="0 0 300 150" class="ds-chart-svg">
+        <!-- axes -->
+        <line x1="46" y1="14" x2="46"  y2="120" stroke="#2a2a38" stroke-width="1"/>
+        <line x1="46" y1="120" x2="290" y2="120" stroke="#2a2a38" stroke-width="1"/>
+        <!-- grid lines at $1M=$55K×18.18≈18px steps: 120,102,84,66,48 -->
+        <line x1="46" y1="102" x2="290" y2="102" stroke="#1e1e2a" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="46" y1="84"  x2="290" y2="84"  stroke="#1e1e2a" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="46" y1="66"  x2="290" y2="66"  stroke="#1e1e2a" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="46" y1="48"  x2="290" y2="48"  stroke="#1e1e2a" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="46" y1="30"  x2="290" y2="30"  stroke="#1e1e2a" stroke-width="1" stroke-dasharray="3,3"/>
+        <!-- y labels -->
+        <text x="42" y="123" text-anchor="end" fill="#556" font-size="7">$0</text>
+        <text x="42" y="105" text-anchor="end" fill="#556" font-size="7">$1M</text>
+        <text x="42" y="87"  text-anchor="end" fill="#556" font-size="7">$2M</text>
+        <text x="42" y="69"  text-anchor="end" fill="#556" font-size="7">$3M</text>
+        <text x="42" y="51"  text-anchor="end" fill="#556" font-size="7">$4M</text>
+        <text x="42" y="33"  text-anchor="end" fill="#556" font-size="7">$5M</text>
+        <!-- Cloud $4.2M → h=76, y=44 -->
+        <g class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'☁ Cloud Migration<br/><b>$4.2M</b> · 18 months · Milestone-based<br/>Annual infra: $380K')" onmouseout="hideChartTooltip()">
+          <rect x="58"  y="44" width="34" height="76" rx="3" fill="#60a5fa" opacity="0.88"/>
+          <text x="75"  y="40" text-anchor="middle" fill="#60a5fa" font-size="7.5" font-weight="600">$4.2M</text>
+          <text x="75"  y="133" text-anchor="middle" fill="#667" font-size="7">Cloud</text>
+        </g>
+        <!-- AI impl $2.8M → h=51, y=69 -->
+        <g class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🤖 AI Platform — impl fee only<br/><b>$2.8M</b> + $600K/yr licence<br/>Year 1 total: $3.4M')" onmouseout="hideChartTooltip()">
+          <rect x="120" y="69" width="34" height="51" rx="3" fill="#a78bfa" opacity="0.6"/>
+          <text x="137" y="65" text-anchor="middle" fill="#a78bfa" font-size="7" opacity="0.85">$2.8M</text>
+          <text x="137" y="133" text-anchor="middle" fill="#667" font-size="7">AI impl</text>
+        </g>
+        <!-- AI 3yr $5.2M → h=95, y=25 -->
+        <g class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🤖 AI Platform — 3-year total<br/><b>$5.2M</b> incl. 3×$600K licences<br/>Break-even Month 28 · Net benefit: $900K only')" onmouseout="hideChartTooltip()">
+          <rect x="162" y="25" width="34" height="95" rx="3" fill="#a78bfa" opacity="0.9"/>
+          <text x="179" y="21" text-anchor="middle" fill="#a78bfa" font-size="7.5" font-weight="600">$5.2M</text>
+          <text x="179" y="133" text-anchor="middle" fill="#667" font-size="7">AI 3yr</text>
+        </g>
+        <!-- Security $1.4M → h=25, y=95 -->
+        <g class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🔐 Security Uplift<br/><b>$1.4M</b> fixed-price · 9 months<br/>30/40/30% payment gates · Zero overrun risk')" onmouseout="hideChartTooltip()">
+          <rect x="240" y="95" width="34" height="25" rx="3" fill="#4ade80" opacity="0.92"/>
+          <text x="257" y="91" text-anchor="middle" fill="#4ade80" font-size="7.5" font-weight="600">$1.4M</text>
+          <text x="257" y="133" text-anchor="middle" fill="#667" font-size="7">Security</text>
+        </g>
+      </svg>
+    </div>
   </div>
-
-  <!-- ── Chart 3: Risk vs Strategic Value Scatter ── -->
-  <div class="ds-chart-card ds-chart-card--full">
-    <div class="ds-chart-title">Risk vs Strategic Value — bubble size = programme cost</div>
-    <svg viewBox="0 0 320 175" xmlns="http://www.w3.org/2000/svg" class="ds-chart-svg">
-      <!-- Axes -->
-      <line x1="48" y1="10"  x2="48"  y2="130" stroke="#2a2a2a" stroke-width="1"/>
-      <line x1="48" y1="130" x2="308" y2="130" stroke="#2a2a2a" stroke-width="1"/>
-      <!-- X labels -->
-      <text x="48"  y="144" text-anchor="middle" fill="#555" font-size="8">Low Risk</text>
-      <text x="178" y="144" text-anchor="middle" fill="#555" font-size="8">Medium Risk</text>
-      <text x="298" y="144" text-anchor="middle" fill="#555" font-size="8">High Risk</text>
-      <!-- Y labels -->
-      <text x="40" y="132" text-anchor="end" fill="#555" font-size="8">Low</text>
-      <text x="40" y="75"  text-anchor="end" fill="#555" font-size="8">Med</text>
-      <text x="40" y="20"  text-anchor="end" fill="#555" font-size="8">High</text>
-      <text x="12" y="75"  text-anchor="middle" fill="#555" font-size="8" transform="rotate(-90,12,75)">Strategic Value</text>
-      <!-- Quadrant lines -->
-      <line x1="48"  y1="75" x2="308" y2="75"  stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,3"/>
-      <line x1="178" y1="10" x2="178" y2="130" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,3"/>
-      <!-- Security: low risk (x≈68), very high value (y≈22), cost=$1.4M → r=16 -->
-      <circle cx="68"  cy="22" r="16" fill="#4ade80" opacity="0.25"/>
-      <circle cx="68"  cy="22" r="16" fill="none" stroke="#4ade80" stroke-width="1.5"/>
-      <text   cx="68"  cy="22" fill="#4ade80" font-size="8" font-weight="700" text-anchor="middle" dominant-baseline="middle">🔐</text>
-      <text x="68" y="44" text-anchor="middle" fill="#4ade80" font-size="8">$1.4M</text>
-      <!-- Cloud: medium risk (x≈178), high value (y≈38), cost=$4.2M → r=26 -->
-      <circle cx="178" cy="38" r="26" fill="#60a5fa" opacity="0.15"/>
-      <circle cx="178" cy="38" r="26" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
-      <text   cx="178" cy="38" fill="#60a5fa" font-size="8" font-weight="700" text-anchor="middle" dominant-baseline="middle">☁</text>
-      <text x="178" y="70" text-anchor="middle" fill="#60a5fa" font-size="8">$4.2M</text>
-      <!-- AI: high risk (x≈268), medium value (y≈75), cost=$2.8M → r=20 -->
-      <circle cx="268" cy="80" r="20" fill="#a78bfa" opacity="0.15"/>
-      <circle cx="268" cy="80" r="20" fill="none" stroke="#a78bfa" stroke-width="1.5"/>
-      <text   cx="268" cy="80" fill="#a78bfa" font-size="8" font-weight="700" text-anchor="middle" dominant-baseline="middle">🤖</text>
-      <text x="268" y="106" text-anchor="middle" fill="#a78bfa" font-size="8">$2.8M</text>
-      <!-- "Ideal zone" label -->
-      <text x="60" y="14" fill="#4ade80" font-size="7" opacity="0.6">← ideal zone</text>
-    </svg>
-  </div>
-
 </div>` },
-        { type: 'text', text: "Key reads:\n• Security Uplift sits in the ideal quadrant — lowest risk, highest strategic value per dollar.\n• Cloud Migration is high-value but expensive and medium-risk. Right move, wrong timing.\n• AI Platform drifts into high-risk territory with unvalidated ROI — the bubble looks smaller than Cloud but the $600K/yr licence makes the 3-year line nearly equal." },
+
+        /* ── Chart 2: Line — 3-Year Trajectory ──
+           viewBox 300×150: plot area y=20→118, x=46→272
+           Scale: 0–5.5M → 98px  →  1px=$56.1K
+           Cloud:    $4.2M→y=43  $4.58M→y=36  $4.96M→y=29
+           AI:       $3.4M→y=57  $4.0M→y=47   $4.6M→y=36
+           Security: $1.4M→y=93  $1.52M→y=91  $1.64M→y=89
+           x pts: Yr1=88 Yr2=168 Yr3=248  x-labels y=132
+        ── */
+        { type: 'rich', html: `
+<div class="ds-interactive-chart-container">
+  <div class="bcpr-mcp-call" style="margin-bottom:8px">
+    <span class="bcpr-mcp-icon">✦</span>
+    <span class="bcpr-mcp-label">create_chart</span>
+    <span class="bcpr-mcp-meta">LineChart · 3-Year Cumulative Trajectory · 1s</span>
+    <span class="bcpr-mcp-arrow">›</span>
+  </div>
+  <div class="ds-echarts-tile">
+    <div class="ds-echarts-tile-header">
+      <div class="ds-echarts-tile-title"><span class="ds-echarts-tile-icon">📈</span><span>3-Year Cumulative Cost Trajectory (USD)</span></div>
+      <span class="ds-echarts-tile-badge">LineChart</span>
+    </div>
+    <div class="ds-chart-card">
+      <svg viewBox="0 0 300 150" class="ds-chart-svg">
+        <!-- axes -->
+        <line x1="46" y1="14"  x2="46"  y2="118" stroke="#2a2a38" stroke-width="1"/>
+        <line x1="46" y1="118" x2="272" y2="118" stroke="#2a2a38" stroke-width="1"/>
+        <!-- grid ($1M steps) -->
+        <line x1="46" y1="98" x2="272" y2="98" stroke="#1e1e2a" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="46" y1="78" x2="272" y2="78" stroke="#1e1e2a" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="46" y1="58" x2="272" y2="58" stroke="#1e1e2a" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="46" y1="38" x2="272" y2="38" stroke="#1e1e2a" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="46" y1="18" x2="272" y2="18" stroke="#1e1e2a" stroke-width="1" stroke-dasharray="3,3"/>
+        <!-- y labels: $0→118 $1M→98 $2M→78 $3M→58 $4M→38 $5M→18 -->
+        <text x="42" y="121" text-anchor="end" fill="#556" font-size="7">$0</text>
+        <text x="42" y="101" text-anchor="end" fill="#556" font-size="7">$1M</text>
+        <text x="42" y="81"  text-anchor="end" fill="#556" font-size="7">$2M</text>
+        <text x="42" y="61"  text-anchor="end" fill="#556" font-size="7">$3M</text>
+        <text x="42" y="41"  text-anchor="end" fill="#556" font-size="7">$4M</text>
+        <text x="42" y="21"  text-anchor="end" fill="#556" font-size="7">$5M</text>
+        <!-- x labels -->
+        <text x="88"  y="130" text-anchor="middle" fill="#667" font-size="7">Year 1</text>
+        <text x="168" y="130" text-anchor="middle" fill="#667" font-size="7">Year 2</text>
+        <text x="248" y="130" text-anchor="middle" fill="#667" font-size="7">Year 3</text>
+        <!-- area fills -->
+        <polygon points="46,118 88,43 168,36 248,29 248,118" fill="#60a5fa" opacity="0.05"/>
+        <polygon points="46,118 88,57 168,47 248,36 248,118" fill="#a78bfa" opacity="0.05"/>
+        <polygon points="46,118 88,93 168,91 248,89 248,118" fill="#4ade80" opacity="0.07"/>
+        <!-- Cloud line + dots -->
+        <polyline points="88,43 168,36 248,29" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="88"  cy="43" r="4" fill="#60a5fa" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'☁ Cloud Yr1 · <b>$4.2M</b>')" onmouseout="hideChartTooltip()"/>
+        <circle cx="168" cy="36" r="4" fill="#60a5fa" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'☁ Cloud Yr2 · <b>$4.58M</b><br/>+$380K infra ops')" onmouseout="hideChartTooltip()"/>
+        <circle cx="248" cy="29" r="4" fill="#60a5fa" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'☁ Cloud Yr3 · <b>$4.96M</b><br/>+$760K total infra ops')" onmouseout="hideChartTooltip()"/>
+        <!-- AI line + dots -->
+        <polyline points="88,57 168,47 248,36" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="88"  cy="57" r="4" fill="#a78bfa" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🤖 AI Yr1 · <b>$3.4M</b><br/>Savings: $0 (ramp-up year)')" onmouseout="hideChartTooltip()"/>
+        <circle cx="168" cy="47" r="4" fill="#a78bfa" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🤖 AI Yr2 · <b>$4.0M</b><br/>Projected savings: $1.8M')" onmouseout="hideChartTooltip()"/>
+        <circle cx="248" cy="36" r="4" fill="#a78bfa" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🤖 AI Yr3 · <b>$4.6M</b><br/>Break-even Month 28 · Net: $900K only')" onmouseout="hideChartTooltip()"/>
+        <!-- break-even callout — positioned clear of lines -->
+        <line x1="168" y1="47" x2="200" y2="62" stroke="#a78bfa" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.5"/>
+        <text x="202" y="65" fill="#a78bfa" font-size="6.5" opacity="0.8">B/E Month 28</text>
+        <!-- Security line + dots -->
+        <polyline points="88,93 168,91 248,89" fill="none" stroke="#4ade80" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="88"  cy="93" r="4" fill="#4ade80" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🔐 Security Yr1 · <b>$1.4M</b><br/>Programme complete · 18% insurance saving')" onmouseout="hideChartTooltip()"/>
+        <circle cx="168" cy="91" r="4" fill="#4ade80" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🔐 Security Yr2 · <b>$1.52M</b><br/>+$120K annual support')" onmouseout="hideChartTooltip()"/>
+        <circle cx="248" cy="89" r="4" fill="#4ade80" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🔐 Security Yr3 · <b>$1.64M</b><br/>Lowest 3-yr cost of all proposals')" onmouseout="hideChartTooltip()"/>
+        <!-- gap bracket at Yr3 — right of plot area -->
+        <line x1="256" y1="36" x2="256" y2="89" stroke="#f59e0b" stroke-width="0.9" stroke-dasharray="2,2" opacity="0.7"/>
+        <text x="262" y="57" fill="#f59e0b" font-size="6.5" opacity="0.85">$2.96M</text>
+        <text x="262" y="65" fill="#f59e0b" font-size="6"   opacity="0.65">gap Yr3</text>
+        <!-- line labels at Yr3 right edge -->
+        <text x="253" y="27" fill="#60a5fa" font-size="6" text-anchor="start">Cloud</text>
+        <text x="253" y="84" fill="#4ade80" font-size="6" text-anchor="start">Sec</text>
+      </svg>
+    </div>
+  </div>
+</div>` },
+
+        /* ── Chart 3 (was 4): Donut — Security Phase Breakdown ──
+           viewBox 300×150: donut cx=82 cy=72 r=52 sw=20  circ=2π×52≈326.7
+           P1 30%→98.0  P2 40%→130.7  P3 30%→98.0
+           Legend starts x=158 y=30, rows spaced 36px
+        ── */
+        { type: 'rich', html: `
+<div class="ds-interactive-chart-container">
+  <div class="bcpr-mcp-call" style="margin-bottom:8px">
+    <span class="bcpr-mcp-icon">✦</span>
+    <span class="bcpr-mcp-label">create_chart</span>
+    <span class="bcpr-mcp-meta">PieChart · Security Budget by Phase · 1s</span>
+    <span class="bcpr-mcp-arrow">›</span>
+  </div>
+  <div class="ds-echarts-tile">
+    <div class="ds-echarts-tile-header">
+      <div class="ds-echarts-tile-title"><span class="ds-echarts-tile-icon">🔐</span><span>Security Uplift — $1.4M by Delivery Phase</span></div>
+      <span class="ds-echarts-tile-badge">PieChart</span>
+    </div>
+    <div class="ds-chart-card">
+      <svg viewBox="0 0 300 150" class="ds-chart-svg">
+        <!-- Phase 1: Remediation 30% — blue -->
+        <g class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'Phase 1 — Remediation<br/><b>$420K · 30%</b><br/>Months 1–3 · MFA · Access control · Pentest fixes')" onmouseout="hideChartTooltip()">
+          <circle cx="82" cy="74" r="52" fill="none" stroke="#3b82d4" stroke-width="20"
+            stroke-dasharray="98.0 228.7" stroke-dashoffset="0"
+            transform="rotate(-90 82 74)" opacity="0.9"/>
+        </g>
+        <!-- Phase 2: Hardening 40% — green -->
+        <g class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'Phase 2 — Hardening<br/><b>$560K · 40%</b><br/>Months 4–6 · Network seg · EDR · SIEM')" onmouseout="hideChartTooltip()">
+          <circle cx="82" cy="74" r="52" fill="none" stroke="#4ade80" stroke-width="20"
+            stroke-dasharray="130.7 196.0" stroke-dashoffset="-98.0"
+            transform="rotate(-90 82 74)" opacity="0.9"/>
+        </g>
+        <!-- Phase 3: Governance 30% — purple -->
+        <g class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'Phase 3 — Governance &amp; Cert.<br/><b>$420K · 30%</b><br/>Months 7–9 · ISO 27001 · SOC 2 Type II · Training')" onmouseout="hideChartTooltip()">
+          <circle cx="82" cy="74" r="52" fill="none" stroke="#a78bfa" stroke-width="20"
+            stroke-dasharray="98.0 228.7" stroke-dashoffset="-228.7"
+            transform="rotate(-90 82 74)" opacity="0.9"/>
+        </g>
+        <!-- centre labels -->
+        <text x="82" y="70" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="700">$1.4M</text>
+        <text x="82" y="83" text-anchor="middle" fill="#778"    font-size="7">fixed-price</text>
+        <!-- legend — rows at y=38, 74, 110; clear of donut right edge (x=134+20=154) -->
+        <rect x="158" y="28"  width="10" height="10" rx="2" fill="#3b82d4"/>
+        <text x="172" y="36" fill="#c8d0dc" font-size="8">Phase 1 — Remediation</text>
+        <text x="172" y="47" fill="#667"    font-size="7">$420K · 30% · Months 1–3</text>
+
+        <rect x="158" y="64"  width="10" height="10" rx="2" fill="#4ade80"/>
+        <text x="172" y="72" fill="#c8d0dc" font-size="8">Phase 2 — Hardening</text>
+        <text x="172" y="83" fill="#667"    font-size="7">$560K · 40% · Months 4–6</text>
+
+        <rect x="158" y="100" width="10" height="10" rx="2" fill="#a78bfa"/>
+        <text x="172" y="108" fill="#c8d0dc" font-size="8">Phase 3 — Gov. &amp; Cert.</text>
+        <text x="172" y="119" fill="#667"    font-size="7">$420K · 30% · Months 7–9</text>
+      </svg>
+    </div>
+  </div>
+</div>` },
+
+        { type: 'text', text: "Key reads:\n• Security is the only proposal in the ideal quadrant — 93/100, lowest cost, lowest risk.\n• Cloud is high-value but $4.2M and sits in medium-high risk territory.\n• AI Platform's 3-yr line ($4.6M) nearly matches Cloud despite a smaller upfront fee — $600K/yr licence adds up fast, break-even isn't until Month 28.\n• Security phase breakdown: 30/40/30 fixed-price gates — zero overrun exposure." },
       ],
     },
 
@@ -476,6 +565,72 @@ The decision is yours. I made sure you had the right information to make it.` },
     addExplorerFile('proposal-cloud.md', 'proposal-cloud.md');
     addExplorerFile('proposal-ai.csv');
     addExplorerFile('proposal-security.docx');
+
+    // Interactive Chart Delegation
+    if (msgs) {
+      msgs.addEventListener('click', e => {
+        // Tab click handling
+        const tab = e.target.closest('.ds-chart-tab');
+        if (tab) {
+          const container = tab.closest('.ds-interactive-chart-container');
+          if (container) {
+            container.querySelectorAll('.ds-chart-tab').forEach(t => t.classList.remove('active'));
+            container.querySelectorAll('.ds-chart-view-panel').forEach(v => v.classList.remove('active'));
+            
+            tab.classList.add('active');
+            const targetId = tab.getAttribute('data-target');
+            const targetView = container.querySelector('#' + targetId);
+            if (targetView) targetView.classList.add('active');
+          }
+        }
+        
+        // Legend item click handling (toggle series visibility)
+        const legItem = e.target.closest('.ds-chart-legend-item');
+        if (legItem) {
+          const container = legItem.closest('.ds-interactive-chart-container');
+          if (container) {
+            const seriesId = legItem.getAttribute('data-series');
+            legItem.classList.toggle('disabled');
+            const isDisabled = legItem.classList.contains('disabled');
+            
+            container.querySelectorAll(`[data-chart-series="${seriesId}"]`).forEach(el => {
+              if (isDisabled) {
+                el.style.opacity = '0';
+                el.style.pointerEvents = 'none';
+              } else {
+                el.style.opacity = el.getAttribute('data-original-opacity') || '1';
+                el.style.pointerEvents = 'auto';
+              }
+            });
+          }
+        }
+      });
+    }
+
+    // Set up global dynamic tooltips for Bob's real chart representation
+    window.showChartTooltip = function (event, text) {
+      let tooltip = document.getElementById('ds-chart-global-tooltip');
+      if (!tooltip) {
+        tooltip = document.createElement('div');
+        tooltip.id = 'ds-chart-global-tooltip';
+        tooltip.className = 'ds-chart-tooltip-el';
+        document.body.appendChild(tooltip);
+      }
+      tooltip.innerHTML = text;
+      tooltip.classList.add('visible');
+      
+      const updatePosition = (e) => {
+        tooltip.style.left = (e.clientX + 14) + 'px';
+        tooltip.style.top = (e.clientY + 14) + 'px';
+      };
+      updatePosition(event);
+      event.target.onmousemove = updatePosition;
+    };
+
+    window.hideChartTooltip = function () {
+      const tooltip = document.getElementById('ds-chart-global-tooltip');
+      if (tooltip) tooltip.classList.remove('visible');
+    };
 
     sendBtn.addEventListener('click', advance);
     updateUI();

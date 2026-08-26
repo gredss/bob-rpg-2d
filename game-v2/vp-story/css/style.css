@@ -599,10 +599,18 @@ body {
   background: #0d0d0d;
   border: 1px solid #2a2a2a;
   border-radius: 6px;
-  padding: 12px 14px 8px;
+  padding: 8px 10px 6px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
+}
+
+/* When inside a tile, remove double-border boxing */
+.ds-echarts-tile .ds-chart-card {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }
 
 .ds-chart-card--full {
@@ -621,6 +629,14 @@ body {
   width: 100%;
   height: auto;
   display: block;
+  overflow: visible;
+}
+
+/* Charts inside a tile: fixed height so they never overflow */
+.ds-echarts-tile .ds-chart-svg {
+  width: 100%;
+  height: 230px;
+  max-height: 230px;
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -822,3 +838,217 @@ body {
   transition: border-color 120ms, color 120ms;
 }
 .bcp-continue-btn:hover { border-color: #4fc3f7; color: #fff; }
+
+/* ── Interactive Charting Styles (Real Bob ECharts Representation) ── */
+.ds-interactive-chart-container {
+  margin: 6px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-echarts-tile {
+  background: #111116;
+  border: 1px solid #2e2e38;
+  border-radius: 7px;
+  padding: 12px 14px 12px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  max-width: 620px;
+}
+
+.ds-echarts-tile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1c1c24;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.ds-echarts-tile-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #c8d0dc;
+  letter-spacing: 0.01em;
+}
+
+.ds-echarts-tile-icon {
+  font-size: 12px;
+}
+
+.ds-echarts-tile-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  background: #1c1c24;
+  color: #a78bfa;
+  border: 1px solid #3b3b4d;
+  padding: 1px 6px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.ds-chart-tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #1c1c24;
+}
+
+.ds-chart-tabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.ds-chart-tabs::-webkit-scrollbar-thumb {
+  background: #2b2b35;
+  border-radius: 2px;
+}
+
+.ds-chart-tab {
+  background: #181822;
+  border: 1px solid #282835;
+  color: #a0aec0;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ds-chart-tab:hover {
+  background: #242432;
+  color: #f7fafc;
+  border-color: #4a5568;
+}
+
+.ds-chart-tab.active {
+  background: #2b2b40;
+  color: #fff;
+  border-color: #6366f1;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.15);
+}
+
+.ds-chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.ds-chart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all 150ms ease;
+  user-select: none;
+}
+
+.ds-chart-legend-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.ds-chart-legend-item.disabled {
+  opacity: 0.3;
+  text-decoration: line-through;
+  background: transparent;
+  border-color: transparent;
+}
+
+.ds-legend-color-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.ds-legend-name {
+  font-size: 10px;
+  color: #a0aec0;
+}
+
+.ds-chart-legend-item:hover .ds-legend-name {
+  color: #f7fafc;
+}
+
+.ds-chart-view-panels {
+  position: relative;
+  min-height: 185px;
+}
+
+.ds-chart-view-panel {
+  display: none;
+}
+
+.ds-chart-view-panel.active {
+  display: block;
+  animation: chartPanelFadeIn 240ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes chartPanelFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ds-chart-inner-title {
+  font-size: 11px;
+  color: #718096;
+  font-weight: 500;
+  margin-bottom: 8px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.ds-chart-interactive-element {
+  cursor: pointer;
+  transition: filter 150ms ease, opacity 0.25s ease;
+}
+
+.ds-chart-interactive-element:hover {
+  filter: brightness(1.25) contrast(1.05);
+}
+
+/* Global Floating Chart Tooltip */
+.ds-chart-tooltip-el {
+  position: fixed;
+  z-index: 100000;
+  background: rgba(10, 10, 15, 0.96);
+  border: 1px solid #3c3c45;
+  border-left: 3px solid #6366f1;
+  border-radius: 5px;
+  padding: 10px 14px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 11px;
+  color: #e2e8f0;
+  pointer-events: none;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), 0 8px 10px -6px rgba(0, 0, 0, 0.7);
+  max-width: 280px;
+  line-height: 1.6;
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 120ms ease, transform 120ms ease;
+  backdrop-filter: blur(8px);
+}
+
+.ds-chart-tooltip-el.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ds-chart-tooltip-el b {
+  color: #f7fafc;
+}
