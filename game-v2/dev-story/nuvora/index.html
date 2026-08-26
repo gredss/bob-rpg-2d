@@ -290,6 +290,34 @@
     .footer-legal a { font-size: 13px; color: var(--dim); transition: color 150ms; }
     .footer-legal a:hover { color: var(--muted); }
 
+    /* ── Video Modal ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      position: relative; width: min(860px, 94vw);
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border-hi);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+    }
+    .modal-close {
+      position: absolute; top: 12px; right: 12px; z-index: 10;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15);
+      color: #fff; font-size: 18px; line-height: 1;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 150ms;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.15); }
+    .modal-video {
+      display: block; width: 100%; aspect-ratio: 16/9;
+      background: #000;
+    }
+
     /* ── Responsive ── */
     @media (max-width: 900px) {
       .navbar-links { display: none; }
@@ -343,13 +371,31 @@
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L15 8L8 15M1 8H15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Get Started Free
         </a>
-        <a href="#" class="btn-ghost">
+        <button class="btn-ghost" onclick="openDemo()">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 5.5L10.5 8L6.5 10.5V5.5Z" fill="currentColor"/></svg>
           Watch Demo
-        </a>
+        </button>
       </div>
     </div>
   </section>
+
+  <!-- Video Demo Modal -->
+  <div class="modal-overlay" id="demoModal" onclick="handleOverlayClick(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeDemo()" aria-label="Close">&times;</button>
+      <video
+        id="demoVideo"
+        class="modal-video"
+        controls
+        playsinline
+        preload="metadata"
+      >
+        <source src="../../assets/media/wxdi.mp4" type="video/mp4">
+        <source src="../../assets/media/wxdi.MOV" type="video/quicktime">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
 
   <!-- Logo bar -->
   <div class="logo-bar">
@@ -602,6 +648,26 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    function openDemo() {
+      document.getElementById('demoModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDemo() {
+      document.getElementById('demoModal').classList.remove('open');
+      document.body.style.overflow = '';
+      var v = document.getElementById('demoVideo');
+      v.pause();
+      v.currentTime = 0;
+    }
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('demoModal')) closeDemo();
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeDemo();
+    });
+  </script>
 
 </body>
 </html>

@@ -20,8 +20,8 @@
     {
       "type": "dialogue",
       "char": "narrator",
-      "text": "It's 9 AM. Taylor gets a ping from the ops team — something's off with the OCP cluster.",
-      "id": { "text": "Pukul 9 pagi. Taylor dapat pesan dari tim ops — ada yang tidak beres dengan cluster OCP." }
+      "text": "9 AM — ops team ping:\n• Pods in production are restarting\n• Unknown cause: cluster or app?\n• Need full picture: health, workloads, registry, routes\n• Risk: production goes down",
+      "id": { "text": "Pukul 9 pagi — pesan dari tim ops:\n• Pod di production terus restart\n• Penyebab belum diketahui: cluster atau aplikasi?\n• Perlu gambaran lengkap: health, workload, registry, route\n• Risiko: production down" }
     },
 
     {

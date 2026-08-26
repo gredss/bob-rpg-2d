@@ -7,22 +7,22 @@
   },
   "headline": "You walked in prepared.",
   "headline_id": "Kamu masuk dengan persiapan.",
-  "subline": "Three proposals. 45 minutes. One clear recommendation.",
-  "subline_id": "Tiga proposal. 45 menit. Satu rekomendasi yang jelas.",
+  "subline": "Three proposals. 90 minutes. One clear recommendation.",
+  "subline_id": "Tiga proposal. 90 menit. Satu rekomendasi yang jelas.",
   "moments": [
     {
       "icon": "📄",
-      "label": "Read 90+ pages of proposals",
-      "label_id": "Membaca 90+ halaman proposal",
+      "label": "Read all three proposals",
+      "label_id": "Membaca ketiga proposal",
       "detail": "In minutes, not hours",
       "detail_id": "Dalam menit, bukan jam"
     },
     {
       "icon": "🔍",
-      "label": "Caught a compliance gap",
-      "label_id": "Menemukan celah kepatuhan",
-      "detail": "That you nearly missed",
-      "detail_id": "Yang hampir terlewat"
+      "label": "Caught something you'd have missed",
+      "label_id": "Menemukan sesuatu yang hampir terlewat",
+      "detail": "Before the meeting started",
+      "detail_id": "Sebelum meeting dimulai"
     },
     {
       "icon": "✅",
@@ -34,6 +34,6 @@
   ],
   "timeSavedLabel": "~2 hours saved",
   "timeSavedLabel_id": "~2 jam dihemat",
-  "takeaway": "Bob doesn't make the decision. It makes sure you're never missing something important when you do.",
-  "takeaway_id": "Bob tidak membuat keputusan. Bob memastikan kamu tidak melewatkan sesuatu yang penting saat kamu memutuskan."
+  "takeaway": "The analysis was Bob's. The call was always yours.",
+  "takeaway_id": "Analisisnya milik Bob. Keputusannya selalu milik kamu."
 }

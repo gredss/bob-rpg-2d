@@ -20,8 +20,8 @@
     {
       "type": "dialogue",
       "char": "narrator",
-      "text": "Priya needs to combine three datasets — customers, orders, and support tickets — to find out why revenue is slipping.",
-      "id": { "text": "Priya perlu menggabungkan tiga dataset — pelanggan, pesanan, dan tiket support — untuk mencari tahu kenapa pendapatan turun." }
+      "text": "Priya's situation:\n• 3 datasets to combine — customers, orders, support tickets\n• Normal engineering request: 1-week turnaround\n• Deadline: today\n• Goal: find out why revenue is slipping",
+      "id": { "text": "Situasi Priya:\n• 3 dataset yang perlu digabungkan — pelanggan, pesanan, tiket support\n• Request ke engineering biasanya: 1 minggu\n• Deadline: hari ini\n• Tujuan: cari tahu kenapa pendapatan turun" }
     },
 
     {

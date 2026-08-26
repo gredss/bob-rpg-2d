@@ -129,8 +129,8 @@
         { type: 'rich', html: `<div class="bcpr-mcp-call"><span class="bcpr-mcp-icon">✦</span><span class="bcpr-mcp-label">read_file</span><span class="bcpr-mcp-meta">nuvora/index.html · full verification · 1 tool · 2s</span><span class="bcpr-mcp-arrow">›</span></div>` },
         { type: 'rich', html:
           `<div class="ds-plan">
-            <div class="ds-plan-item"><span class="ds-plan-num" style="color:#4ade80">✓</span><div class="ds-plan-body"><span class="ds-plan-title">Structure</span><span class="ds-plan-desc"><code>&lt;!DOCTYPE html&gt;</code> · <code>&lt;html lang="en"&gt;</code> · head/body/html all closed correctly. All sections semantic.</span></div></div>
-            <div class="ds-plan-item"><span class="ds-plan-num" style="color:#4ade80">✓</span><div class="ds-plan-body"><span class="ds-plan-title">Content parity</span><span class="ds-plan-desc">Hero h1, subheadline, 6 logos, 6 features, 4 steps, 3 testimonials, 3 pricing plans, CTA banner, footer — all match before.html exactly.</span></div></div>
+            <div class="ds-plan-item"><span class="ds-plan-num" style="color:#4ade80">✓</span><div class="ds-plan-body"><span class="ds-plan-title">Structure</span><span class="ds-plan-desc"><code>&lt;!DOCTYPE html&gt;</code> · <code>&lt;html lang="en"&gt;</code> · head/body/html all closed correctly. 673 lines. All sections semantic.</span></div></div>
+            <div class="ds-plan-item"><span class="ds-plan-num" style="color:#4ade80">✓</span><div class="ds-plan-body"><span class="ds-plan-title">Content parity</span><span class="ds-plan-desc">Hero h1, subheadline, 6 logos, 6 features, 4 steps, 3 testimonials, 3 pricing tiers, CTA banner, footer — all match before.html exactly.</span></div></div>
             <div class="ds-plan-item"><span class="ds-plan-num" style="color:#4ade80">✓</span><div class="ds-plan-body"><span class="ds-plan-title">SVG integrity</span><span class="ds-plan-desc">All linearGradient IDs unique (logo_grad_1–6), correct viewBox, paths closed.</span></div></div>
             <div class="ds-plan-item"><span class="ds-plan-num" style="color:#4ade80">✓</span><div class="ds-plan-body"><span class="ds-plan-title">Interactive spotlight</span><span class="ds-plan-desc">Vanilla JS tracks <code>mousemove</code> on <code>.feature-card</code> → updates <code>--x</code> / <code>--y</code> CSS variables. Clean, no dependencies.</span></div></div>
             <div class="ds-plan-item"><span class="ds-plan-num" style="color:#4ade80">✓</span><div class="ds-plan-body"><span class="ds-plan-title">Mobile nav toggle</span><span class="ds-plan-desc">Hamburger toggles <code>.navbar-links</code> and <code>.navbar-actions</code> display safely. No layout flash.</span></div></div>
@@ -148,7 +148,7 @@
             </div>
             <a href="nuvora/report.html" target="_blank" class="ds-artifact-open">Open ↗</a>
           </div>` },
-        { type: 'text', text: "🎨 Nuvora Website Visual Overhaul — Complete\n\nWe created a brand-new, production-ready nuvora/index.html that replaces all outdated practices from before.html with cutting-edge web design standards.\n\nThe safest way to execute a full overhaul is to keep the semantic content structure intact while migrating to a unified, scalable design system. Every word of copy and every section from before.html is preserved — only the styling was rebuilt from the ground up.\n\n3 premium additions beyond the fix list:\n• Ambient backlight glows — CSS radial-gradient orbs (.glow-orb) behind content, mimicking Stripe/Vercel\n• Interactive cursor spotlight — vanilla JS mousemove on .feature-card updates --x / --y CSS variables, draws a subtle glow that tracks the cursor\n• Gradient text masks — background-clip: text on headings for a premium metallic shine\n\nShare nuvora/index.html with the CEO. It's production-ready." },
+        { type: 'text', text: "Nuvora website overhaul is complete.\n\nnuvora/index.html is production-ready. Every word of copy and every section from before.html is preserved — only the styling was rebuilt from the ground up using a unified design system.\n\n3 premium additions beyond the fix list:\n• Ambient backlight glows — CSS radial-gradient orbs behind content, zero images\n• Interactive cursor spotlight — vanilla JS mousemove updates --x / --y CSS variables per feature card\n• Gradient text masks — background-clip: text on headings\n\nShare nuvora/index.html with the CEO." },
         { type: 'todo-done', id: 't6' },
         { type: 'footer', count: '1 file written · report generated · all 6 tasks complete' },
       ],
@@ -172,6 +172,15 @@
     addExplorerFile('before.html');
 
     sendBtn.addEventListener('click', advance);
+
+    // Click anywhere in the chat body while Bob is typing → skip current typewrite
+    body.addEventListener('click', e => {
+      // don't interfere with buttons/links
+      if (e.target.closest('button,a,[role="button"]')) return;
+      if (!busy) return;
+      skipCurrentTypewrite();
+    });
+
     updateUI();
   }
 
@@ -219,17 +228,46 @@
     return c;
   }
 
+  /* ── active typewrite handle (for skip) ───────────────────── */
+  let _twResolve = null;
+  let _twEl      = null;
+  let _twFull    = null;
+  let _twTimer   = null;
+
   function typewrite(el, text, speed = 9) {
+    // cancel any previous in-flight write
+    if (_twTimer) { clearTimeout(_twTimer); _twTimer = null; }
+    _twEl   = el;
+    _twFull = text;
     return new Promise(resolve => {
-      let i = 0;
+      _twResolve = resolve;
+      let i = el.textContent.length; // resume from current position
+      // reset
+      el.textContent = '';
+      i = 0;
       function tick() {
-        if (i >= text.length) { resolve(); return; }
+        if (i >= text.length) {
+          _twResolve = null; _twEl = null; _twFull = null; _twTimer = null;
+          resolve();
+          return;
+        }
         el.textContent += text[i++];
         scrollToBottom();
-        setTimeout(tick, speed);
+        _twTimer = setTimeout(tick, speed);
       }
       tick();
     });
+  }
+
+  function skipCurrentTypewrite() {
+    if (!_twResolve) return false;
+    clearTimeout(_twTimer); _twTimer = null;
+    if (_twEl && _twFull !== null) _twEl.textContent = _twFull;
+    scrollToBottom();
+    const res = _twResolve;
+    _twResolve = null; _twEl = null; _twFull = null;
+    res();
+    return true;
   }
 
   function appendWritingBar(contentDiv) {
@@ -277,7 +315,6 @@
       `<span class="bcpr-file-footer-icon">&#128194;</span>` +
       `<span class="bcpr-file-footer-count">${count}</span>` +
       `<span class="bcpr-file-footer-sep"></span>` +
-      `<button class="bcpr-file-footer-btn">Undo all</button>` +
       `<button class="bcpr-file-footer-btn">Show all</button>` +
       `<span class="bcpr-file-footer-chevron">&#8964;</span>`;
     contentDiv.appendChild(el);
@@ -456,9 +493,18 @@
 
       const wrap = document.createElement('div');
       wrap.className = 'bcp-done-wrap';
-      wrap.innerHTML = `<p>Follow up or start new task <kbd>Ctrl N</kbd></p><button class="bcp-restart-btn">↺ Restart</button>`;
+      wrap.innerHTML =
+        `<p>Follow up or start new task <kbd>Ctrl N</kbd></p>` +
+        `<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">` +
+        `<button class="bcp-restart-btn">↺ Restart</button>` +
+        `<button class="bcp-continue-btn">Continue →</button>` +
+        `</div>`;
       msgs.appendChild(wrap);
       scrollToBottom();
+
+      wrap.querySelector('.bcp-continue-btn').addEventListener('click', () => {
+        location.href = '../scene-developer.html';
+      });
 
       wrap.querySelector('.bcp-restart-btn').addEventListener('click', () => {
         step = 0;
@@ -484,6 +530,7 @@
     inputBox.classList.remove('active');
 
     activateChat();
+    body.classList.add('bob-typing');
 
     const cur = SCRIPT[step];
     addUserMsg(cur.user);
@@ -493,6 +540,7 @@
     await delay(600);
     await renderSegments(cur.bob);
 
+    body.classList.remove('bob-typing');
     step++;
     busy = false;
     updateUI();

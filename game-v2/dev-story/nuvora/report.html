@@ -1,442 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nuvora Visual Overhaul Report — IBM Bob</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
     body {
-      background: #0f1117;
-      color: #cccccc;
-      font-family: 'IBM Plex Sans', sans-serif;
+      font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
       font-size: 14px;
-      line-height: 1.65;
-      min-height: 100vh;
+      line-height: 1.6;
+      color: #1f2328;
+      background: #ffffff;
+      padding: 32px 16px;
     }
-    a { color: #818cf8; text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    .page { max-width: 760px; margin: 0 auto; }
+
+    /* ── Header ── */
+    .header { border-bottom: 2px solid #e5e7eb; padding-bottom: 20px; margin-bottom: 28px; }
+    .header h1 { font-size: 20px; font-weight: 700; color: #1f2328; margin-bottom: 4px; }
+    .header .sub { font-size: 13px; color: #57606a; }
+    .badge {
+      display: inline-block; padding: 2px 10px; border-radius: 12px;
+      font-size: 12px; font-weight: 600; margin-left: 8px;
+    }
+    .badge-green { background: #dcfce7; color: #166534; }
+    .badge-blue  { background: #dbeafe; color: #1d4ed8; }
+
+    /* ── Meta grid ── */
+    .meta-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px;
+      background: #f7f8fa; border: 1px solid #e5e7eb; border-radius: 6px;
+      padding: 16px; margin-bottom: 28px;
+    }
+    .meta-item .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: #57606a; }
+    .meta-item .value { font-size: 13px; color: #1f2328; font-family: "SF Mono", "Consolas", monospace; }
+
+    /* ── Section headers ── */
+    h2 {
+      font-size: 15px; font-weight: 700; color: #1f2328;
+      margin: 28px 0 10px; padding-left: 10px;
+      border-left: 3px solid #3b82d4;
+    }
+    h3 { font-size: 13px; font-weight: 700; color: #1f2328; margin: 16px 0 6px; }
+
+    /* ── Metric tiles ── */
+    .metric-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+    @media (max-width: 540px) { .metric-row { grid-template-columns: repeat(2, 1fr); } }
+    .metric-tile {
+      background: #f7f8fa; border: 1px solid #e5e7eb; border-radius: 6px;
+      padding: 12px; text-align: center;
+    }
+    .m-label { font-size: 11px; color: #57606a; margin-bottom: 4px; }
+    .m-value { font-size: 22px; font-weight: 700; }
+    .m-sub   { font-size: 11px; color: #57606a; margin-top: 2px; }
+    .red   { color: #b91c1c; }
+    .amber { color: #a16207; }
+    .green { color: #166534; }
+    .blue  { color: #1d4ed8; }
+
+    /* ── Finding blocks ── */
+    .finding { border: 1px solid #e5e7eb; border-radius: 6px; padding: 14px 16px; margin-bottom: 10px; }
+    .finding.fixed  { border-left: 4px solid #b91c1c; background: #fff9f9; }
+    .finding.added  { border-left: 4px solid #3b82d4; background: #f7f9ff; }
+    .finding-title  { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .finding-body   { font-size: 13px; color: #1f2328; line-height: 1.65; }
     code {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px;
-      background: #1e1e2e;
-      border: 1px solid #2d2d3d;
-      border-radius: 4px;
-      padding: 1px 6px;
-      color: #a5b4fc;
+      font-family: "SF Mono", "Consolas", monospace;
+      font-size: 12px; background: #f7f8fa;
+      border: 1px solid #e5e7eb; border-radius: 4px;
+      padding: 1px 5px;
     }
-
-    /* ── Page shell ── */
-    .page { max-width: 860px; margin: 0 auto; padding: 48px 32px 80px; }
-
-    /* ── Report header ── */
-    .report-header {
-      display: flex; align-items: flex-start; gap: 20px;
-      padding-bottom: 32px;
-      border-bottom: 1px solid #1e1e2e;
-      margin-bottom: 40px;
-    }
-    .report-bob-badge {
-      width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
-      background: linear-gradient(135deg, #6366f1, #818cf8);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-    }
-    .report-meta { flex: 1; }
-    .report-label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: #6366f1; margin-bottom: 4px;
-    }
-    .report-title {
-      font-size: 24px; font-weight: 700; color: #f4f4f4;
-      letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 6px;
-    }
-    .report-sub { font-size: 13px; color: #6b7280; }
-    .report-pills { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-    .pill {
-      font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 100px;
-      border: 1px solid; letter-spacing: 0.02em;
-    }
-    .pill-green  { color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07); }
-    .pill-violet { color: #818cf8; border-color: rgba(129,140,248,0.3); background: rgba(129,140,248,0.07); }
-    .pill-blue   { color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.07); }
-
-    /* ── Section ── */
-    .section { margin-bottom: 44px; }
-    .section-num {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: #6366f1; margin-bottom: 8px;
-    }
-    .section-title {
-      font-size: 18px; font-weight: 700; color: #f4f4f4;
-      letter-spacing: -0.02em; margin-bottom: 12px;
-    }
-    .section-body { font-size: 14px; color: #9ca3af; line-height: 1.75; }
-    .section-body p { margin-bottom: 10px; }
-    .section-body p:last-child { margin-bottom: 0; }
-
-    /* ── Divider ── */
-    hr { border: none; border-top: 1px solid #1e1e2e; margin: 40px 0; }
 
     /* ── Table ── */
-    .report-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
-    .report-table thead tr { border-bottom: 1px solid #2d2d3d; }
-    .report-table th {
-      text-align: left; padding: 8px 12px; font-size: 11px; font-weight: 700;
-      color: #6b7280; text-transform: uppercase; letter-spacing: 0.07em;
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+    th {
+      background: #f7f8fa; border: 1px solid #e5e7eb; padding: 7px 10px;
+      text-align: left; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .4px; color: #57606a;
     }
-    .report-table td { padding: 10px 12px; border-bottom: 1px solid #1a1a2a; color: #cccccc; vertical-align: top; }
-    .report-table tbody tr:last-child td { border-bottom: none; }
-    .report-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
-    .td-before { color: #f87171; }
-    .td-after  { color: #4ade80; }
-    .td-win    { color: #94a3b8; font-size: 12px; }
-    .check { color: #4ade80; font-weight: 700; }
-    .fail  { color: #f87171; font-weight: 700; }
+    td { border: 1px solid #e5e7eb; padding: 7px 10px; vertical-align: top; }
+    tr:nth-child(even) td { background: #fafafa; }
+    .td-before { color: #b91c1c; }
+    .td-after  { color: #166534; font-weight: 600; }
+    .td-win    { color: #57606a; font-size: 12px; }
 
-    /* ── Design system tokens ── */
-    .token-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 16px; }
-    .token-card {
-      background: #161620; border: 1px solid #2d2d3d; border-radius: 8px;
-      padding: 12px 14px; display: flex; align-items: center; gap: 12px;
+    /* ── Token swatches ── */
+    .token-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; margin-bottom: 12px; }
+    .token-item {
+      display: flex; align-items: center; gap: 10px;
+      background: #f7f8fa; border: 1px solid #e5e7eb; border-radius: 6px; padding: 10px 12px;
     }
-    .token-swatch { width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.08); }
-    .token-name { font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: #a5b4fc; margin-bottom: 2px; }
-    .token-value { font-size: 12px; color: #6b7280; font-family: 'IBM Plex Mono', monospace; }
+    .token-swatch { width: 24px; height: 24px; border-radius: 4px; flex-shrink: 0; border: 1px solid #e5e7eb; }
+    .token-name  { font-size: 11px; font-family: "SF Mono", "Consolas", monospace; color: #57606a; margin-bottom: 1px; }
+    .token-value { font-size: 12px; font-family: "SF Mono", "Consolas", monospace; color: #1f2328; font-weight: 600; }
 
     /* ── Contrast audit ── */
     .contrast-row {
       display: flex; align-items: center; gap: 12px;
-      padding: 10px 0; border-bottom: 1px solid #1a1a2a;
+      padding: 9px 0; border-bottom: 1px solid #e5e7eb;
     }
     .contrast-row:last-child { border-bottom: none; }
-    .contrast-swatch { width: 32px; height: 32px; border-radius: 6px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.06); }
-    .contrast-label { flex: 1; font-size: 13px; color: #cccccc; }
-    .contrast-token { font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: #6b7280; }
-    .contrast-ratio { font-size: 13px; font-weight: 700; color: #f4f4f4; min-width: 52px; text-align: right; }
+    .contrast-swatch { width: 28px; height: 28px; border-radius: 4px; flex-shrink: 0; border: 1px solid #e5e7eb; }
+    .contrast-label { flex: 1; font-size: 13px; color: #1f2328; }
+    .contrast-token { font-size: 11px; font-family: "SF Mono", "Consolas", monospace; color: #57606a; }
+    .contrast-ratio { font-size: 13px; font-weight: 700; min-width: 52px; text-align: right; }
     .contrast-badge {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
-      padding: 2px 8px; border-radius: 100px;
-      color: #4ade80; border: 1px solid rgba(74,222,128,0.3);
-      background: rgba(74,222,128,0.07);
+      font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 12px;
     }
+    .badge-aaa { background: #dcfce7; color: #166534; }
+    .badge-aa  { background: #fef9c3; color: #a16207; }
 
-    /* ── Premium additions list ── */
-    .additions-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
-    .addition-item {
-      display: flex; gap: 14px; align-items: flex-start;
-      background: #161620; border: 1px solid #2d2d3d; border-radius: 10px; padding: 16px;
-    }
-    .addition-icon {
-      width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
-      background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(129,140,248,0.1));
-      border: 1px solid rgba(99,102,241,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px;
-    }
-    .addition-body { flex: 1; }
-    .addition-title { font-size: 14px; font-weight: 700; color: #f4f4f4; margin-bottom: 4px; }
-    .addition-desc { font-size: 13px; color: #9ca3af; line-height: 1.6; }
-
-    /* ── Stat row ── */
-    .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 16px; }
-    .stat-card {
-      background: #161620; border: 1px solid #2d2d3d; border-radius: 10px; padding: 18px 16px;
-      text-align: center;
-    }
-    .stat-value { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: #f4f4f4; line-height: 1; margin-bottom: 6px; }
-    .stat-value.green  { color: #4ade80; }
-    .stat-value.violet { color: #818cf8; }
-    .stat-label { font-size: 12px; color: #6b7280; }
-
-    /* ── Next steps ── */
-    .next-steps { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
-    .next-step {
-      display: flex; align-items: center; gap: 12px;
-      padding: 10px 14px; background: #161620; border: 1px solid #2d2d3d; border-radius: 8px;
-      font-size: 13px; color: #cccccc;
-    }
-    .next-step-num {
-      font-size: 11px; font-weight: 700; font-family: 'IBM Plex Mono', monospace;
-      color: #6366f1; min-width: 22px;
-    }
+    /* ── Recommendations ── */
+    .rec { border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px 16px; margin-bottom: 10px; display: flex; gap: 12px; }
+    .rec-num  { font-size: 18px; font-weight: 800; color: #3b82d4; min-width: 28px; flex-shrink: 0; }
+    .rec-body .rec-title { font-weight: 700; font-size: 13px; margin-bottom: 3px; }
+    .rec-body .rec-desc  { font-size: 13px; color: #57606a; }
 
     /* ── Footer ── */
-    .report-footer {
-      margin-top: 60px; padding-top: 24px;
-      border-top: 1px solid #1e1e2e;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 12px; flex-wrap: wrap;
-    }
-    .report-footer-bob { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #6b7280; }
-    .report-footer-logo {
-      width: 20px; height: 20px; border-radius: 4px;
-      background: linear-gradient(135deg, #6366f1, #818cf8);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 10px; color: #fff; font-weight: 700;
-    }
-    .report-footer-copy { font-size: 12px; color: #374151; }
+    footer { margin-top: 36px; padding-top: 14px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #57606a; }
   </style>
 </head>
 <body>
 <div class="page">
 
   <!-- Header -->
-  <div class="report-header">
-    <div class="report-bob-badge">🤖</div>
-    <div class="report-meta">
-      <div class="report-label">IBM Bob · Agent Report</div>
-      <h1 class="report-title">Nuvora Visual Overhaul Report</h1>
-      <p class="report-sub">Comprehensive architectural report on the premium visual overhaul and code optimization. Generated after completing all 6 tasks.</p>
-      <div class="report-pills">
-        <span class="pill pill-green">✓ All 6 tasks complete</span>
-        <span class="pill pill-violet">nuvora/index.html</span>
-        <span class="pill pill-blue">WCAG AAA passing</span>
-      </div>
+  <div class="header">
+    <h1>Nuvora Visual Overhaul Report
+      <span class="badge badge-green">✓ All 6 Tasks Complete</span>
+    </h1>
+    <div class="sub">
+      Source: <code>dev-story/nuvora/index.html</code> &nbsp;|&nbsp;
+      Generated: Friday, 6:08 PM &nbsp;|&nbsp;
+      Status: <strong style="color:#166534">Production-ready</strong>
     </div>
   </div>
 
-  <!-- Key metrics -->
-  <div class="section">
-    <div class="section-num">Overview</div>
-    <div class="section-title">By the Numbers</div>
-    <div class="stat-row">
-      <div class="stat-card">
-        <div class="stat-value green">8</div>
-        <div class="stat-label">Bad practices fixed</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value violet">490</div>
-        <div class="stat-label">Lines written</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value green">19.5:1</div>
-        <div class="stat-label">Contrast ratio (heading)</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value violet">0</div>
-        <div class="stat-label">External icon requests</div>
-      </div>
+  <!-- Meta -->
+  <div class="meta-grid">
+    <div class="meta-item"><div class="label">Bad practices fixed</div><div class="value">8 issues resolved</div></div>
+    <div class="meta-item"><div class="label">Lines written</div><div class="value">673 lines</div></div>
+    <div class="meta-item"><div class="label">Heading contrast</div><div class="value">19.5:1 — WCAG AAA</div></div>
+    <div class="meta-item"><div class="label">External icon requests</div><div class="value">0 — all inline SVG</div></div>
+    <div class="meta-item"><div class="label">Design system</div><div class="value">Plus Jakarta Sans + CSS tokens</div></div>
+    <div class="meta-item"><div class="label">Tasks completed</div><div class="value">6 / 6</div></div>
+  </div>
+
+  <!-- Key numbers -->
+  <h2>By the Numbers</h2>
+  <div class="metric-row">
+    <div class="metric-tile">
+      <div class="m-label">Bad practices</div>
+      <div class="m-value green">8</div>
+      <div class="m-sub">All resolved</div>
+    </div>
+    <div class="metric-tile">
+      <div class="m-label">Lines written</div>
+      <div class="m-value blue">673</div>
+      <div class="m-sub">nuvora/index.html</div>
+    </div>
+    <div class="metric-tile">
+      <div class="m-label">Heading contrast</div>
+      <div class="m-value green">19.5:1</div>
+      <div class="m-sub">WCAG AAA pass</div>
+    </div>
+    <div class="metric-tile">
+      <div class="m-label">Icon requests</div>
+      <div class="m-value green">0</div>
+      <div class="m-sub">All inline SVG</div>
     </div>
   </div>
 
-  <hr />
-
-  <!-- Section 1 — Where to start safely -->
-  <div class="section">
-    <div class="section-num">Section 1</div>
-    <div class="section-title">Where to Start Safely</div>
-    <div class="section-body">
-      <p>The safest way to execute a full visual overhaul is to <strong style="color:#f4f4f4">keep the semantic content structure intact</strong> while migrating to a unified, scalable design system.</p>
-      <p>We preserved every word of copy and every section from <code>before.html</code> — nav, hero, logo bar, features, how it works, testimonials, pricing, CTA, footer — and rebuilt only the styling from the ground up using <strong style="color:#f4f4f4">Plus Jakarta Sans</strong>, a dark space-slate palette, and fluid CSS Grids.</p>
-      <p><code>before.html</code> is kept as the reference artifact. <code>nuvora/index.html</code> is the production replacement.</p>
+  <!-- Approach -->
+  <h2>Approach</h2>
+  <div class="finding added">
+    <div class="finding-title">ℹ Safe overhaul — content preserved, styling rebuilt from scratch</div>
+    <div class="finding-body">
+      Every word of copy and every section from <code>before.html</code> is preserved — nav, hero, logo bar, features, how it works, testimonials, pricing, CTA, footer.
+      Only the styling was rebuilt using a unified design system with CSS custom properties.
+      <code>before.html</code> is kept as the reference artifact. <code>nuvora/index.html</code> is the production replacement.
     </div>
   </div>
 
-  <hr />
+  <!-- Bad practices fixed -->
+  <h2>Bad Practices Fixed — before.html → index.html</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Legacy practice in before.html</th>
+        <th>Resolution in index.html</th>
+        <th>Technical advantage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-before">Missing <code>width=device-width</code> — viewport was <code>initial-scale=1</code> only</td>
+        <td class="td-after">Correct <code>width=device-width, initial-scale=1.0</code></td>
+        <td class="td-win">Configures layout correctly across all modern device viewports</td>
+      </tr>
+      <tr>
+        <td class="td-before">Duplicate <code>&lt;meta name="description"&gt;</code> tags</td>
+        <td class="td-after">Single, rich SEO meta description</td>
+        <td class="td-win">Prevents search engine penalties, improves indexing</td>
+      </tr>
+      <tr>
+        <td class="td-before"><code>overflow-x: hidden</code> on body masking broken mobile layout</td>
+        <td class="td-after">Fluid columns, elastic flexboxes, responsive grids</td>
+        <td class="td-win">Eliminates horizontal scrolling mathematically — no masking</td>
+      </tr>
+      <tr>
+        <td class="td-before">Hardcoded grid columns, zero <code>@media</code> queries</td>
+        <td class="td-after">CSS Grid <code>repeat(auto-fit, minmax(280px, 1fr))</code></td>
+        <td class="td-win">Cascades from 3–4 columns down to 1 on mobile seamlessly</td>
+      </tr>
+      <tr>
+        <td class="td-before">Low contrast — <code>#cccccc</code> on white = 1.6:1. Fails WCAG A</td>
+        <td class="td-after">Dark <code>#030712</code> backdrop with <code>#f9fafb</code> headings</td>
+        <td class="td-win">19.5:1 contrast — exceeds WCAG AAA (7:1 minimum)</td>
+      </tr>
+      <tr>
+        <td class="td-before">Plain bold text for company logos</td>
+        <td class="td-after">Custom geometric inline SVGs per partner</td>
+        <td class="td-win">Elevates social proof to a premium, trustworthy standard</td>
+      </tr>
+      <tr>
+        <td class="td-before">Copy-pasted button styles — 4 definitions, no shared base</td>
+        <td class="td-after">Shared <code>.btn-base</code> + gradient / outline modifier classes</td>
+        <td class="td-win">One edit updates all buttons simultaneously</td>
+      </tr>
+      <tr>
+        <td class="td-before">Raw inline <code>style="color:#0055ff"</code> overrides on badges</td>
+        <td class="td-after">Structured <code>.popular-badge</code> gradient class</td>
+        <td class="td-win">Maintainable, themeable, consistent across breakpoints</td>
+      </tr>
+    </tbody>
+  </table>
 
-  <!-- Section 2 — Bad practices fixed -->
-  <div class="section">
-    <div class="section-num">Section 2</div>
-    <div class="section-title">What Bad Practices Did We Fix?</div>
-    <table class="report-table">
-      <thead>
-        <tr>
-          <th>Legacy practice in <code>before.html</code></th>
-          <th>Premium resolution in <code>index.html</code></th>
-          <th>Technical advantage</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="td-before">Missing <code>width=device-width</code> — viewport was <code>initial-scale=1</code> only</td>
-          <td class="td-after">Correct <code>width=device-width, initial-scale=1.0</code></td>
-          <td class="td-win">Naturally configures layouts across all modern device viewports</td>
-        </tr>
-        <tr>
-          <td class="td-before">Duplicate <code>&lt;meta name="description"&gt;</code> tags</td>
-          <td class="td-after">Single, rich SEO meta description</td>
-          <td class="td-win">Prevents search engine penalties and boosts indexing score</td>
-        </tr>
-        <tr>
-          <td class="td-before"><code>overflow-x: hidden</code> on body masking broken mobile layout</td>
-          <td class="td-after">Fluid columns, elastic flexboxes, and responsive grids</td>
-          <td class="td-win">Eliminates horizontal scrolling mathematically — no masking</td>
-        </tr>
-        <tr>
-          <td class="td-before">Hardcoded grid columns, zero <code>@media</code> queries</td>
-          <td class="td-after">CSS Grid <code>repeat(auto-fit, minmax(280px, 1fr))</code></td>
-          <td class="td-win">Seamlessly cascades from 3–4 columns down to 1 on mobile</td>
-        </tr>
-        <tr>
-          <td class="td-before">Low contrast — <code>#cccccc</code> on white = 1.6:1. Fails WCAG A</td>
-          <td class="td-after">Dark <code>#030712</code> backdrop with <code>#f9fafb</code> headings</td>
-          <td class="td-win">19.5:1 contrast ratio — exceeds WCAG AAA (7:1 minimum)</td>
-        </tr>
-        <tr>
-          <td class="td-before">Plain bold text for company logos</td>
-          <td class="td-after">Custom geometric inline SVGs per partner</td>
-          <td class="td-win">Elevates social proof to a premium, trustworthy standard</td>
-        </tr>
-        <tr>
-          <td class="td-before">Copy-pasted button styles — 4 definitions, no shared base</td>
-          <td class="td-after">Shared <code>.btn-base</code> + gradient / outline modifier classes</td>
-          <td class="td-win">One edit updates all buttons simultaneously</td>
-        </tr>
-        <tr>
-          <td class="td-before">Raw inline <code>style="color:#0055ff"</code> overrides on badges</td>
-          <td class="td-after">Structured <code>.popular-badge</code> with gradient background class</td>
-          <td class="td-win">Maintainable, themeable, consistent across breakpoints</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Design system -->
+  <h2>Design System Tokens</h2>
+  <div class="token-grid">
+    <div class="token-item"><div class="token-swatch" style="background:#030712;"></div><div><div class="token-name">--bg-primary</div><div class="token-value">#030712</div></div></div>
+    <div class="token-item"><div class="token-swatch" style="background:#0b0f19;"></div><div><div class="token-name">--bg-secondary</div><div class="token-value">#0b0f19</div></div></div>
+    <div class="token-item"><div class="token-swatch" style="background:#f9fafb; border:1px solid #e5e7eb;"></div><div><div class="token-name">--text-primary</div><div class="token-value">#f9fafb</div></div></div>
+    <div class="token-item"><div class="token-swatch" style="background:#9ca3af;"></div><div><div class="token-name">--text-secondary</div><div class="token-value">#9ca3af</div></div></div>
+    <div class="token-item"><div class="token-swatch" style="background:#818cf8;"></div><div><div class="token-name">--accent-purple</div><div class="token-value">#818cf8</div></div></div>
+    <div class="token-item"><div class="token-swatch" style="background:#60a5fa;"></div><div><div class="token-name">--accent-blue</div><div class="token-value">#60a5fa</div></div></div>
+    <div class="token-item"><div class="token-swatch" style="background:#6b7280;"></div><div><div class="token-name">--text-muted</div><div class="token-value">#6b7280</div></div></div>
+    <div class="token-item"><div class="token-swatch" style="background:rgba(255,255,255,0.07); border:1px solid #e5e7eb;"></div><div><div class="token-name">--border-subtle</div><div class="token-value">rgba(255,255,255,0.07)</div></div></div>
   </div>
 
-  <hr />
-
-  <!-- Section 3 — Design system -->
-  <div class="section">
-    <div class="section-num">Section 3</div>
-    <div class="section-title">Design System</div>
-    <div class="section-body"><p>All values are defined as CSS custom properties at <code>:root</code>. A single token change cascades everywhere.</p></div>
-    <div class="token-grid">
-      <div class="token-card">
-        <div class="token-swatch" style="background:#030712;"></div>
-        <div><div class="token-name">--bg-primary</div><div class="token-value">#030712</div></div>
-      </div>
-      <div class="token-card">
-        <div class="token-swatch" style="background:#0b0f19;"></div>
-        <div><div class="token-name">--bg-secondary</div><div class="token-value">#0b0f19</div></div>
-      </div>
-      <div class="token-card">
-        <div class="token-swatch" style="background:#f9fafb;"></div>
-        <div><div class="token-name">--text-primary</div><div class="token-value">#f9fafb</div></div>
-      </div>
-      <div class="token-card">
-        <div class="token-swatch" style="background:#9ca3af;"></div>
-        <div><div class="token-name">--text-secondary</div><div class="token-value">#9ca3af</div></div>
-      </div>
-      <div class="token-card">
-        <div class="token-swatch" style="background:#6b7280;"></div>
-        <div><div class="token-name">--text-muted</div><div class="token-value">#6b7280</div></div>
-      </div>
-      <div class="token-card">
-        <div class="token-swatch" style="background:#818cf8;"></div>
-        <div><div class="token-name">--accent-purple</div><div class="token-value">#818cf8</div></div>
-      </div>
-      <div class="token-card">
-        <div class="token-swatch" style="background:#60a5fa;"></div>
-        <div><div class="token-name">--accent-blue</div><div class="token-value">#60a5fa</div></div>
-      </div>
-      <div class="token-card">
-        <div class="token-swatch" style="background:rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);"></div>
-        <div><div class="token-name">--border-subtle</div><div class="token-value">rgba(255,255,255,0.08)</div></div>
-      </div>
+  <!-- WCAG contrast -->
+  <h2>WCAG Contrast Audit — All Text on #030712</h2>
+  <div style="background:#f7f8fa; border:1px solid #e5e7eb; border-radius:6px; padding:12px 16px; margin-bottom:16px;">
+    <div class="contrast-row">
+      <div class="contrast-swatch" style="background:#f9fafb;"></div>
+      <div class="contrast-label">Headings &amp; primary text <div class="contrast-token">--text-primary · #f9fafb</div></div>
+      <div class="contrast-ratio green">19.5:1</div>
+      <span class="contrast-badge badge-aaa">AAA</span>
+    </div>
+    <div class="contrast-row">
+      <div class="contrast-swatch" style="background:#9ca3af;"></div>
+      <div class="contrast-label">Body text &amp; descriptions <div class="contrast-token">--text-secondary · #9ca3af</div></div>
+      <div class="contrast-ratio green">7.2:1</div>
+      <span class="contrast-badge badge-aaa">AAA</span>
+    </div>
+    <div class="contrast-row">
+      <div class="contrast-swatch" style="background:#6b7280;"></div>
+      <div class="contrast-label">Muted / secondary labels <div class="contrast-token">--text-muted · #6b7280</div></div>
+      <div class="contrast-ratio amber">4.7:1</div>
+      <span class="contrast-badge badge-aa">AA</span>
+    </div>
+    <div class="contrast-row">
+      <div class="contrast-swatch" style="background:#818cf8;"></div>
+      <div class="contrast-label">Accent links &amp; highlights <div class="contrast-token">--accent-purple · #818cf8</div></div>
+      <div class="contrast-ratio amber">5.9:1</div>
+      <span class="contrast-badge badge-aa">AA</span>
     </div>
   </div>
 
-  <hr />
+  <!-- Premium additions -->
+  <h2>Premium Additions Beyond the Fix List</h2>
 
-  <!-- Section 4 — Contrast audit -->
-  <div class="section">
-    <div class="section-num">Section 4</div>
-    <div class="section-title">WCAG Contrast Audit</div>
-    <div class="section-body"><p>All text combinations measured against background <code>#030712</code>.</p></div>
-    <div style="margin-top:16px;">
-      <div class="contrast-row">
-        <div class="contrast-swatch" style="background:#f9fafb;"></div>
-        <div class="contrast-label">Headings &amp; primary text<div class="contrast-token">--text-primary · #f9fafb</div></div>
-        <div class="contrast-ratio">19.5:1</div>
-        <span class="contrast-badge">AAA</span>
-      </div>
-      <div class="contrast-row">
-        <div class="contrast-swatch" style="background:#9ca3af;"></div>
-        <div class="contrast-label">Body text &amp; descriptions<div class="contrast-token">--text-secondary · #9ca3af</div></div>
-        <div class="contrast-ratio">7.2:1</div>
-        <span class="contrast-badge">AAA</span>
-      </div>
-      <div class="contrast-row">
-        <div class="contrast-swatch" style="background:#6b7280;"></div>
-        <div class="contrast-label">Muted / secondary labels<div class="contrast-token">--text-muted · #6b7280</div></div>
-        <div class="contrast-ratio">4.7:1</div>
-        <span class="contrast-badge">AA</span>
-      </div>
-      <div class="contrast-row">
-        <div class="contrast-swatch" style="background:#818cf8;"></div>
-        <div class="contrast-label">Accent links &amp; highlights<div class="contrast-token">--accent-purple · #818cf8</div></div>
-        <div class="contrast-ratio">5.9:1</div>
-        <span class="contrast-badge">AA</span>
-      </div>
+  <div class="finding added">
+    <div class="finding-title">A1 — Ambient Backlight Glows</div>
+    <div class="finding-body">CSS <code>radial-gradient</code> orbs (<code>.glow-orb</code>) positioned behind hero and CTA content. Creates the depth of Stripe/Vercel without any images or JS — pure CSS, zero network cost.</div>
+  </div>
+
+  <div class="finding added">
+    <div class="finding-title">A2 — Interactive Cursor Spotlight</div>
+    <div class="finding-body">Vanilla JS <code>mousemove</code> listener on each <code>.feature-card</code> updates CSS variables <code>--x</code> and <code>--y</code>. A <code>radial-gradient</code> at those coordinates draws a subtle glow that tracks the cursor. ~10 lines, no dependencies.</div>
+  </div>
+
+  <div class="finding added">
+    <div class="finding-title">A3 — Gradient Text Masks</div>
+    <div class="finding-body">Section headings and the hero <code>h1</code> use <code>background-clip: text</code> with a white-to-violet gradient. Communicates quality without being decorative noise.</div>
+  </div>
+
+  <div class="finding added">
+    <div class="finding-title">A4 — Responsive Mobile Navigation</div>
+    <div class="finding-body">A hamburger toggle safely controls <code>.navbar-links</code> and <code>.navbar-actions</code> display. No layout flash, no JavaScript conflicts, properly hidden on desktop via media query.</div>
+  </div>
+
+  <!-- Next steps -->
+  <h2>Recommended Next Steps</h2>
+
+  <div class="rec">
+    <div class="rec-num">1</div>
+    <div class="rec-body">
+      <div class="rec-title">Replace geometric partner logo SVGs with actual brand assets</div>
+      <div class="rec-desc">Current logos are custom geometric placeholders. Swap with official brand SVGs once approved by the brand team.</div>
     </div>
   </div>
 
-  <hr />
-
-  <!-- Section 5 — Premium additions -->
-  <div class="section">
-    <div class="section-num">Section 5</div>
-    <div class="section-title">Premium Aesthetic Additions</div>
-    <div class="section-body"><p>Beyond fixing the legacy issues, three additions push the design to a world-class standard.</p></div>
-    <div class="additions-list">
-      <div class="addition-item">
-        <div class="addition-icon">✦</div>
-        <div class="addition-body">
-          <div class="addition-title">Ambient Backlight Glows</div>
-          <div class="addition-desc">Deep CSS <code>radial-gradient</code> orbs (<code>.glow-orb</code>) positioned behind hero and CTA content. Creates the depth and premium atmosphere of Stripe and Vercel without any images or JS — pure CSS, zero cost.</div>
-        </div>
-      </div>
-      <div class="addition-item">
-        <div class="addition-icon">⊹</div>
-        <div class="addition-body">
-          <div class="addition-title">Interactive Cursor Spotlight</div>
-          <div class="addition-desc">Vanilla JS <code>mousemove</code> listener on each <code>.feature-card</code> updates CSS variables <code>--x</code> and <code>--y</code> with the cursor position. A <code>radial-gradient</code> at those coordinates draws a subtle indigo glow that tracks the user's cursor. ~10 lines, no dependencies.</div>
-        </div>
-      </div>
-      <div class="addition-item">
-        <div class="addition-icon">◈</div>
-        <div class="addition-body">
-          <div class="addition-title">Responsive Mobile Navigation</div>
-          <div class="addition-desc">A hamburger toggle button safely controls <code>.navbar-links</code> and <code>.navbar-actions</code> display on compact devices. No layout flash, no JavaScript conflicts, properly hidden on desktop via media query.</div>
-        </div>
-      </div>
-      <div class="addition-item">
-        <div class="addition-icon">◐</div>
-        <div class="addition-body">
-          <div class="addition-title">Gradient Text Masks</div>
-          <div class="addition-desc">Section headings and the hero <code>h1</code> use <code>background-clip: text</code> with a white-to-violet gradient. Gives a subtle, premium metallic shine that communicates quality without being decorative noise.</div>
-        </div>
-      </div>
+  <div class="rec">
+    <div class="rec-num">2</div>
+    <div class="rec-body">
+      <div class="rec-title">Add <code>prefers-reduced-motion</code> media query</div>
+      <div class="rec-desc">Disable cursor spotlight and CSS transitions for users who have requested reduced motion in their OS accessibility settings.</div>
     </div>
   </div>
 
-  <hr />
-
-  <!-- Section 6 — Next steps -->
-  <div class="section">
-    <div class="section-num">Section 6</div>
-    <div class="section-title">Recommended Next Steps</div>
-    <div class="next-steps">
-      <div class="next-step"><span class="next-step-num">01</span>Replace text partner logos with actual brand SVGs once approved by brand team</div>
-      <div class="next-step"><span class="next-step-num">02</span>Add <code>prefers-reduced-motion</code> media query to disable cursor spotlight and transitions for accessibility</div>
-      <div class="next-step"><span class="next-step-num">03</span>Add Open Graph meta tags (<code>og:title</code>, <code>og:image</code>, <code>og:description</code>) for social sharing</div>
-      <div class="next-step"><span class="next-step-num">04</span>Run Lighthouse audit — expect 95+ Performance, 100 Accessibility with current structure</div>
-      <div class="next-step"><span class="next-step-num">05</span>Wire the CTA email form to a backend endpoint or marketing automation tool (Mailchimp, HubSpot)</div>
-      <div class="next-step"><span class="next-step-num">06</span>Add <code>&lt;link rel="canonical"&gt;</code> once the production domain is confirmed</div>
+  <div class="rec">
+    <div class="rec-num">3</div>
+    <div class="rec-body">
+      <div class="rec-title">Add Open Graph meta tags</div>
+      <div class="rec-desc">Add <code>og:title</code>, <code>og:image</code>, and <code>og:description</code> for social sharing previews on Slack, LinkedIn, and Twitter.</div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <div class="report-footer">
-    <div class="report-footer-bob">
-      <div class="report-footer-logo">B</div>
-      Generated by IBM Bob · Agent mode · 6/6 tasks complete
+  <div class="rec">
+    <div class="rec-num">4</div>
+    <div class="rec-body">
+      <div class="rec-title">Run Lighthouse audit</div>
+      <div class="rec-desc">Expect 95+ Performance, 100 Accessibility with current structure. Run to confirm and capture the score for the CEO presentation.</div>
     </div>
-    <div class="report-footer-copy">Nuvora, Inc. · Confidential</div>
   </div>
+
+  <div class="rec">
+    <div class="rec-num">5</div>
+    <div class="rec-body">
+      <div class="rec-title">Wire the CTA email form</div>
+      <div class="rec-desc">Connect the hero and CTA email input to a backend endpoint or marketing automation tool (Mailchimp, HubSpot) before going live.</div>
+    </div>
+  </div>
+
+  <div class="rec">
+    <div class="rec-num">6</div>
+    <div class="rec-body">
+      <div class="rec-title">Add <code>&lt;link rel="canonical"&gt;</code></div>
+      <div class="rec-desc">Once the production domain is confirmed, add the canonical URL to prevent duplicate content issues in search indexing.</div>
+    </div>
+  </div>
+
+  <footer>Generated by IBM Bob &nbsp;·&nbsp; 8 bad practices resolved &nbsp;·&nbsp; 673 lines written &nbsp;·&nbsp; 6 / 6 tasks complete &nbsp;·&nbsp; nuvora/index.html is production-ready.</footer>
 
 </div>
 </body>

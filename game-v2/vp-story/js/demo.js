@@ -47,6 +47,7 @@
   let todoPanel = null;
   let step = 0;
   let busy = false;
+  let skipRequested = false;   // set true by a click while Bob is typing
 
   /* ════════════════════════════════════════════════════════════════════════
      SCRIPT
@@ -57,7 +58,7 @@
        Turn 1 — VP hands Bob the three proposals; Bob reads each one.
        ═══════════════════════════════════════════════════════════════════════ */
     {
-      user: "Bob, I need you to review all three vendor proposals for our Q3 initiative and give me one comprehensive board-ready analysis. The board meets in 90 minutes. The files are: proposal-cloud.md, proposal-ai.csv, proposal-security.docx.",
+      user: "Bob, I need you to review all three vendor proposals for our Q3 initiative and give me one comprehensive board-ready analysis. Board walks in 90 minutes — the files are: proposal-cloud.md, proposal-ai.csv, proposal-security.docx.",
       bob: [
         { type: 'text', text: "Understood. I'll read all three in full before forming any view — this avoids anchoring on the first document. Starting with proposal-cloud.md." },
         { type: 'rich', html: `<div class="bcpr-mcp-call"><span class="bcpr-mcp-icon">✦</span><span class="bcpr-mcp-label">read_file</span><span class="bcpr-mcp-meta">proposal-cloud.md · 70 lines · 1 tool · 2s</span><span class="bcpr-mcp-arrow">›</span></div>` },
@@ -108,7 +109,7 @@
               <span class="ds-plan-num" style="color:#a78bfa">🤖</span>
               <div class="ds-plan-body">
                 <span class="ds-plan-title">AI Platform — Strategic Fit: Medium · Risk: High</span>
-                <span class="ds-plan-desc">Compelling ROI narrative ($4.1M savings by Year 3) but relies on data quality assumptions your current data estate does not yet meet. $600K/yr perpetual licence is a lock-in cliff — switching costs after Year 2 estimated at $1.8M. Reference customers are retail only; financial-services context unproven.</span>
+                <span class="ds-plan-desc">Projected Year 3 savings of $2.3M but 3-year net benefit is only $900K once $1.8M implementation and licence costs are netted off. ROI relies entirely on data quality assumptions your current estate does not yet meet. $600K/yr perpetual licence is a lock-in cliff — switching costs after Year 2 estimated at $1.8M. Reference customers are retail only; financial-services context unproven.</span>
               </div>
             </div>
             <div class="ds-plan-item">
@@ -148,7 +149,7 @@
     {
       user: "Can you visualise the data? I need something I can glance at in the boardroom.",
       bob: [
-        { type: 'text', text: "Running create_chart four times — one chart per insight." },
+        { type: 'text', text: "Running create_chart — one chart per insight." },
 
         /* ── Chart 1: Bar — Program Budget ──
            viewBox 300×150: plot area y=20→120 (h=100), x=46→284 (w=238)
@@ -281,8 +282,8 @@
         <!-- Security line + dots -->
         <polyline points="88,93 168,91 248,89" fill="none" stroke="#4ade80" stroke-width="2" stroke-linejoin="round"/>
         <circle cx="88"  cy="93" r="4" fill="#4ade80" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🔐 Security Yr1 · <b>$1.4M</b><br/>Programme complete · 18% insurance saving')" onmouseout="hideChartTooltip()"/>
-        <circle cx="168" cy="91" r="4" fill="#4ade80" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🔐 Security Yr2 · <b>$1.52M</b><br/>+$120K annual support')" onmouseout="hideChartTooltip()"/>
-        <circle cx="248" cy="89" r="4" fill="#4ade80" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🔐 Security Yr3 · <b>$1.64M</b><br/>Lowest 3-yr cost of all proposals')" onmouseout="hideChartTooltip()"/>
+        <circle cx="168" cy="91" r="4" fill="#4ade80" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🔐 Security Yr2 · <b>$1.61M</b><br/>+$210K annual support')" onmouseout="hideChartTooltip()"/>
+        <circle cx="248" cy="89" r="4" fill="#4ade80" class="ds-chart-interactive-element" onmouseover="showChartTooltip(event,'🔐 Security Yr3 · <b>$1.82M</b><br/>Lowest 3-yr cost of all proposals')" onmouseout="hideChartTooltip()"/>
         <!-- gap bracket at Yr3 — right of plot area -->
         <line x1="256" y1="36" x2="256" y2="89" stroke="#f59e0b" stroke-width="0.9" stroke-dasharray="2,2" opacity="0.7"/>
         <text x="262" y="57" fill="#f59e0b" font-size="6.5" opacity="0.85">$2.96M</text>
@@ -353,7 +354,7 @@
   </div>
 </div>` },
 
-        { type: 'text', text: "Key reads:\n• Security is the only proposal in the ideal quadrant — 93/100, lowest cost, lowest risk.\n• Cloud is high-value but $4.2M and sits in medium-high risk territory.\n• AI Platform's 3-yr line ($4.6M) nearly matches Cloud despite a smaller upfront fee — $600K/yr licence adds up fast, break-even isn't until Month 28.\n• Security phase breakdown: 30/40/30 fixed-price gates — zero overrun exposure." },
+        { type: 'text', text: "Key reads:\n• Security is the only proposal in the ideal quadrant — 93/100, lowest cost, lowest risk.\n• Cloud is high-value but $4.2M and 18 months puts it in medium-high risk territory.\n• AI Platform's 3-yr total ($4.6M) climbs close to Cloud — the $600K/yr licence accumulates fast, and break-even isn't until Month 28.\n• Security phase breakdown: 30/40/30 fixed-price payment gates — zero overrun exposure." },
       ],
     },
 
@@ -391,7 +392,7 @@
           </div>` },
         { type: 'todo-done', id: 't5' },
         { type: 'todo-active', id: 't6' },
-        { type: 'text', text: "Writing board-insights.md — full executive synthesis with financial comparison, risk matrix, sequencing roadmap, and decision motions." },
+        { type: 'text', text: "Writing board-insights.md — full executive synthesis with financial comparison, risk matrix, sequencing roadmap, and decision motions. Three documents. One recommendation." },
         { type: 'writing' },
         { type: 'wrote', filename: 'board-insights.md', mdKey: 'board-insights.md' },
         { type: 'rich', html:
@@ -403,18 +404,19 @@
             </div>
             <a href="board/insights-report.html" target="_blank" class="ds-artifact-open">Open ↗</a>
           </div>` },
-        { type: 'text', text: `📋 Board Meeting Insights — Ready to table
+        { type: 'text', text: `Board meeting insights are ready to table.
 
 Singular recommendation: Approve Security Uplift now. Sequence the rest.
 
-What the board can decide today:
-  M1 — Approve ShieldTech Security Uplift ($1.4M fixed-price, 9 months). No further committee required.
-  M2 — Note Cloud Migration and AI Platform. Instruct CTO to present sequencing plan in Q4.
-  M3 — Commission 6-week data quality assessment to validate AI Platform ROI before any licence commitment.
+Three motions the board can act on today:
 
-The decision is yours. I made sure you had the right information to make it.` },
+  • M1 — Approve ShieldTech Security Uplift ($1.4M, fixed-price, 9 months). No further committee required.
+  • M2 — Note Proposals A and B. Instruct CTO to present a sequencing plan in Q4 2026, contingent on Proposal C Month 3 milestone.
+  • M3 — Commission a 6-week data quality assessment to validate AI Platform ROI before any licence commitment.
+
+The decision is yours. I made sure nothing important was missing when you made it.` },
         { type: 'todo-done', id: 't6' },
-        { type: 'footer', count: '1 report written · 3 motions drafted · board-ready in < 90 min' },
+        { type: 'footer', count: '3 proposals parsed · 3 motions drafted · board-ready in < 90 min' },
       ],
     },
   ];
@@ -633,6 +635,15 @@ The decision is yours. I made sure you had the right information to make it.` },
     };
 
     sendBtn.addEventListener('click', advance);
+
+    // Click anywhere in the chat body while Bob is typing → skip to end of response.
+    // Ignore clicks on interactive elements (buttons, links, chart elements, file entries).
+    body.addEventListener('click', e => {
+      if (!busy) return;
+      if (e.target.closest('button, a, .bcp-exp-file, .ds-chart-interactive-element, .bcp-wrote-file, .bcp-restart-btn')) return;
+      skipRequested = true;
+    });
+
     updateUI();
   }
 
@@ -680,12 +691,25 @@ The decision is yours. I made sure you had the right information to make it.` },
 
   function typewrite(el, text, speed = 9) {
     return new Promise(resolve => {
+      // If skip was already requested before this segment starts, flush immediately.
+      if (skipRequested) {
+        el.textContent = text;
+        scrollToBottom();
+        resolve();
+        return;
+      }
       let i = 0;
+      let timer;
       function tick() {
-        if (i >= text.length) { resolve(); return; }
+        if (skipRequested || i >= text.length) {
+          el.textContent = text;   // flush remainder
+          scrollToBottom();
+          resolve();
+          return;
+        }
         el.textContent += text[i++];
         scrollToBottom();
-        setTimeout(tick, speed);
+        timer = setTimeout(tick, speed);
       }
       tick();
     });
@@ -848,6 +872,9 @@ The decision is yours. I made sure you had the right information to make it.` },
   /* ════════════════════════════════════════════════════════════════════════
      SEGMENT RENDERER
      ══════════════════════════════════════════════════════════════════════ */
+  // Collapse all inter-segment delays to 0 when skipping.
+  function delayOrSkip(ms) { return skipRequested ? Promise.resolve() : delay(ms); }
+
   async function renderSegments(segments) {
     let contentDiv = null;
 
@@ -858,23 +885,23 @@ The decision is yours. I made sure you had the right information to make it.` },
         textEl.className = 'bcp-bob-text';
         contentDiv.appendChild(textEl);
         await typewrite(textEl, seg.text);
-        await delay(300);
+        await delayOrSkip(300);
       }
       else if (seg.type === 'rich') {
         if (!contentDiv) contentDiv = addBobRow();
         appendRich(contentDiv, seg.html);
-        await delay(200);
+        await delayOrSkip(200);
       }
       else if (seg.type === 'writing') {
         if (!contentDiv) contentDiv = addBobRow();
         const bar = appendWritingBar(contentDiv);
-        await delay(1800);
+        await delayOrSkip(skipRequested ? 0 : 1800);
         bar.remove();
       }
       else if (seg.type === 'wrote') {
         if (!contentDiv) contentDiv = addBobRow();
         appendWroteFile(contentDiv, seg.filename, seg.mdKey || null);
-        await delay(300);
+        await delayOrSkip(300);
       }
       else if (seg.type === 'footer') {
         if (!contentDiv) contentDiv = addBobRow();
@@ -882,15 +909,15 @@ The decision is yours. I made sure you had the right information to make it.` },
       }
       else if (seg.type === 'todo-init') {
         createTodoPanel();
-        await delay(500);
+        await delayOrSkip(500);
       }
       else if (seg.type === 'todo-active') {
         todoSetActive(seg.id);
-        await delay(300);
+        await delayOrSkip(300);
       }
       else if (seg.type === 'todo-done') {
         todoSetDone(seg.id);
-        await delay(400);
+        await delayOrSkip(400);
       }
     }
   }
@@ -946,9 +973,11 @@ The decision is yours. I made sure you had the right information to make it.` },
   async function advance() {
     if (busy || step >= SCRIPT.length) return;
     busy = true;
+    skipRequested = false;
     sendBtn.disabled = true;
     sendBtn.classList.remove('pulse');
     inputBox.classList.remove('active');
+    body.classList.add('bob-typing');
 
     activateChat();
 
@@ -960,6 +989,8 @@ The decision is yours. I made sure you had the right information to make it.` },
     await delay(600);
     await renderSegments(cur.bob);
 
+    skipRequested = false;
+    body.classList.remove('bob-typing');
     step++;
     busy = false;
     updateUI();

@@ -111,6 +111,10 @@ let currentListener   = null;   // charKey currently on right
 // stacking { once } listeners that fire on unrelated clicks (e.g. choice btns).
 let pendingAdvance    = null;
 
+// ── Video playback state ──────────────────────────────────────────────────────
+// Set to a handler object while a video is playing so onKeyDown routes to it.
+let videoKeyHandler   = null;
+
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 let dom = {};
 
@@ -667,6 +671,15 @@ function onDialogueClick() {
 }
 
 function onKeyDown(e) {
+  // While a video is playing, route Space / Enter there exclusively.
+  if (videoKeyHandler) {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      videoKeyHandler(e.key);
+    }
+    return;
+  }
+
   // Space or Enter — advance dialogue (same as click)
   if (e.key === ' ' || e.key === 'Enter') {
     e.preventDefault();
@@ -928,17 +941,34 @@ function handleVideoChoice(scene, opt) {
   }
 }
 
+// ── Auto-pause checkpoints per video (keyed by filename) ─────────────────────
+const VIDEO_PAUSE_POINTS = {
+  'bob-ocp-healthcheck.MOV': [8.5, 14, 19, 24],
+  'wxdi.MOV':                [4, 5, 8, 11],
+};
+
 function playVideoScene(src, onDone) {
-  const overlay     = dom.videoOverlay;
-  const player      = dom.videoPlayer;
-  const skipBtn     = dom.videoSkip;
+  const overlay       = dom.videoOverlay;
+  const player        = dom.videoPlayer;
+  const skipBtn       = dom.videoSkip;
   const playPauseBtn  = document.getElementById('video-playpause');
   const playPauseIcon = document.getElementById('video-playpause-icon');
   const progressWrap  = document.getElementById('video-progress-wrap');
   const progressBar   = document.getElementById('video-progress-bar');
   const timeLabel     = document.getElementById('video-time');
+  const pauseOverlay  = document.getElementById('video-pause-overlay');
+  const startHint     = document.getElementById('video-start-hint');
 
   if (!overlay || !player) { onDone(); return; }
+
+  // Resolve pause points for this video by matching the filename
+  const filename   = src.split('/').pop();
+  const rawPoints  = VIDEO_PAUSE_POINTS[filename] || [];
+  // Keep a mutable copy — we'll shift/discard points as we pass them
+  const pauseQueue = rawPoints.slice().sort((a, b) => a - b);
+
+  // Track whether the player is waiting at an auto-pause point
+  let waitingAtPause = false;
 
   // Hide the game stage while video plays
   if (dom.stage)           dom.stage.style.visibility = 'hidden';
@@ -947,11 +977,12 @@ function playVideoScene(src, onDone) {
   player.src = src;
   overlay.classList.remove('hidden');
   overlay.classList.remove('controls-visible');
-  player.play().catch(() => {});
+  // Do NOT auto-play — player must press Space to start
+  setPlayPauseIcon();
 
   // ── Helpers ──────────────────────────────────────────────────────────────
   function fmtTime(s) {
-    const m = Math.floor(s / 60);
+    const m   = Math.floor(s / 60);
     const sec = Math.floor(s % 60);
     return `${m}:${sec.toString().padStart(2, '0')}`;
   }
@@ -960,46 +991,100 @@ function playVideoScene(src, onDone) {
     if (!player.duration) return;
     const pct = (player.currentTime / player.duration) * 100;
     progressBar.style.width = pct + '%';
-    timeLabel.textContent = fmtTime(player.currentTime);
+    timeLabel.textContent   = fmtTime(player.currentTime);
+
+    // Check whether we've reached the next auto-pause point
+    if (pauseQueue.length && !waitingAtPause) {
+      const next = pauseQueue[0];
+      if (player.currentTime >= next) {
+        pauseQueue.shift();
+        triggerAutoPause();
+      }
+    }
   }
 
   function setPlayPauseIcon() {
+    if (!playPauseIcon) return;
     playPauseIcon.innerHTML = player.paused ? '&#9654;' : '&#10074;&#10074;';
     playPauseBtn.setAttribute('aria-label', player.paused ? 'Play' : 'Pause');
   }
 
+  // ── Auto-pause + Enter-to-continue overlay ────────────────────────────────
+  function triggerAutoPause() {
+    player.pause();
+    waitingAtPause = true;
+    if (pauseOverlay) pauseOverlay.classList.remove('hidden');
+  }
+
+  function dismissAutoPause() {
+    if (!waitingAtPause) return;
+    waitingAtPause = false;
+    if (pauseOverlay) pauseOverlay.classList.add('hidden');
+    player.play().catch(() => {});
+  }
+
   // ── Controls wiring ───────────────────────────────────────────────────────
+  function onFirstPlay() {
+    // Hide the "Press SPACE to play" hint once playback actually starts
+    if (startHint) startHint.style.display = 'none';
+    player.removeEventListener('play', onFirstPlay);
+  }
+
   player.addEventListener('timeupdate', syncControls);
   player.addEventListener('play',  setPlayPauseIcon);
+  player.addEventListener('play',  onFirstPlay);
   player.addEventListener('pause', setPlayPauseIcon);
 
   function onPlayPause() {
+    if (waitingAtPause) { dismissAutoPause(); return; }
     if (player.paused) player.play().catch(() => {}); else player.pause();
   }
   playPauseBtn.addEventListener('click', onPlayPause);
 
   function onProgressClick(e) {
     if (!player.duration) return;
-    const rect = progressWrap.getBoundingClientRect();
+    const rect  = progressWrap.getBoundingClientRect();
     const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
     player.currentTime = ratio * player.duration;
-    // Show controls briefly after scrubbing so user sees the new position
+    // If user scrubs forward past a pause point, remove it from the queue
+    while (pauseQueue.length && pauseQueue[0] <= player.currentTime) pauseQueue.shift();
+    // Show controls briefly after scrubbing
     overlay.classList.add('controls-visible');
     clearTimeout(overlay._hideCtrlTimer);
     overlay._hideCtrlTimer = setTimeout(() => overlay.classList.remove('controls-visible'), 1800);
   }
   progressWrap.addEventListener('click', onProgressClick);
 
+  // ── Keyboard handler (active only while this video is open) ──────────────
+  videoKeyHandler = function (key) {
+    if (key === 'Enter') {
+      if (waitingAtPause) { dismissAutoPause(); return; }
+      // Enter with no auto-pause: finish (same as skip)
+      finish();
+      return;
+    }
+    if (key === ' ') {
+      // Space always toggles play/pause (even at auto-pause point)
+      onPlayPause();
+    }
+  };
+
   // ── Cleanup ───────────────────────────────────────────────────────────────
   function cleanup() {
+    videoKeyHandler = null;
     player.removeEventListener('timeupdate', syncControls);
     player.removeEventListener('play',  setPlayPauseIcon);
+    player.removeEventListener('play',  onFirstPlay);
     player.removeEventListener('pause', setPlayPauseIcon);
     playPauseBtn.removeEventListener('click', onPlayPause);
     progressWrap.removeEventListener('click', onProgressClick);
     clearTimeout(overlay._hideCtrlTimer);
+    if (pauseOverlay) pauseOverlay.classList.add('hidden');
+    // Restore start hint for next use
+    if (startHint) startHint.style.display = '';
     progressBar.style.width = '0%';
-    timeLabel.textContent = '0:00';
+    timeLabel.textContent   = '0:00';
+    waitingAtPause = false;
   }
 
   function finish() {
@@ -1008,6 +1093,7 @@ function playVideoScene(src, onDone) {
     player.src = '';
     overlay.classList.add('hidden');
     if (dom.stage) dom.stage.style.visibility = '';
+    if (dom.dialogueOverlay) dom.dialogueOverlay.classList.remove('hidden');
     onDone();
   }
 

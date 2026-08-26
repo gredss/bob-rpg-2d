@@ -19,16 +19,16 @@
 
     {
       "type": "narration",
-      "text": "Friday, 3:47 PM.\nThe CEO just forwarded a Slack message to the entire engineering channel.",
-      "id": { "text": "Jumat, 15:47.\nCEO baru saja forward pesan Slack ke seluruh channel engineering." }
+      "text": "Friday, 3:47 PM.\n\nThe CEO just posted in the engineering channel.\nFull website redesign. By Monday.\n\nOne frontend dev on the team.\nThat's Sam.",
+      "id": { "text": "Jumat, 15:47.\n\nCEO baru saja posting di channel engineering.\nRedesign website. Sebelum Senin.\n\nSatu frontend dev di tim.\nItu Sam." }
     },
 
     {
       "type": "dialogue",
       "char": "sam",
       "expr": "stressed",
-      "text": "Taylor. TAYLOR.\n\nDid you see the Slack? The CEO wants the company website redesigned. By Monday. I'm the only frontend dev on this. I haven't touched that CSS in two years.",
-      "id": { "text": "Taylor. TAYLOR.\n\nKamu lihat Slack-nya? CEO minta website perusahaan didesain ulang. Sebelum Senin. Aku satu-satunya frontend dev di sini. CSS itu nggak pernah aku sentuh dua tahun terakhir." }
+      "text": "Taylor. TAYLOR.\n\nDid you see the Slack? The CEO wants the company website redesigned. By Monday. I'm the only frontend dev on this. I haven't touched the code in two years.",
+      "id": { "text": "Taylor. TAYLOR.\n\nKamu lihat Slack-nya? CEO minta website perusahaan didesain ulang. Sebelum Senin. Aku satu-satunya frontend dev di sini. Codingannya itu nggak pernah aku sentuh dua tahun terakhir." }
     },
 
     {
@@ -43,8 +43,8 @@
       "type": "dialogue",
       "char": "sam",
       "expr": "stressed",
-      "text": "It's flat white with system fonts and hardcoded hex colours everywhere. No variables, no responsive layout, nothing. The CEO called it \"embarrassing\" in the message. In writing. To everyone.",
-      "id": { "text": "Putih polos, font sistem, hex warna hardcoded di mana-mana. Nggak ada variabel, nggak ada responsive layout, nggak ada apa-apa. CEO nyebutnya \"memalukan\" di pesan itu. Tertulis. Ke semua orang." }
+      "text": "It looks like a website from 2009. Plain white, ugly fonts, breaks on every phone.\n\nThe CEO called it \"embarrassing.\"\n\nIn the Slack channel. To the whole company.",
+      "id": { "text": "Tampilannya kayak website tahun 2009. Putih polos, font jelek, berantakan di semua HP.\n\nCEO nyebutnya \"memalukan.\"\n\nDi channel Slack. Ke seluruh perusahaan." }
     },
 
     {
@@ -67,7 +67,7 @@
       "type": "dialogue",
       "char": "taylor",
       "expr": "lecturing",
-      "text": "It's not just an AI thing. I used it last week to audit our entire infrastructure config. It found three misconfigurations I'd been missing for months.\n\nJust open it. Tell it your problem. Exactly like you told me.",
+      "text": "It's not just an AI thing.\nI used it last week to audit our entire infrastructure config. It found three misconfigurations I'd been missing for months.\n\nJust open it. Tell it your problem. Exactly like you told me.",
       "id": { "text": "Bukan sekadar tool AI. Minggu lalu aku pakai buat audit seluruh config infrastruktur. Nemu tiga konfigurasi salah yang sudah aku lewatkan berbulan-bulan.\n\nBuka aja. Ceritakan masalahmu. Persis seperti kamu cerita ke aku." }
     },
 
@@ -75,7 +75,7 @@
       "type": "dialogue",
       "char": "sam",
       "expr": "skeptical",
-      "text": "You're serious.",
+      "text": "You're serious?",
       "id": { "text": "Serius kamu." }
     },
 
@@ -83,7 +83,7 @@
       "type": "dialogue",
       "char": "taylor",
       "expr": "relief",
-      "text": "Monday delivery. Open Bob.",
+      "text": "He will deliver. Just open Bob!",
       "id": { "text": "Deadline Senin. Buka Bob." }
     },
 
@@ -111,103 +111,47 @@
       "type": "dialogue",
       "char": "sam",
       "expr": "relief",
-      "text": "Taylor. It's done.",
-      "id": { "text": "Taylor. Selesai." }
+      "text": "Taylor. It's done.\n\nNew site. Fully checked. Report ready for the CEO.\n\nTwo hours.",
+      "id": { "text": "Taylor. Selesai.\n\nSitus baru. Sudah dicek semua. Laporan siap buat CEO.\n\nDua jam." }
     },
 
     {
       "type": "dialogue",
       "char": "taylor",
       "expr": "lecturing",
-      "text": "The whole thing? In two hours?",
-      "id": { "text": "Seluruhnya? Dalam dua jam?" }
+      "text": "That would've been your whole weekend.",
+      "id": { "text": "Itu harusnya makan seluruh akhir pekanmu." }
     },
 
     {
       "type": "dialogue",
       "char": "sam",
       "expr": "relief",
-      "text": "Full audit, design system, new page built from scratch, mobile responsive, WCAG contrast passing. Bob even ran a 6-task todo list while it worked and checked them off one by one.",
-      "id": { "text": "Audit penuh, design system, halaman baru dibangun dari nol, mobile responsif, kontras WCAG lulus. Bob bahkan membuat daftar 6 tugas sambil bekerja dan mencentangnya satu per satu." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "taylor",
-      "expr": "relief",
-      "text": "That would have been your entire weekend.",
-      "id": { "text": "Itu harusnya bisa memakan seluruh akhir pekanmu." }
+      "text": "Easily. And I would've missed half the problems.\n\nBob caught everything before touching a single file.",
+      "id": { "text": "Mudah. Dan aku pasti melewatkan setengah masalahnya.\n\nBob nemuin semuanya sebelum menyentuh satu file pun." }
     },
 
     {
       "type": "dialogue",
       "char": "sam",
       "expr": "relief",
-      "text": "Easily. And I would've missed the contrast failures. And the viewport meta tag. And the duplicate SEO description. Bob found all of it before writing a single line.",
-      "id": { "text": "Mudah. Dan aku pasti melewatkan kegagalan kontras. Dan meta tag viewport. Dan duplikasi deskripsi SEO. Bob menemukan semuanya sebelum menulis satu baris pun." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "taylor",
-      "expr": "lecturing",
-      "text": "That's the thing people miss about Bob. It's not autocomplete. It actually reads your files, understands the context, and then decides what needs fixing.",
-      "id": { "text": "Itulah yang orang-orang lewatkan soal Bob. Ini bukan autocomplete. Bob benar-benar membaca file-mu, memahami konteksnya, lalu memutuskan apa yang perlu diperbaiki." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "sam",
-      "expr": "relief",
-      "text": "It also generated a full report I can hand to the CEO. Contrast ratios, before and after, next steps. I looked like I'd been planning this for weeks.",
-      "id": { "text": "Bob juga membuat laporan lengkap yang bisa aku berikan ke CEO. Rasio kontras, sebelum dan sesudah, langkah selanjutnya. Aku terlihat seolah sudah merencanakan ini berminggu-minggu." }
+      "text": "I'm going home at 6 PM on a Friday.\n\n...Okay. You win. Bob is actually insane.",
+      "id": { "text": "Aku pulang jam 6 sore di hari Jumat.\n\n...Oke. Kamu menang. Bob benar-benar luar biasa." }
     },
 
     {
       "type": "dialogue",
       "char": "taylor",
       "expr": "relief",
-      "text": "How long would this have taken without Bob?",
-      "id": { "text": "Berapa lama ini tanpa Bob?" }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "sam",
-      "expr": "stressed",
-      "text": "Honestly? Three hours minimum just to audit the old site. Then another four or five to write everything. Sunday night, probably. Stressed the whole time.",
-      "id": { "text": "Jujur? Tiga jam minimal hanya untuk mengaudit situs lama. Lalu empat atau lima jam lagi untuk menulis semuanya. Malam Minggu, mungkin. Stres sepanjang waktu." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "taylor",
-      "expr": "relief",
-      "text": "And now?",
-      "id": { "text": "Dan sekarang?" }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "sam",
-      "expr": "relief",
-      "text": "Now I'm going home at 6 PM on a Friday.\n\n...Okay. You win. Bob is actually insane.",
-      "id": { "text": "Sekarang aku pulang jam 6 sore di hari Jumat.\n\n...Oke. Kamu menang. Bob benar-benar luar biasa." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "taylor",
-      "expr": "relief",
-      "text": "I told you. It doesn't replace the engineer — it just removes everything that was wasting your time.",
-      "id": { "text": "Sudah kubilang. Bob tidak menggantikan engineer — hanya menghilangkan semua yang membuang waktumu." }
+      "text": "It doesn't replace you.\n\nIt just stops wasting your time.",
+      "id": { "text": "Bob nggak gantiin kamu.\n\nBob cuma berhentiin hal-hal yang buang waktumu." }
     },
 
     {
       "type": "dialogue",
       "char": "bob",
-      "text": "Full audit. Premium redesign. Accessibility passing. Report generated.\n\nFriday evening, not Sunday night. That's what Bob is for.",
-      "id": { "text": "Audit penuh. Redesign premium. Aksesibilitas lulus. Laporan dibuat.\n\nJumat sore, bukan Minggu malam. Itulah kegunaan Bob." }
+      "text": "Audit done.\nRedesign shipped.\nReport in the CEO's hands.\n\nFriday evening.\nNot Sunday night.\n\nThat's what Bob is for.",
+      "id": { "text": "Audit selesai.\nRedesign terkirim.\nLaporan sudah di tangan CEO.\n\nJumat sore.\nBukan Minggu malam.\n\nItulah kegunaan Bob." }
     },
 
     {

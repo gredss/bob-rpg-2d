@@ -5,8 +5,8 @@
     "label": "Executive Dashboard",
     "label_id": "Dasbor Eksekutif"
   },
-  "brief": "Three proposals. One board meeting. 45 minutes to make the call.",
-  "brief_id": "Tiga proposal. Satu rapat dewan. 45 menit untuk mengambil keputusan.",
+  "brief": "Three proposals. One board meeting. 90 minutes to make the call.",
+  "brief_id": "Tiga proposal. Satu rapat dewan. 90 menit untuk mengambil keputusan.",
   "scenes": [
 
     {
@@ -18,167 +18,49 @@
     },
 
     {
-      "type": "narration",
-      "text": "Monday morning. Boardroom, 8:47 AM.\nAlex Chen stares at three thick proposal documents spread across the table.",
-      "id": { "text": "Senin pagi. Ruang board, 08:47.\nAlex Chen menatap tiga proposal tebal yang tersebar di atas meja." }
+      "type": "dialogue",
+      "char": "alex",
+      "expr": "overwhelmed",
+      "text": "Three proposals. 90 minutes. I haven't even finished reading the first one.",
+      "id": { "text": "Tiga proposal. 90 menit. Saya bahkan belum selesai baca yang pertama." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "priya",
+      "expr": "listening",
+      "text": "Use Bob. Give it the proposals, tell it what you need — it'll have a board-ready recommendation in minutes, not hours.",
+      "id": { "text": "Pakai Bob. Kasih proposalnya, bilang apa yang kamu butuhkan — rekomendasinya siap dalam menit, bukan jam." }
     },
 
     {
       "type": "dialogue",
       "char": "alex",
       "expr": "overwhelmed",
-      "text": "Three proposals. Three different teams. Three completely different budget requests.\n\nCloud migration — $4.2 million. AI platform — $2.8 million plus $600K a year. Security uplift — $1.4 million.\n\nAnd the board meeting is in 45 minutes.",
-      "id": { "text": "Tiga proposal. Tiga tim berbeda. Tiga budget request yang sama sekali berbeda.\n\nCloud migration — $4,2 juta. Platform AI — $2,8 juta plus $600K per tahun. Security uplift — $1,4 juta.\n\nDan board meeting 45 menit lagi." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "alex",
-      "expr": "overwhelmed",
-      "text": "I'm supposed to walk in there with a recommendation. One clear call. And I haven't even finished reading the first proposal.",
-      "id": { "text": "Saya harus masuk ke sana dengan rekomendasi. Satu keputusan yang jelas. Dan saya bahkan belum selesai baca proposal pertama." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "priya",
-      "expr": "listening",
-      "text": "Alex. I can see you've been staring at those documents since 7 AM.",
-      "id": { "text": "Alex. Kelihatan kamu sudah menatap dokumen-dokumen itu sejak jam 7 pagi." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "alex",
-      "expr": "overwhelmed",
-      "text": "Priya. These proposals — they're each 30-something pages. I need to extract the key numbers, compare the risks, build a recommendation, and have it ready in under an hour. There isn't enough time to do this properly.",
-      "id": { "text": "Priya. Proposal-proposal ini — masing-masing 30-an halaman. Saya harus ambil angka-angka kuncinya, bandingkan risikonya, buat rekomendasi, dan siapkan dalam waktu kurang dari satu jam. Tidak ada cukup waktu untuk melakukan ini dengan benar." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "priya",
-      "expr": "listening",
-      "text": "Have you tried using Bob for this?",
-      "id": { "text": "Sudah coba pakai Bob untuk ini?" }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "alex",
-      "text": "Bob? What's Bob?",
-      "id": { "text": "Bob? Apa itu Bob?" }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "priya",
-      "expr": "listening",
-      "text": "IBM Bob. It's an AI coding and analysis assistant — built into the IDE. I've been using it for data work. You give it your documents, tell it what you need, and it reads everything and gives you a structured synthesis.\n\nNot just a summary — it extracts the numbers, scores them against each other, surfaces the risks, and gives you a clear recommendation you can actually present.",
-      "id": { "text": "IBM Bob. Asisten AI untuk coding dan analisis — sudah built-in di IDE. Saya pakai untuk pekerjaan data. Kamu kasih dokumennya, bilang apa yang kamu butuhkan, dan ia baca semuanya lalu kasih sintesis yang terstruktur.\n\nBukan sekadar ringkasan — ia ambil angka-angkanya, bandingkan satu sama lain, tampilkan risikonya, dan kasih rekomendasi yang jelas yang bisa langsung kamu presentasikan." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "alex",
-      "text": "So it reads the proposals for me?",
-      "id": { "text": "Jadi ia baca proposalnya untuk saya?" }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "priya",
-      "expr": "listening",
-      "text": "It reads them, compares them, and tells you what it found. The decision is still yours — Bob just makes sure you're not walking into that boardroom missing something important.",
-      "id": { "text": "Ia membaca, membandingkan, dan memberitahu apa yang ditemukan. Keputusan tetap milik kamu — Bob hanya memastikan kamu tidak masuk ke boardroom itu dengan melewatkan sesuatu yang penting." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "alex",
-      "expr": "overwhelmed",
-      "text": "45 minutes. Three proposals. And you're telling me this thing can do in minutes what would take me the entire morning.",
-      "id": { "text": "45 menit. Tiga proposal. Dan kamu bilang alat ini bisa melakukan dalam hitungan menit apa yang akan saya habiskan sepanjang pagi." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "priya",
-      "expr": "listening",
-      "text": "That's exactly what I'm telling you.",
-      "id": { "text": "Tepat sekali yang saya katakan." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "alex",
-      "text": "Alright. Show me.",
-      "id": { "text": "Baiklah. Tunjukkan kepada saya." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "priya",
-      "expr": "relief",
-      "text": "Pull up Bob. Hand it the three proposals. Tell it what you need for the board meeting.\n\nIt'll take it from there.",
-      "id": { "text": "Buka Bob. Kasih ketiga proposal itu. Bilang apa yang kamu butuhkan untuk board meeting.\n\nSisanya ia yang urus." }
+      "text": "I've got 90 minutes before the board walks in. Alright. Show me.",
+      "id": { "text": "Saya punya 90 menit sebelum board masuk. Baiklah. Tunjukkan." }
     },
 
     {
       "type": "open-chat",
       "url": "vp-story/index.html",
-      "text": "Alex opens IBM Bob.\nFor the first time.",
-      "id": { "text": "Alex membuka IBM Bob.\nUntuk pertama kalinya." }
-    },
-
-    {
-      "type": "narration",
-      "text": "Later that afternoon. Alex finds Priya at her desk.",
-      "id": { "text": "Sore harinya. Alex menemukan Priya di mejanya." }
+      "text": "Alex opens IBM Bob.\n\nThree vendor proposals.\nOne board meeting.\nTime to get the full picture.",
+      "id": { "text": "Alex membuka IBM Bob.\n\nTiga proposal vendor.\nSatu rapat board.\nSaatnya mendapatkan gambaran lengkap." }
     },
 
     {
       "type": "dialogue",
       "char": "alex",
       "expr": "reliefed",
-      "text": "All three motions passed. Security Uplift approved — full budget, ShieldTech starts in 30 days. Cloud Migration goes to Q4 review. AI Platform gets a data quality gate first.",
-      "id": { "text": "Ketiga motion disetujui. Security Uplift disetujui — budget penuh, ShieldTech mulai 30 hari lagi. Cloud Migration masuk review Q4. AI Platform dapat quality gate data dulu." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "priya",
-      "expr": "relief",
-      "text": "That's the right call. In the right order.",
-      "id": { "text": "Itu keputusan yang tepat. Dalam urutan yang tepat." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "alex",
-      "text": "Four turns. Seven minutes. I spent two hours on those proposals this morning and got nowhere. Bob caught a compliance gap in the cloud migration I nearly missed.",
-      "id": { "text": "Empat giliran. Tujuh menit. Saya habiskan dua jam untuk proposal-proposal itu tadi pagi dan tidak ke mana-mana. Bob menemukan celah kepatuhan di cloud migration yang hampir saya lewatkan." }
-    },
-
-    {
-      "type": "dialogue",
-      "char": "priya",
-      "expr": "listening",
-      "text": "That's Bob. Not replacing the decision — catching what you don't have time to catch.",
-      "id": { "text": "Itulah Bob. Bukan menggantikan keputusan — tapi menangkap apa yang tidak sempat kamu tangkap." }
+      "text": "All three motions passed.\n\nBob caught something I'd have missed.\nBoard-ready before the meeting started.",
+      "id": { "text": "Ketiga motion disetujui.\n\nBob menemukan sesuatu yang hampir saya lewatkan.\nSiap untuk board sebelum meeting mulai." }
     },
 
     {
       "type": "dialogue",
       "char": "bob",
-      "text": "Three proposals. One clear decision. The decision was always yours — I just made sure nothing important was missed.",
-      "id": { "text": "Tiga proposal. Satu keputusan yang jelas. Keputusan selalu milik kamu — saya hanya memastikan tidak ada yang penting terlewat." }
-    },
-
-    {
-      "type": "narration",
-      "text": "Alex walked in with a recommendation, not a stack of documents.\nTime saved: ~2 hours.",
-      "id": { "text": "Alex masuk dengan rekomendasi, bukan tumpukan dokumen.\nWaktu yang dihemat: ~2 jam." }
+      "text": "Three proposals. One clear decision.\n\nThe analysis was mine.\nThe call was always yours.",
+      "id": { "text": "Tiga proposal. Satu keputusan yang jelas.\n\nAnalisisnya milik saya.\nKeputusannya selalu milik kamu." }
     },
 
     { "type": "end" }

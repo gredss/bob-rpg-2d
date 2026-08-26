@@ -471,6 +471,21 @@ body {
 .bcpr-file-footer-chevron { font-size: 13px; color: #555; }
 
 /* ── Done / restart ──────────────────────────────────────────── */
+/* ── bob-typing skip hint ───────────────────────────────────── */
+.bcp-body.bob-typing { cursor: pointer; }
+.bcp-body.bob-typing::after {
+  content: 'click to skip';
+  position: sticky; bottom: 8px;
+  display: block; margin: 4px auto 0;
+  width: fit-content;
+  font-size: 10px; font-family: 'IBM Plex Mono', monospace;
+  color: #555; letter-spacing: 0.08em;
+  pointer-events: none;
+  opacity: 0;
+  animation: skip-hint-fade 0.4s ease 1.2s forwards;
+}
+@keyframes skip-hint-fade { to { opacity: 1; } }
+
 .bcp-done-wrap { text-align: center; padding: 20px 16px; }
 .bcp-done-wrap p { font-size: 12px; color: #858585; margin-bottom: 10px; }
 .bcp-done-wrap kbd {
@@ -480,6 +495,8 @@ body {
 }
 .bcp-restart-btn { background: transparent; border: 1px solid #3c3c3c; color: #4fc3f7; font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; padding: 5px 16px; border-radius: 4px; cursor: pointer; transition: border-color 120ms; }
 .bcp-restart-btn:hover { border-color: #4fc3f7; }
+.bcp-continue-btn { background: transparent; border: 1px solid #3c3c3c; color: #4fc3f7; font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; padding: 5px 16px; border-radius: 4px; cursor: pointer; transition: border-color 120ms, color 120ms; }
+.bcp-continue-btn:hover { border-color: #4fc3f7; color: #fff; }
 
 /* ============================================================
    Demo segment styles (ds-*)
