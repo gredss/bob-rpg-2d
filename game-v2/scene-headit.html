@@ -80,9 +80,15 @@
   <!-- Fullscreen video overlay — shown for video-task scenes -->
   <div class="video-overlay hidden" id="video-overlay">
     <video class="video-overlay-player" id="video-overlay-player" playsinline></video>
+    <!-- Auto-pause prompt — shown when video hits a checkpoint -->
+    <div class="video-pause-overlay hidden" id="video-pause-overlay">
+      <span class="video-pause-hint">PRESS <kbd>ENTER</kbd> TO CONTINUE</span>
+    </div>
+    <!-- Start hint — shown before the video begins -->
+    <div class="video-start-hint" id="video-start-hint">PRESS <kbd>SPACE</kbd> TO PLAY</div>
     <div class="video-controls" id="video-controls">
-      <button class="video-ctrl-playpause" id="video-playpause" aria-label="Pause">
-        <span class="video-ctrl-icon" id="video-playpause-icon">&#10074;&#10074;</span>
+      <button class="video-ctrl-playpause" id="video-playpause" aria-label="Play">
+        <span class="video-ctrl-icon" id="video-playpause-icon">&#9654;</span>
       </button>
       <div class="video-progress-wrap" id="video-progress-wrap">
         <div class="video-progress-bar" id="video-progress-bar"></div>

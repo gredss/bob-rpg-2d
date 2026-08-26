@@ -19,16 +19,16 @@
 
     {
       "type": "narration",
-      "text": "Friday, 3:47 PM.\nThe CEO just forwarded a Slack message to the entire engineering channel.",
-      "id": { "text": "Jumat, 15:47.\nCEO baru saja forward pesan Slack ke seluruh channel engineering." }
+      "text": "Friday, 3:47 PM — CEO Slack, entire engineering channel:\n• Website redesign needed. By Monday.\n• Current site: flat white, hardcoded hex, no responsive layout\n• CEO's words: \"embarrassing\"\n• Only one frontend dev available: Sam",
+      "id": { "text": "Jumat, 15:47 — Slack CEO ke seluruh channel engineering:\n• Redesign website. Sebelum Senin.\n• Situs saat ini: putih polos, hex hardcoded, tidak responsif\n• Kata CEO: \"memalukan\"\n• Frontend dev yang tersedia hanya satu: Sam" }
     },
 
     {
       "type": "dialogue",
       "char": "sam",
       "expr": "stressed",
-      "text": "Taylor. TAYLOR.\n\nDid you see the Slack? The CEO wants the company website redesigned. By Monday. I'm the only frontend dev on this. I haven't touched that CSS in two years.",
-      "id": { "text": "Taylor. TAYLOR.\n\nKamu lihat Slack-nya? CEO minta website perusahaan didesain ulang. Sebelum Senin. Aku satu-satunya frontend dev di sini. CSS itu nggak pernah aku sentuh dua tahun terakhir." }
+      "text": "Taylor. TAYLOR.\n\nDid you see the Slack? The CEO wants the company website redesigned. By Monday. I'm the only frontend dev on this. I haven't touched the code in two years.",
+      "id": { "text": "Taylor. TAYLOR.\n\nKamu lihat Slack-nya? CEO minta website perusahaan didesain ulang. Sebelum Senin. Aku satu-satunya frontend dev di sini. Codingannya itu nggak pernah aku sentuh dua tahun terakhir." }
     },
 
     {
@@ -67,7 +67,7 @@
       "type": "dialogue",
       "char": "taylor",
       "expr": "lecturing",
-      "text": "It's not just an AI thing. I used it last week to audit our entire infrastructure config. It found three misconfigurations I'd been missing for months.\n\nJust open it. Tell it your problem. Exactly like you told me.",
+      "text": "It's not just an AI thing.\nI used it last week to audit our entire infrastructure config. It found three misconfigurations I'd been missing for months.\n\nJust open it. Tell it your problem. Exactly like you told me.",
       "id": { "text": "Bukan sekadar tool AI. Minggu lalu aku pakai buat audit seluruh config infrastruktur. Nemu tiga konfigurasi salah yang sudah aku lewatkan berbulan-bulan.\n\nBuka aja. Ceritakan masalahmu. Persis seperti kamu cerita ke aku." }
     },
 

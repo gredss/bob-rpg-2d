@@ -636,6 +636,64 @@
   text-align: right;
 }
 
+/* Start hint — shown centred over video before playback begins */
+.video-start-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  pointer-events: none;
+  animation: pulse 1.4s infinite;
+}
+.video-start-hint kbd {
+  display: inline-block;
+  padding: 2px 7px;
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: inherit;
+  background: rgba(255,255,255,0.1);
+}
+
+/* Auto-pause overlay — top-right prompt, no dimming */
+.video-pause-overlay {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: transparent;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  z-index: 10;
+  pointer-events: none;
+}
+.video-pause-overlay.hidden {
+  display: none;
+}
+.video-pause-hint {
+  color: #fff;
+  font-size: 14px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  animation: pulse 1.2s infinite;
+}
+.video-pause-hint kbd {
+  display: inline-block;
+  padding: 3px 10px;
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  background: rgba(255,255,255,0.12);
+  margin: 0 2px;
+}
+
 /* Skip button — lives inside the controls bar */
 .video-overlay-skip {
   flex-shrink: 0;
