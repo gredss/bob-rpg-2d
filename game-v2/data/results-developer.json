@@ -1,0 +1,39 @@
+{
+  "roleId": "developer",
+  "character": {
+    "name": "Sam Rivera",
+    "role": "Developer",
+    "avatar": "assets/backend-dev/head.png"
+  },
+  "headline": "You shipped on Friday.",
+  "headline_id": "Kamu selesai di hari Jumat.",
+  "subline": "Full redesign. Done by 6 PM. No weekend sacrificed.",
+  "subline_id": "Redesign penuh. Selesai jam 6 sore. Tidak ada akhir pekan yang dikorbankan.",
+  "moments": [
+    {
+      "icon": "🔎",
+      "label": "Full audit before a single line",
+      "label_id": "Audit penuh sebelum satu baris ditulis",
+      "detail": "Contrast, viewport, duplicate SEO — all caught",
+      "detail_id": "Kontras, viewport, duplikasi SEO — semuanya ketahuan"
+    },
+    {
+      "icon": "🎨",
+      "label": "Design system + page built from scratch",
+      "label_id": "Design system + halaman dibangun dari nol",
+      "detail": "Mobile responsive, WCAG passing",
+      "detail_id": "Responsif mobile, lulus WCAG"
+    },
+    {
+      "icon": "📋",
+      "label": "CEO-ready report generated",
+      "label_id": "Laporan siap untuk CEO dibuat",
+      "detail": "Before/after, ratios, next steps",
+      "detail_id": "Sebelum/sesudah, rasio, langkah selanjutnya"
+    }
+  ],
+  "timeSavedLabel": "~6 hours saved",
+  "timeSavedLabel_id": "~6 jam dihemat",
+  "takeaway": "Bob doesn't replace the engineer. It removes everything that was wasting your time.",
+  "takeaway_id": "Bob tidak menggantikan engineer. Bob menghilangkan semua yang membuang waktumu."
+}

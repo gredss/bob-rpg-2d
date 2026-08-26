@@ -1,0 +1,57 @@
+Field,Value
+Proposal Title,AI Platform — Intelligent Operations Suite
+Vendor,Nexus AI Technologies
+Reference Number,NAT-2026-ENT-047
+Submission Date,2026-08-19
+Contact,enterprise@nexusai.example
+
+SCOPE,,
+Programme Type,SaaS Platform + Professional Services
+MVP Timeline,12 months
+Full Rollout,18 months
+Modules Included,"Predictive Analytics, NLP Document Processing, Automated Reporting, Decision Intelligence Dashboard"
+
+FINANCIAL SUMMARY,,
+Implementation Fee,$2,800,000
+Annual Licence (Year 1),$600,000
+Annual Licence (Year 2+),$600,000
+Year 1 Total Cost,$3,400,000
+3-Year Total Cost (incl. licence),$5,200,000
+
+PROJECTED ROI,,
+Year 1 Savings (projected),$0 (ramp-up year)
+Year 2 Savings (projected),$1,800,000
+Year 3 Savings (projected),$2,300,000
+Break-Even Point,Month 28
+3-Year Net Benefit,$900,000
+
+DELIVERY MILESTONES,,
+Month 1-2,Platform onboarding and data connector setup
+Month 3-5,NLP model training on client data
+Month 6-9,MVP launch (Predictive Analytics + Reporting)
+Month 10-12,Decision Intelligence Dashboard go-live
+Month 13-18,Full rollout and adoption programme
+
+RISK ASSESSMENT,,
+Data Quality Dependency,HIGH — ROI projections assume clean structured data estate
+Licence Lock-In,HIGH — Switching cost estimated at $1.8M after Year 2
+Financial Services Fit,MEDIUM — Reference customers are retail-sector only
+Integration Complexity,MEDIUM — REST API connectors; legacy ERP may require custom adapters
+Regulatory Compliance,MEDIUM — AI governance framework not included in scope
+
+VENDOR CREDENTIALS,,
+Founded,2019
+Clients,140+ enterprise clients globally
+Certifications,SOC 2 Type I (Type II pending)
+Reference Sectors,Retail / E-commerce / Logistics
+Financial Services References,None provided
+
+KEY ASSUMPTIONS,,
+Assumption 1,Client data estate is clean and structured by Month 3 of programme
+Assumption 2,Client IT team allocates 2 FTEs for integration work
+Assumption 3,Existing BI tooling (Tableau / Power BI) is replaced by Year 2
+
+NOTES,,
+Note 1,ROI model has not been independently validated
+Note 2,Annual licence is a perpetual commitment — no exit clause before Year 3
+Note 3,IBM watsonx alternative may offer comparable capability with existing enterprise agreement

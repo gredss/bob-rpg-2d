@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IBM Bob — Meet Your AI Teammate</title>
+  <link rel="icon" type="image/png" href="assets/bob/head.png">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/attract.css">
+</head>
+<body>
+  <div class="page attract-page">
+    <div class="stars" id="stars"></div>
+
+    <!-- ── Centered single-column layout ──────────────────────────────────── -->
+    <div class="attract-center">
+
+      <!-- 1. Speech bubble — top, centered -->
+      <div class="attract-bubble-wrap">
+        <img src="assets/bubble.png" alt="" class="attract-bubble">
+      </div>
+
+      <!-- 2 + 3. Bob half-body layered over cycle ring -->
+      <div class="attract-hero">
+        <img src="assets/cycle.png"         alt="" class="attract-cycle">
+        <img src="assets/bob/half-body.png" alt="Bob" class="attract-bob-body">
+      </div>
+
+      <!-- 4. IBM Bob logotype -->
+      <img src="../game/assets/IBM_Bob_logotype_rev_white_RGB.png"
+           alt="IBM Bob"
+           class="attract-ibm-bob-logo">
+
+      <!-- 5. Two bottom buttons -->
+      <div class="attract-btns">
+        <button class="attract-cta" id="btn-start">
+          <img src="assets/start.png" alt="Click to Start" class="attract-cta-img">
+        </button>
+
+        <button class="attract-learn" id="btn-learn-inline">
+          <img src="assets/learn.png" alt="Learn more about Bob" class="attract-cta-img">
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── IBM Bob portal — full-screen iframe, swept in from bottom-right ── -->
+  <div class="bob-portal" id="bob-portal">
+    <iframe
+      src="actual_2/index.html"
+      class="bob-portal-iframe"
+      id="bob-portal-iframe"
+      tabindex="-1"
+      title="IBM Bob — Full SDLC Demo"
+      allowfullscreen>
+    </iframe>
+    <button class="bob-portal-close" id="btn-portal-close" title="Back to game (Esc)">
+      <div class="bob-portal-close-inner">
+        <img src="assets/bob/head.png" alt="Bob" class="bob-portal-close-avatar">
+        <div class="bob-portal-close-body">
+          <span class="bob-portal-close-eyebrow">IBM BOB</span>
+          <span class="bob-portal-close-title">Back to game</span>
+          <span class="bob-portal-close-cta"><span class="bob-portal-close-arrow">←</span> Return to play</span>
+        </div>
+      </div>
+    </button>
+  </div>
+
+
+  <script src="js/state.js"></script>
+  <script src="js/sfx.js"></script>
+  <script>
+    // Stars
+    (function() {
+      const c = document.getElementById('stars');
+      for (let i = 0; i < 60; i++) {
+        const s = document.createElement('span');
+        s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:${Math.random()*5}s;--op:${0.3+Math.random()*0.5};`;
+        c.appendChild(s);
+      }
+    })();
+
+    window.addEventListener('load', () => SFX.play('pageLoad', { volume: 0.6 }));
+
+    State.reset();
+
+    // ── Start button ─────────────────────────────────────────────────────────
+    const btnStart = document.getElementById('btn-start');
+    btnStart.addEventListener('mouseenter', () => SFX.play('cardHover', { debounce: true }));
+    btnStart.addEventListener('click', () => {
+      SFX.playThen('btnClick', () => { location.href = 'bob-role-pick.html'; });
+    });
+
+    // ── Portal: iframe-based switch ──────────────────────────────────────────
+    const portal      = document.getElementById('bob-portal');
+    const iframe      = document.getElementById('bob-portal-iframe');
+    const closeBtn    = document.getElementById('btn-portal-close');
+    const learnInline = document.getElementById('btn-learn-inline');
+    let isFullyOpen = false;
+    let portalPage = 'home';
+
+    function setPortalPage(page) {
+      portalPage = page;
+      portal.dataset.portalPage = page;
+    }
+    setPortalPage('home');
+
+    // Set the clip-path origin to the center of a given element
+    function setRevealOrigin(el) {
+      const r = el.getBoundingClientRect();
+      const cx = Math.round(r.left + r.width  / 2);
+      const cy = Math.round(r.top  + r.height / 2);
+      portal.style.setProperty('--cx', cx + 'px');
+      portal.style.setProperty('--cy', cy + 'px');
+    }
+
+    function switchIn(el) {
+      if (el) setRevealOrigin(el);
+      isFullyOpen = true;
+      // Add .open first so the clip-path wipe transition plays,
+      // then add .full after it completes to enable iframe interaction.
+      portal.classList.add('open');
+      setTimeout(() => {
+        portal.classList.add('full');
+        try {
+          const p = iframe.contentWindow && iframe.contentWindow.Router && iframe.contentWindow.Router.current;
+          if (p) setPortalPage(p);
+        } catch (e) {}
+        closeBtn.hidden = portalPage !== 'home';
+      }, 1010);
+    }
+    function switchOut() {
+      isFullyOpen = false;
+      portal.classList.remove('full');
+      setTimeout(() => portal.classList.remove('open'), 550);
+      closeBtn.hidden = true;
+    }
+    function updatePortalCloseButtonVisibility(page) {
+      setPortalPage(page);
+      closeBtn.hidden = !isFullyOpen || page !== 'home';
+    }
+
+    // inline "learn more" — click opens the portal (no peek; full-screen context
+    // means there's nowhere to hover off to close a peek overlay).
+    learnInline.addEventListener('mouseenter', () => SFX.play('cardHover', { debounce: true }));
+    learnInline.addEventListener('click', () => { if (!isFullyOpen) switchIn(learnInline); });
+
+    closeBtn.addEventListener('click',  (e) => { e.stopPropagation(); if (isFullyOpen) switchOut(); });
+    window.addEventListener('message',  (e) => {
+      if (e.data && e.data.type === 'bob:page-change') updatePortalCloseButtonVisibility(e.data.page);
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isFullyOpen) switchOut(); });
+    closeBtn.hidden = true;
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{
+  "roleId": "analyst",
+  "character": {
+    "name": "Priya Nair",
+    "role": "Data Analyst",
+    "avatar": "assets/data-scientist/head.png"
+  },
+  "headline": "You got the answer today.",
+  "headline_id": "Kamu mendapat jawabannya hari ini.",
+  "subline": "Three datasets. One request. No week-long wait.",
+  "subline_id": "Tiga dataset. Satu request. Tidak perlu menunggu seminggu.",
+  "moments": [
+    {
+      "icon": "🗄️",
+      "label": "Three datasets combined instantly",
+      "label_id": "Tiga dataset digabungkan seketika",
+      "detail": "Customers, orders, support tickets",
+      "detail_id": "Pelanggan, pesanan, tiket support"
+    },
+    {
+      "icon": "📉",
+      "label": "Declining spenders identified",
+      "label_id": "Pelanggan yang pengeluarannya turun teridentifikasi",
+      "detail": "Service correlation visible",
+      "detail_id": "Korelasi layanan terlihat"
+    },
+    {
+      "icon": "⚡",
+      "label": "1 week request → minutes",
+      "label_id": "Request 1 minggu → menit",
+      "detail": "Act on insight — not wait for data",
+      "detail_id": "Bertindak berdasarkan insight — bukan nunggu datanya"
+    }
+  ],
+  "timeSavedLabel": "~1 week saved",
+  "timeSavedLabel_id": "~1 minggu dihemat",
+  "takeaway": "The bottleneck was never the data. It was the wait. Bob removed it.",
+  "takeaway_id": "Bottleneck-nya bukan datanya. Tapi nunggu prosesnya. Bob menghilangkannya."
+}

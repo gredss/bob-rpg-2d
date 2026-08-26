@@ -1,0 +1,233 @@
+/* ── Results screen ─────────────────────────────────────────────────────────── */
+
+.results-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+/* ── Hero: character + headline ─────────────────────────────────────────────── */
+.res-hero {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  animation: fadeUp .45s ease both;
+}
+
+.res-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.res-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-light);
+  background: var(--surface);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.res-bob-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 28px;
+  height: 28px;
+  background: var(--bob);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--bg);
+}
+
+.res-bob-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: cover;
+  border-radius: 50%;
+  image-rendering: pixelated;
+}
+
+.res-hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.res-role {
+  font-size: .68rem;
+  font-family: var(--font-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--bob);
+}
+
+.res-name {
+  font-size: .88rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.res-headline {
+  font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+  font-family: var(--font-mono);
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1.2;
+  margin-top: 4px;
+}
+
+.res-subline {
+  font-size: .88rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ── Time saved — hero stat ──────────────────────────────────────────────────── */
+.res-time-hero {
+  background: linear-gradient(135deg, rgba(245,158,11,.12) 0%, rgba(245,158,11,.04) 100%);
+  border: 2px solid var(--bob);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  text-align: center;
+  box-shadow: 0 0 28px var(--bob-glow);
+  animation: fadeUp .45s .08s ease both;
+}
+
+.res-time-label {
+  font-size: .68rem;
+  font-family: var(--font-mono);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.res-time-val {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-family: var(--font-mono);
+  font-weight: 900;
+  color: var(--bob);
+  line-height: 1;
+}
+
+/* ── "What Bob did" section label ────────────────────────────────────────────── */
+.res-moments-label {
+  font-size: .68rem;
+  font-family: var(--font-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  animation: fadeUp .45s .14s ease both;
+}
+
+/* ── Moment cards ────────────────────────────────────────────────────────────── */
+.res-moments {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeUp .45s .18s ease both;
+}
+
+.res-moment {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+}
+
+.res-moment-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  width: 36px;
+  text-align: center;
+}
+
+.res-moment-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.res-moment-label {
+  font-size: .92rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.res-moment-detail {
+  font-size: .78rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ── Takeaway quote ──────────────────────────────────────────────────────────── */
+.res-takeaway {
+  background: var(--bg2);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 16px 20px;
+  font-size: .95rem;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.6;
+  animation: fadeUp .45s .26s ease both;
+}
+
+/* ── CTA buttons ─────────────────────────────────────────────────────────────── */
+.results-buttons {
+  display: flex;
+  gap: 14px;
+  animation: fadeUp .45s .32s ease both;
+}
+
+.results-btn {
+  flex: 1;
+  padding: 16px 20px;
+  font-size: .95rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: .08em;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+  text-align: center;
+}
+
+.results-btn:hover { transform: translateY(-2px); }
+
+.results-btn.primary {
+  background: var(--accent);
+  color: #fff;
+  border: 2px solid var(--accent);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+.results-btn.primary:hover { box-shadow: 0 8px 30px var(--accent-glow); }
+
+.results-btn.ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 2px solid var(--border);
+}
+.results-btn.ghost:hover { border-color: var(--border-light); color: var(--text); }
+
+/* ── Shared fadeUp keyframe (also used by base) ──────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}

@@ -1,0 +1,104 @@
+{
+  "id": "headit",
+  "workstation": {
+    "icon": "",
+    "label": "OpenShift Container Platform",
+    "label_id": "OpenShift Container Platform"
+  },
+  "brief": "The cluster is acting up. You need answers fast — before production goes down.",
+  "brief_id": "Cluster bermasalah. Anda butuh jawaban cepat — sebelum produksi down.",
+  "scenes": [
+
+    {
+      "type": "chapter",
+      "phase": "headit",
+      "title": "YOUR WORKDAY",
+      "subtitle": "Head IT",
+      "id": { "title": "HARI KERJAMU", "subtitle": "Kepala IT" }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "narrator",
+      "text": "It's 9 AM. Taylor gets a ping from the ops team — something's off with the OCP cluster.",
+      "id": { "text": "Pukul 9 pagi. Taylor dapat pesan dari tim ops — ada yang tidak beres dengan cluster OCP." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "priya",
+      "expr": "listening",
+      "text": "Taylor, pods in production are restarting. I can't tell if it's the cluster or the app.",
+      "id": { "text": "Taylor, pod di production terus restart. Saya tidak tahu masalahnya di cluster atau di aplikasinya." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "taylor",
+      "expr": "overwhelm",
+      "text": "Cluster health, workloads, registry, routes — I need the full picture before I touch anything.",
+      "id": { "text": "Kesehatan cluster, workload, registry, route — saya butuh gambaran lengkap sebelum melakukan apa pun." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "priya",
+      "expr": "listening",
+      "text": "Have you tried Bob? He can run the full health check for you.",
+      "id": { "text": "Sudah coba Bob? Dia bisa jalankan health check lengkap buat kamu." }
+    },
+
+    {
+      "type": "video-task",
+      "char": "taylor",
+      "expr": "overwhelm",
+      "phase": "headit",
+      "problem": "Run a full OCP health check — cluster, workloads, registry, routes.",
+      "id": { "problem": "Jalankan OCP health check lengkap — cluster, workload, registry, route." },
+      "options": [
+        {
+          "id": "hit-1-bob",
+          "type": "bob",
+          "icon": "",
+          "label": "Ask Bob to run the OCP health check",
+          "meta": "~45 sec saved",
+          "timeCost": 11,
+          "manualCost": 56,
+          "deltas": { "quality": 14, "satisfaction": 11 },
+          "videoSrc": "assets/media/bob-ocp-healthcheck.MOV",
+          "outcome": "Full OCP health check complete. Issues identified, next steps clear. ✓",
+          "id_text": {
+            "label": "Minta Bob jalankan OCP health check",
+            "meta": "~45 detik hemat",
+            "outcome": "OCP health check selesai. Masalah teridentifikasi, langkah selanjutnya jelas. ✓"
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "dialogue",
+      "char": "priya",
+      "expr": "relief",
+      "text": "Payment service is back up! That was fast, Taylor.",
+      "id": { "text": "Payment service sudah normal! Cepat banget, Taylor." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "taylor",
+      "expr": "relief",
+      "text": "It's not about knowing every command by heart. It's about having the right co-pilot.",
+      "id": { "text": "Bukan soal hafal semua perintah. Tapi soal punya co-pilot yang tepat." }
+    },
+
+    {
+      "type": "dialogue",
+      "char": "bob",
+      "text": "Cluster login. Full health scan. Remediation plan. Post-fix verification.\n\nWhat used to take an hour of digging — done in minutes. That's ops at full speed.",
+      "id": { "text": "Login cluster. Scan kesehatan lengkap. Rencana remediasi. Verifikasi pasca-perbaikan.\n\nYang biasanya butuh satu jam penggalian — selesai dalam menit. Itulah ops di kecepatan penuh." }
+    },
+
+    { "type": "end" }
+  ]
+}

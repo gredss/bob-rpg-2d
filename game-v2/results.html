@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IBM Bob — Results</title>
+  <link rel="icon" type="image/png" href="assets/bob/head.png">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/results.css">
+</head>
+<body>
+  <div class="page" style="overflow-y:auto;align-items:center;justify-content:flex-start;">
+    <button class="home-btn" onclick="location.href='index.html'" title="Home">
+      <img src="assets/bob/head.png" alt="Home">
+    </button>
+    <div class="stars" id="stars"></div>
+
+    <div class="results-wrap">
+
+      <!-- ── Character + headline ───────────────────────────────────────── -->
+      <div class="res-hero" id="res-hero">
+        <div class="res-avatar-wrap">
+          <img class="res-avatar" id="res-avatar" src="" alt="">
+          <div class="res-bob-badge">
+            <img src="assets/bob/head.png" alt="Bob" class="res-bob-icon">
+          </div>
+        </div>
+        <div class="res-hero-text">
+          <div class="res-role" id="res-role"></div>
+          <div class="res-name" id="res-name"></div>
+          <div class="res-headline" id="res-headline"></div>
+          <div class="res-subline" id="res-subline"></div>
+        </div>
+      </div>
+
+      <!-- ── Time saved — hero stat ──────────────────────────────────────── -->
+      <div class="res-time-hero" id="res-time-hero">
+        <div class="res-time-label">Time saved with Bob</div>
+        <div class="res-time-val" id="res-time-val">—</div>
+      </div>
+
+      <!-- ── What Bob did — story moments ───────────────────────────────── -->
+      <div class="res-moments-label">What Bob did for you</div>
+      <div class="res-moments" id="res-moments">
+        <!-- injected by results.js -->
+      </div>
+
+      <!-- ── Takeaway quote ─────────────────────────────────────────────── -->
+      <div class="res-takeaway" id="res-takeaway">
+        <!-- injected by results.js -->
+      </div>
+
+      <!-- ── CTA buttons ────────────────────────────────────────────────── -->
+      <div class="results-buttons">
+        <button class="results-btn primary" id="btn-play-again">↩ Play Again</button>
+        <button class="results-btn ghost" onclick="window.open('https://bob.ibm.com','_blank')">Try IBM Bob →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/state.js"></script>
+  <script src="js/results.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{
+  "roleId": "headit",
+  "character": {
+    "name": "Taylor Kim",
+    "role": "Head IT",
+    "avatar": "assets/devops-engineer/head.png"
+  },
+  "headline": "Production stayed up.",
+  "headline_id": "Produksi tetap berjalan.",
+  "subline": "Full OCP health check. Issues found. Crisis averted.",
+  "subline_id": "OCP health check lengkap. Masalah ditemukan. Krisis teratasi.",
+  "moments": [
+    {
+      "icon": "🩺",
+      "label": "Full cluster health scan",
+      "label_id": "Pemindaian kesehatan cluster lengkap",
+      "detail": "Cluster, workloads, registry, routes",
+      "detail_id": "Cluster, workload, registry, route"
+    },
+    {
+      "icon": "🛠️",
+      "label": "Remediation plan generated",
+      "label_id": "Rencana remediasi dibuat",
+      "detail": "Clear next steps, no guessing",
+      "detail_id": "Langkah selanjutnya jelas, tidak perlu menebak"
+    },
+    {
+      "icon": "✅",
+      "label": "Post-fix verification done",
+      "label_id": "Verifikasi pasca-perbaikan selesai",
+      "detail": "Payment service restored",
+      "detail_id": "Payment service dipulihkan"
+    }
+  ],
+  "timeSavedLabel": "~1 hour saved",
+  "timeSavedLabel_id": "~1 jam dihemat",
+  "takeaway": "It's not about knowing every command by heart. It's about having the right co-pilot.",
+  "takeaway_id": "Bukan soal hafal semua perintah. Tapi soal punya co-pilot yang tepat."
+}
