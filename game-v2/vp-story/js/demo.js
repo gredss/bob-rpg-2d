@@ -355,6 +355,40 @@
 </div>` },
 
         { type: 'text', text: "Key reads:\n• Security is the only proposal in the ideal quadrant — 93/100, lowest cost, lowest risk.\n• Cloud is high-value but $4.2M and 18 months puts it in medium-high risk territory.\n• AI Platform's 3-yr total ($4.6M) climbs close to Cloud — the $600K/yr licence accumulates fast, and break-even isn't until Month 28.\n• Security phase breakdown: 30/40/30 fixed-price payment gates — zero overrun exposure." },
+
+        { type: 'rich', html:
+          `<div class="ds-table-wrap">
+            <div class="ds-table-label">Business Impact Insights — derived from charts</div>
+            <table class="ds-table">
+              <thead><tr><th>Insight</th><th>Key Metric</th><th>KPI</th><th>Business Impact</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><span style="color:#4ade80">🔐 Lowest Cost · Highest Return</span></td>
+                  <td style="color:#4ade80;font-weight:600">$1.4M fixed-price</td>
+                  <td><span class="ds-kpi-tag">Cyber-insurance premium ↓18%</span><span class="ds-kpi-tag">Programme cost offset ≥25% by Yr 3</span><span class="ds-kpi-tag">Overrun variance = $0</span></td>
+                  <td>18% insurance reduction saves <strong>$126K/yr</strong> — offsets <strong>27%</strong> of programme cost over 3 years with zero overrun exposure.</td>
+                </tr>
+                <tr>
+                  <td><span style="color:#a78bfa">🤖 Licence Lock-in Risk</span></td>
+                  <td style="color:#a78bfa;font-weight:600">$1.8M switching cost</td>
+                  <td><span class="ds-kpi-tag">ROI break-even ≤ Month 24</span><span class="ds-kpi-tag">Net 3-yr benefit ≥ $1.5M</span><span class="ds-kpi-tag">Data quality score ≥ 80%</span></td>
+                  <td>$600K/yr perpetual licence pushes 3-yr total to <strong>$4.6M</strong>. Net benefit only <strong>$900K</strong> — ROI unverifiable until data quality is confirmed.</td>
+                </tr>
+                <tr>
+                  <td><span style="color:#60a5fa">☁ Compliance Amplifier</span></td>
+                  <td style="color:#60a5fa;font-weight:600">+$2.96M gap (Yr 3)</td>
+                  <td><span class="ds-kpi-tag">Security baseline met before migration</span><span class="ds-kpi-tag">Audit findings = 0 at go-live</span><span class="ds-kpi-tag">Infra cost growth &lt; 10%/yr</span></td>
+                  <td>Cloud's Year 3 cumulative cost is <strong>$2.96M higher</strong> than Security. Migrating a non-compliant estate compounds audit exposure on top of the $4.2M programme.</td>
+                </tr>
+                <tr>
+                  <td><span style="color:#f59e0b">⚠️ Regulatory Exposure Window</span></td>
+                  <td style="color:#f59e0b;font-weight:600">Q2 pentest open</td>
+                  <td><span class="ds-kpi-tag">Critical findings resolved = 2/2</span><span class="ds-kpi-tag">Compliance score ≥ 18/20</span><span class="ds-kpi-tag">Next audit finding = 0 Critical</span></td>
+                  <td>Cloud &amp; AI score <strong>&lt;15/20</strong> on compliance. Deferring Security keeps two Critical pentest findings unresolved — material audit risk blocking both programmes.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>` },
       ],
     },
 

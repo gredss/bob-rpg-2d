@@ -65,7 +65,7 @@
           "timeCost": 11,
           "manualCost": 56,
           "deltas": { "quality": 14, "satisfaction": 11 },
-          "videoSrc": "assets/media/bob-ocp-healthcheck.MOV",
+          "videoSrc": "assets/media/bob-ocp-healthcheck.mp4",
           "outcome": "Full OCP health check complete. Issues identified, next steps clear. ✓",
           "id_text": {
             "label": "Minta Bob jalankan OCP health check",

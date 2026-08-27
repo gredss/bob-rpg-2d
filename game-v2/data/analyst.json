@@ -65,7 +65,7 @@
           "timeCost": 11,
           "manualCost": 56,
           "deltas": { "quality": 15, "satisfaction": 13 },
-          "videoSrc": "assets/media/wxdi.MOV",
+          "videoSrc": "assets/media/wxdi.mp4",
           "outcome": "Data request complete. Declining customers identified. Service correlation visible. ✓",
           "id_text": {
             "label": "Minta Bob jalankan data request",

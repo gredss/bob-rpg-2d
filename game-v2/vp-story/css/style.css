@@ -1066,3 +1066,19 @@ body {
 .ds-chart-tooltip-el b {
   color: #f7fafc;
 }
+
+
+/* ── KPI tag pills ────────────────────────────────────────────────────── */
+.ds-kpi-tag {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9.5px;
+  color: #a0b0c8;
+  background: #161623;
+  border: 1px solid #2a2a3e;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin: 2px 3px 2px 0;
+  white-space: nowrap;
+  line-height: 1.5;
+}

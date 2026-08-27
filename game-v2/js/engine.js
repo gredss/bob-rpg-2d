@@ -943,8 +943,8 @@ function handleVideoChoice(scene, opt) {
 
 // ── Auto-pause checkpoints per video (keyed by filename) ─────────────────────
 const VIDEO_PAUSE_POINTS = {
-  'bob-ocp-healthcheck.MOV': [8.5, 14, 19, 24],
-  'wxdi.MOV':                [4, 5, 8, 11],
+  'bob-ocp-healthcheck.mp4': [8.5, 14, 19, 24],
+  'wxdi.mp4':                [4, 5, 8, 11],
 };
 
 function playVideoScene(src, onDone) {
