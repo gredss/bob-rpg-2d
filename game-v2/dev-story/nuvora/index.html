@@ -7,24 +7,30 @@
   <title>Nuvora — Workflow Automation for Modern Teams</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     /* ── Tokens ── */
     :root {
-      --bg:        #08090a;
-      --surface:   #0f1117;
-      --surface-2: #161922;
-      --border:    rgba(255,255,255,0.07);
-      --border-hi: rgba(99,102,241,0.35);
-      --text:      #f8fafc;
-      --muted:     #94a3b8;
-      --dim:       #475569;
-      --accent:    #6366f1;
-      --accent-2:  #818cf8;
-      --green:     #34d399;
-      --font:      'Plus Jakarta Sans', -apple-system, sans-serif;
-      --r:         12px;
-      --r-lg:      20px;
+      --bg:        #ffffff;
+      --surface:   #f8f9fa;
+      --surface-2: #f1f3f5;
+      --border:    #e5e7eb;
+      --text:      #111827;
+      --muted:     #6b7280;
+      --dim:       #9ca3af;
+      --accent:    #2563eb;
+      --accent-hover: #1d4ed8;
+      --green:     #16a34a;
+      --font:      'Inter', -apple-system, sans-serif;
+      --r:         8px;
+      --r-lg:      12px;
+      /* feature icon palette */
+      --c1: #2563eb; --c1-bg: #eff6ff; --c1-border: #bfdbfe;
+      --c2: #7c3aed; --c2-bg: #f5f3ff; --c2-border: #ddd6fe;
+      --c3: #0891b2; --c3-bg: #ecfeff; --c3-border: #a5f3fc;
+      --c4: #d97706; --c4-bg: #fffbeb; --c4-border: #fde68a;
+      --c5: #dc2626; --c5-bg: #fef2f2; --c5-border: #fecaca;
+      --c6: #16a34a; --c6-bg: #f0fdf4; --c6-border: #bbf7d0;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -36,139 +42,164 @@
     /* ── Layout ── */
     .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 
+    /* ── Announcement bar ── */
+    .announce-bar {
+      background: linear-gradient(90deg, #eff6ff 0%, #f5f3ff 50%, #ecfeff 100%);
+      border-bottom: 1px solid #dbeafe;
+      text-align: center;
+      padding: 10px 24px;
+      font-size: 13px;
+      color: #4f46e5;
+      font-weight: 500;
+    }
+    .announce-bar a { text-decoration: underline; color: #4f46e5; margin-left: 6px; }
+
     /* ── Navbar ── */
     .navbar {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(8,9,10,0.80);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: #fff;
       border-bottom: 1px solid var(--border);
     }
     .navbar-inner { display: flex; align-items: center; gap: 40px; height: 64px; }
-    .navbar-brand { font-size: 18px; font-weight: 800; letter-spacing: -0.03em; color: var(--text); }
-    .navbar-brand span { color: var(--accent-2); }
-    .navbar-links { display: flex; gap: 28px; }
-    .navbar-links a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color 150ms; }
-    .navbar-links a:hover { color: var(--text); }
-    .navbar-end { margin-left: auto; display: flex; align-items: center; gap: 16px; }
-    .nav-login { font-size: 14px; font-weight: 500; color: var(--muted); transition: color 150ms; }
-    .nav-login:hover { color: var(--text); }
+    .navbar-brand { font-size: 17px; font-weight: 800; letter-spacing: -0.03em; color: var(--text); }
+    .navbar-brand span { color: var(--accent); }
+    .navbar-links { display: flex; gap: 4px; }
+    .navbar-links a {
+      font-size: 14px; font-weight: 500; color: var(--muted);
+      padding: 6px 12px; border-radius: 6px;
+      transition: color 150ms, background 150ms;
+    }
+    .navbar-links a:hover { color: var(--text); background: var(--surface); }
+    .navbar-end { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .nav-login {
+      font-size: 14px; font-weight: 500; color: var(--muted);
+      padding: 8px 14px; border-radius: 6px;
+      transition: color 150ms, background 150ms;
+    }
+    .nav-login:hover { color: var(--text); background: var(--surface); }
     .btn-primary {
       display: inline-flex; align-items: center; gap: 6px;
       background: var(--accent); color: #fff;
       font-family: var(--font); font-size: 14px; font-weight: 600;
-      padding: 9px 20px; border-radius: 8px; border: none; cursor: pointer;
-      transition: opacity 150ms, transform 150ms;
+      padding: 9px 18px; border-radius: var(--r); border: none; cursor: pointer;
+      transition: background 150ms;
     }
-    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-primary:hover { background: var(--accent-hover); }
 
     /* ── Hero ── */
     .hero-section {
-      position: relative; padding: clamp(80px, 12vw, 140px) 0 clamp(60px, 8vw, 100px);
-      text-align: center; overflow: hidden;
-    }
-    .hero-glow {
-      position: absolute; top: -120px; left: 50%; transform: translateX(-50%);
-      width: 800px; height: 600px;
-      background: radial-gradient(ellipse at center, rgba(99,102,241,0.18) 0%, transparent 65%);
-      pointer-events: none;
+      padding: clamp(72px, 10vw, 120px) 0 clamp(56px, 8vw, 96px);
+      text-align: center;
+      background: linear-gradient(160deg, #eff6ff 0%, #f5f3ff 60%, #ecfeff 100%);
+      border-bottom: 1px solid var(--border);
     }
     .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.25);
-      color: var(--accent-2); font-size: 13px; font-weight: 600;
-      padding: 5px 14px; border-radius: 100px; margin-bottom: 28px;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #fff; border: 1px solid #c4b5fd;
+      color: #7c3aed; font-size: 12px; font-weight: 600;
+      padding: 4px 12px; border-radius: 100px; margin-bottom: 24px;
       letter-spacing: 0.01em;
     }
-    .hero-badge-dot { width: 6px; height: 6px; background: var(--accent-2); border-radius: 50%; }
+    .hero-badge-dot { width: 6px; height: 6px; background: #7c3aed; border-radius: 50%; flex-shrink: 0; }
     .hero-section h1 {
-      font-size: clamp(40px, 6.5vw, 80px); font-weight: 800; line-height: 1.05;
-      letter-spacing: -0.04em; max-width: 14ch; margin: 0 auto 24px;
-      background: linear-gradient(140deg, #ffffff 40%, var(--accent-2) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      font-size: clamp(36px, 6vw, 68px); font-weight: 800; line-height: 1.08;
+      letter-spacing: -0.03em; max-width: 14ch; margin: 0 auto 20px;
+      color: var(--text);
     }
     .hero-sub {
-      font-size: clamp(16px, 2vw, 20px); color: var(--muted); max-width: 52ch;
-      margin: 0 auto 14px; line-height: 1.65;
+      font-size: clamp(16px, 2vw, 19px); color: var(--muted); max-width: 54ch;
+      margin: 0 auto 12px; line-height: 1.7;
     }
     .hero-micro { font-size: 13px; color: var(--dim); margin-bottom: 36px; }
     .hero-ctas { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
     .btn-hero {
       display: inline-flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, var(--accent), #4f46e5);
-      color: #fff; font-family: var(--font); font-size: 15px; font-weight: 700;
-      padding: 13px 28px; border-radius: 10px; border: none; cursor: pointer;
-      box-shadow: 0 0 32px rgba(99,102,241,0.35);
-      transition: box-shadow 200ms, transform 150ms;
+      background: var(--accent); color: #fff;
+      font-family: var(--font); font-size: 15px; font-weight: 700;
+      padding: 12px 26px; border-radius: var(--r); border: none; cursor: pointer;
+      transition: background 150ms;
     }
-    .btn-hero:hover { box-shadow: 0 0 48px rgba(99,102,241,0.5); transform: translateY(-2px); }
+    .btn-hero:hover { background: var(--accent-hover); }
     .btn-ghost {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      background: #fff; border: 1px solid var(--border);
       color: var(--text); font-family: var(--font); font-size: 15px; font-weight: 600;
-      padding: 13px 28px; border-radius: 10px; cursor: pointer;
+      padding: 12px 26px; border-radius: var(--r); cursor: pointer;
       transition: background 150ms, border-color 150ms;
     }
-    .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); }
+    .btn-ghost:hover { background: var(--surface); border-color: #d1d5db; }
 
     /* ── Logo bar ── */
-    .logo-bar { padding: clamp(32px,5vw,56px) 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .logo-bar-label { text-align: center; font-size: 13px; font-weight: 500; color: var(--dim); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 28px; }
+    .logo-bar { padding: clamp(28px, 4vw, 48px) 0; border-bottom: 1px solid var(--border); }
+    .logo-bar-label { text-align: center; font-size: 12px; font-weight: 600; color: var(--dim); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 24px; }
     .logo-row { display: flex; align-items: center; justify-content: center; gap: clamp(24px, 5vw, 56px); flex-wrap: wrap; }
-    .logo-item { font-size: 15px; font-weight: 700; color: var(--dim); letter-spacing: -0.02em; transition: color 200ms; }
+    .logo-item { font-size: 14px; font-weight: 700; color: #d1d5db; letter-spacing: -0.01em; transition: color 200ms; }
     .logo-item:hover { color: var(--muted); }
 
     /* ── Section common ── */
-    .section { padding: clamp(64px,10vw,120px) 0; }
-    .section-tag { display: inline-block; font-size: 12px; font-weight: 700; color: var(--accent-2); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
-    .section-title { font-size: clamp(28px,4vw,48px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
-    .section-sub { font-size: 17px; color: var(--muted); max-width: 56ch; line-height: 1.65; }
-    .section-head { margin-bottom: clamp(40px,6vw,64px); }
+    .section { padding: clamp(56px, 9vw, 112px) 0; }
+    .section-tag { display: inline-block; font-size: 12px; font-weight: 700; color: #7c3aed; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+    .section-title { font-size: clamp(26px, 3.5vw, 42px); font-weight: 800; letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 14px; color: var(--text); }
+    .section-sub { font-size: 16px; color: var(--muted); max-width: 56ch; line-height: 1.7; }
+    .section-head { margin-bottom: clamp(36px, 6vw, 60px); }
     .section-head.centered { text-align: center; display: flex; flex-direction: column; align-items: center; }
 
     /* ── Features ── */
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
     }
     .feature-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--r-lg); padding: 28px;
-      transition: border-color 200ms, transform 200ms, box-shadow 200ms;
+      background: #fff;
+      padding: 32px 28px;
+      transition: background 200ms;
     }
-    .feature-card:hover {
-      border-color: var(--border-hi);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(99,102,241,0.1);
-    }
+    .feature-card:hover { background: #f9fafb; }
     .feature-icon {
-      width: 44px; height: 44px; border-radius: 10px;
-      background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(129,140,248,0.1));
-      border: 1px solid rgba(99,102,241,0.2);
+      width: 40px; height: 40px; border-radius: 8px;
+      background: var(--icon-bg, #eff6ff);
+      border: 1px solid var(--icon-border, #bfdbfe);
       display: flex; align-items: center; justify-content: center;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
-    .feature-icon svg { width: 20px; height: 20px; }
-    .feature-card h3 { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
+    .fi-1 { --icon-bg: var(--c1-bg); --icon-border: var(--c1-border); }
+    .fi-2 { --icon-bg: var(--c2-bg); --icon-border: var(--c2-border); }
+    .fi-3 { --icon-bg: var(--c3-bg); --icon-border: var(--c3-border); }
+    .fi-4 { --icon-bg: var(--c4-bg); --icon-border: var(--c4-border); }
+    .fi-5 { --icon-bg: var(--c5-bg); --icon-border: var(--c5-border); }
+    .fi-6 { --icon-bg: var(--c6-bg); --icon-border: var(--c6-border); }
+    .feature-icon svg { width: 18px; height: 18px; }
+    .feature-card h3 { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px; color: var(--text); }
     .feature-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
 
     /* ── How it works ── */
-    .how-section { background: var(--surface); }
+    .how-section { background: linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #fdf4ff 100%); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
     .steps-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 0;
     }
-    .step-item { padding: 32px 28px; border-right: 1px solid var(--border); position: relative; }
+    .step-item {
+      padding: 32px 28px;
+      border-right: 1px solid var(--border);
+    }
     .step-item:last-child { border-right: none; }
     .step-num {
-      font-size: 48px; font-weight: 800; letter-spacing: -0.04em; line-height: 1;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      margin-bottom: 16px;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 50%;
+      font-size: 12px; font-weight: 800;
+      margin-bottom: 14px;
     }
-    .step-item h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+    .sn-1 { background: #dbeafe; color: #1d4ed8; }
+    .sn-2 { background: #ede9fe; color: #6d28d9; }
+    .sn-3 { background: #cffafe; color: #0e7490; }
+    .sn-4 { background: #d1fae5; color: #15803d; }
+    .step-item h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
     .step-item p { font-size: 13px; color: var(--muted); line-height: 1.65; }
 
     /* ── Testimonials ── */
@@ -178,21 +209,26 @@
       gap: 20px;
     }
     .testimonial-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--r-lg); padding: 28px 28px 24px;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 28px;
+      border-top-width: 3px;
     }
-    .t-quote { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; font-style: italic; }
-    .t-quote::before { content: '\201C'; font-size: 20px; color: var(--accent-2); font-style: normal; margin-right: 2px; }
-    .t-author { display: flex; align-items: center; gap: 12px; }
+    .testimonial-card:nth-child(1) { border-top-color: #2563eb; }
+    .testimonial-card:nth-child(2) { border-top-color: #7c3aed; }
+    .testimonial-card:nth-child(3) { border-top-color: #0891b2; }
+    .t-stars { display: flex; gap: 3px; margin-bottom: 16px; }
+    .t-star { color: #f59e0b; font-size: 14px; }
+    .t-quote { font-size: 14px; color: var(--text); line-height: 1.75; margin-bottom: 24px; }
+    .t-author { display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--border); padding-top: 16px; }
     .t-avatar {
       width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700; color: #fff;
+      font-size: 12px; font-weight: 700; color: #fff;
     }
-    .t-avatar.a { background: linear-gradient(135deg,#6366f1,#818cf8); }
-    .t-avatar.b { background: linear-gradient(135deg,#0ea5e9,#38bdf8); }
-    .t-avatar.c { background: linear-gradient(135deg,#10b981,#34d399); }
-    .t-name { font-size: 14px; font-weight: 700; }
+    .t-avatar.a { background: #2563eb; }
+    .t-avatar.b { background: #0891b2; }
+    .t-avatar.c { background: #16a34a; }
+    .t-name { font-size: 13px; font-weight: 700; color: var(--text); }
     .t-role { font-size: 12px; color: var(--dim); }
 
     /* ── Pricing ── */
@@ -202,22 +238,22 @@
       gap: 20px; align-items: start;
     }
     .pricing-card {
-      background: var(--surface); border: 1px solid var(--border);
+      background: #fff; border: 1px solid var(--border);
       border-radius: var(--r-lg); padding: 32px;
     }
     .pricing-card.featured {
-      border-color: var(--border-hi);
-      box-shadow: 0 0 40px rgba(99,102,241,0.12);
-      background: linear-gradient(160deg, #0f1117 0%, #12101f 100%);
+      border-color: var(--accent);
+      border-width: 2px;
     }
-    .plan-name { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
+    .plan-name { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
     .plan-badge {
-      display: inline-block; background: linear-gradient(135deg,var(--accent),var(--accent-2));
-      color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 2px 9px; border-radius: 100px; margin-left: 8px; vertical-align: middle;
+      display: inline-block; background: #eff6ff;
+      color: var(--accent); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 100px; margin-left: 8px; vertical-align: middle;
+      border: 1px solid #bfdbfe;
     }
-    .plan-price { font-size: 48px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 4px; }
-    .plan-price span { font-size: 18px; font-weight: 500; color: var(--muted); }
+    .plan-price { font-size: 44px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 4px; color: var(--text); }
+    .plan-price span { font-size: 16px; font-weight: 500; color: var(--muted); }
     .plan-billing { font-size: 13px; color: var(--dim); margin-bottom: 24px; }
     .plan-features { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
     .plan-features li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
@@ -226,63 +262,55 @@
       display: block; width: 100%; text-align: center;
       background: transparent; border: 1px solid var(--border);
       color: var(--text); font-family: var(--font); font-size: 14px; font-weight: 600;
-      padding: 11px 20px; border-radius: 8px; cursor: pointer;
+      padding: 10px 20px; border-radius: var(--r); cursor: pointer;
       transition: border-color 150ms, background 150ms;
     }
-    .btn-plan-outline:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+    .btn-plan-outline:hover { border-color: #9ca3af; background: var(--surface); }
     .btn-plan-fill {
       display: block; width: 100%; text-align: center;
-      background: linear-gradient(135deg,var(--accent),#4f46e5);
-      color: #fff; font-family: var(--font); font-size: 14px; font-weight: 700;
-      padding: 11px 20px; border-radius: 8px; border: none; cursor: pointer;
-      box-shadow: 0 4px 20px rgba(99,102,241,0.4);
-      transition: opacity 150ms, transform 150ms;
+      background: var(--accent); color: #fff;
+      font-family: var(--font); font-size: 14px; font-weight: 700;
+      padding: 10px 20px; border-radius: var(--r); border: none; cursor: pointer;
+      transition: background 150ms;
     }
-    .btn-plan-fill:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-plan-fill:hover { background: var(--accent-hover); }
 
     /* ── CTA banner ── */
     .cta-banner {
-      background: linear-gradient(135deg, #0f0f1f 0%, #12101f 100%);
-      border: 1px solid var(--border-hi);
-      border-radius: 24px; padding: clamp(48px,7vw,80px) clamp(32px,6vw,80px);
-      text-align: center; position: relative; overflow: hidden;
-      margin: 0 0 clamp(64px,10vw,120px);
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+      border-radius: 16px; padding: clamp(48px, 7vw, 72px) clamp(32px, 6vw, 80px);
+      text-align: center;
+      margin: 0 0 clamp(56px, 9vw, 112px);
     }
-    .cta-glow {
-      position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%);
-      width: 600px; height: 300px;
-      background: radial-gradient(ellipse, rgba(99,102,241,0.2) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .cta-banner h2 { font-size: clamp(28px,4vw,48px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; }
-    .cta-banner p { font-size: 16px; color: var(--muted); margin-bottom: 32px; }
-    .cta-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; max-width: 500px; margin: 0 auto; }
+    .cta-banner h2 { font-size: clamp(26px, 3.5vw, 40px); font-weight: 800; letter-spacing: -0.025em; margin-bottom: 10px; color: #fff; }
+    .cta-banner p { font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 28px; }
+    .cta-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; max-width: 480px; margin: 0 auto; }
     .cta-input {
       flex: 1; min-width: 220px;
-      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-      border-radius: 8px; padding: 12px 16px;
-      font-family: var(--font); font-size: 14px; color: var(--text);
-      outline: none; transition: border-color 150ms;
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+      border-radius: var(--r); padding: 11px 16px;
+      font-family: var(--font); font-size: 14px; color: #fff;
+      outline: none; transition: border-color 150ms, background 150ms;
     }
-    .cta-input::placeholder { color: var(--dim); }
-    .cta-input:focus { border-color: var(--accent); }
+    .cta-input::placeholder { color: rgba(255,255,255,0.6); }
+    .cta-input:focus { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.6); }
     .btn-cta {
-      background: var(--accent); color: #fff;
+      background: #fff; color: #2563eb;
       font-family: var(--font); font-size: 14px; font-weight: 700;
-      padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer;
-      transition: opacity 150ms;
+      padding: 11px 22px; border-radius: var(--r); border: none; cursor: pointer;
+      transition: background 150ms, color 150ms;
     }
-    .btn-cta:hover { opacity: 0.88; }
+    .btn-cta:hover { background: #f1f5ff; }
 
     /* ── Footer ── */
-    footer { border-top: 1px solid var(--border); padding: clamp(48px,7vw,80px) 0 32px; }
+    footer { border-top: 1px solid var(--border); padding: clamp(48px, 7vw, 72px) 0 32px; background: #fff; }
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
-    .footer-brand-name { font-size: 18px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; }
-    .footer-brand-name span { color: var(--accent-2); }
-    .footer-desc { font-size: 14px; color: var(--dim); line-height: 1.7; max-width: 28ch; }
-    .footer-col h4 { font-size: 12px; font-weight: 700; color: var(--text); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
-    .footer-col li { margin-bottom: 10px; }
-    .footer-col a { font-size: 14px; color: var(--dim); transition: color 150ms; }
+    .footer-brand-name { font-size: 17px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 10px; color: var(--text); }
+    .footer-brand-name span { color: var(--accent); }
+    .footer-desc { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 28ch; }
+    .footer-col h4 { font-size: 12px; font-weight: 700; color: var(--text); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
+    .footer-col li { margin-bottom: 9px; }
+    .footer-col a { font-size: 14px; color: var(--muted); transition: color 150ms; }
     .footer-col a:hover { color: var(--text); }
     .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 24px; border-top: 1px solid var(--border); }
     .footer-copy { font-size: 13px; color: var(--dim); }
@@ -293,26 +321,25 @@
     /* ── Video Modal ── */
     .modal-overlay {
       display: none; position: fixed; inset: 0; z-index: 999;
-      background: rgba(0,0,0,0.85); backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      background: rgba(0,0,0,0.6);
       align-items: center; justify-content: center;
     }
     .modal-overlay.open { display: flex; }
     .modal-box {
       position: relative; width: min(860px, 94vw);
-      border-radius: 16px; overflow: hidden;
-      border: 1px solid var(--border-hi);
-      box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
     }
     .modal-close {
-      position: absolute; top: 12px; right: 12px; z-index: 10;
-      width: 32px; height: 32px; border-radius: 50%;
-      background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15);
-      color: #fff; font-size: 18px; line-height: 1;
+      position: absolute; top: 10px; right: 10px; z-index: 10;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2);
+      color: #fff; font-size: 16px; line-height: 1;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
       transition: background 150ms;
     }
-    .modal-close:hover { background: rgba(255,255,255,0.15); }
+    .modal-close:hover { background: rgba(0,0,0,0.7); }
     .modal-video {
       display: block; width: 100%; aspect-ratio: 16/9;
       background: #000;
@@ -337,6 +364,11 @@
 </head>
 <body>
 
+  <!-- Announcement bar -->
+  <div class="announce-bar">
+    🎉 Nuvora is now SOC 2 Type II certified. <a href="#">Read the announcement →</a>
+  </div>
+
   <!-- Navbar -->
   <nav class="navbar">
     <div class="container">
@@ -352,7 +384,7 @@
         </ul>
         <div class="navbar-end">
           <a href="#" class="nav-login">Log in</a>
-          <a href="#" class="btn-primary">Start Free Trial</a>
+          <a href="#" class="btn-primary">Get started free</a>
         </div>
       </div>
     </div>
@@ -360,7 +392,6 @@
 
   <!-- Hero -->
   <section class="hero-section">
-    <div class="hero-glow"></div>
     <div class="container">
       <div class="hero-badge"><span class="hero-badge-dot"></span>Now SOC 2 Type II certified</div>
       <h1>Automate the Work Your Team Hates Doing</h1>
@@ -368,12 +399,11 @@
       <p class="hero-micro">No credit card required &nbsp;·&nbsp; Cancel anytime &nbsp;·&nbsp; SOC 2 compliant</p>
       <div class="hero-ctas">
         <a href="#" class="btn-hero">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L15 8L8 15M1 8H15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Get Started Free
+          Get started for free
         </a>
         <button class="btn-ghost" onclick="openDemo()">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 5.5L10.5 8L6.5 10.5V5.5Z" fill="currentColor"/></svg>
-          Watch Demo
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 5.5L10.5 8L6.5 10.5V5.5Z" fill="currentColor"/></svg>
+          Watch demo
         </button>
       </div>
     </div>
@@ -422,43 +452,43 @@
       </div>
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 20 20" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="11" y="3" width="6" height="6" rx="1.5"/><rect x="3" y="11" width="6" height="6" rx="1.5"/><path d="M14 11v6M11 14h6"/></svg>
+          <div class="feature-icon fi-1">
+            <svg viewBox="0 0 20 20" fill="none" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="11" y="3" width="6" height="6" rx="1.5"/><rect x="3" y="11" width="6" height="6" rx="1.5"/><path d="M14 11v6M11 14h6"/></svg>
           </div>
           <h3>Visual Workflow Builder</h3>
           <p>Drag and drop triggers, actions, and conditions to build complex workflows in minutes without writing a single line of code.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 20 20" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-linecap="round"><circle cx="5" cy="10" r="2"/><circle cx="15" cy="5" r="2"/><circle cx="15" cy="15" r="2"/><path d="M7 9l6-3.5M7 11l6 3.5"/></svg>
+          <div class="feature-icon fi-2">
+            <svg viewBox="0 0 20 20" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round"><circle cx="5" cy="10" r="2"/><circle cx="15" cy="5" r="2"/><circle cx="15" cy="15" r="2"/><path d="M7 9l6-3.5M7 11l6 3.5"/></svg>
           </div>
           <h3>200+ Integrations</h3>
           <p>Connect Nuvora to the tools your team already depends on — from CRMs and support desks to databases and communication apps.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 20 20" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-linecap="round"><path d="M3 14l4-5 3 3 3-4 4 5"/><rect x="2" y="2" width="16" height="16" rx="2"/></svg>
+          <div class="feature-icon fi-3">
+            <svg viewBox="0 0 20 20" fill="none" stroke="#0891b2" stroke-width="1.6" stroke-linecap="round"><path d="M3 14l4-5 3 3 3-4 4 5"/><rect x="2" y="2" width="16" height="16" rx="2"/></svg>
           </div>
           <h3>Real-Time Analytics</h3>
           <p>Monitor every workflow run, track success rates, and identify bottlenecks before they impact your business.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 20 20" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-linecap="round"><rect x="4" y="9" width="12" height="9" rx="1.5"/><path d="M7 9V6a3 3 0 016 0v3"/></svg>
+          <div class="feature-icon fi-4">
+            <svg viewBox="0 0 20 20" fill="none" stroke="#d97706" stroke-width="1.6" stroke-linecap="round"><rect x="4" y="9" width="12" height="9" rx="1.5"/><path d="M7 9V6a3 3 0 016 0v3"/></svg>
           </div>
           <h3>Enterprise Security</h3>
           <p>SOC 2 Type II certified, with role-based access controls, audit logs, and SSO support for your entire organisation.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 20 20" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-linecap="round"><path d="M10 3v3M10 14v3M3 10h3M14 10h3"/><circle cx="10" cy="10" r="3"/></svg>
+          <div class="feature-icon fi-5">
+            <svg viewBox="0 0 20 20" fill="none" stroke="#dc2626" stroke-width="1.6" stroke-linecap="round"><path d="M10 3v3M10 14v3M3 10h3M14 10h3"/><circle cx="10" cy="10" r="3"/></svg>
           </div>
           <h3>Instant Triggers</h3>
           <p>Workflows run in milliseconds. Whether it's a form submission or a webhook, Nuvora reacts in real time every time.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 20 20" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="8" r="3"/><circle cx="13" cy="8" r="3"/><path d="M1 17c0-3.314 2.686-5 6-5h6c3.314 0 6 1.686 6 5"/></svg>
+          <div class="feature-icon fi-6">
+            <svg viewBox="0 0 20 20" fill="none" stroke="#16a34a" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="8" r="3"/><circle cx="13" cy="8" r="3"/><path d="M1 17c0-3.314 2.686-5 6-5h6c3.314 0 6 1.686 6 5"/></svg>
           </div>
           <h3>Team Collaboration</h3>
           <p>Build and manage workflows together with shared workspaces, inline commenting, and version history on every flow.</p>
@@ -477,22 +507,22 @@
       </div>
       <div class="steps-grid">
         <div class="step-item">
-          <div class="step-num">01</div>
+          <div class="step-num sn-1">1</div>
           <h3>Connect Your Stack</h3>
           <p>Authenticate your existing tools with OAuth in one click. Nuvora handles permissions automatically.</p>
         </div>
         <div class="step-item">
-          <div class="step-num">02</div>
+          <div class="step-num sn-2">2</div>
           <h3>Build Your Workflow</h3>
           <p>Use the visual editor to map out your process. Choose from 80+ pre-built templates or start from scratch.</p>
         </div>
         <div class="step-item">
-          <div class="step-num">03</div>
+          <div class="step-num sn-3">3</div>
           <h3>Test and Publish</h3>
           <p>Run a live test with real data, review the results, and publish with a single click.</p>
         </div>
         <div class="step-item">
-          <div class="step-num">04</div>
+          <div class="step-num sn-4">4</div>
           <h3>Monitor and Improve</h3>
           <p>Track every run in the analytics dashboard and refine your workflows over time with built-in insights.</p>
         </div>
@@ -510,6 +540,9 @@
       </div>
       <div class="testimonials-grid">
         <div class="testimonial-card">
+          <div class="t-stars">
+            <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
+          </div>
           <p class="t-quote">We cut our onboarding time in half within the first two weeks. The workflow builder is genuinely the most intuitive tool our ops team has used.</p>
           <div class="t-author">
             <div class="t-avatar a">SK</div>
@@ -517,6 +550,9 @@
           </div>
         </div>
         <div class="testimonial-card">
+          <div class="t-stars">
+            <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
+          </div>
           <p class="t-quote">Nuvora replaced three separate tools we were duct-taping together. Our team now runs 40+ automated workflows without touching any code.</p>
           <div class="t-author">
             <div class="t-avatar b">JT</div>
@@ -524,6 +560,9 @@
           </div>
         </div>
         <div class="testimonial-card">
+          <div class="t-stars">
+            <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
+          </div>
           <p class="t-quote">The analytics alone are worth it. We can finally see exactly where deals are getting stuck and fix the process in real time.</p>
           <div class="t-author">
             <div class="t-avatar c">PM</div>
@@ -535,7 +574,7 @@
   </section>
 
   <!-- Pricing -->
-  <section class="section">
+  <section class="section" style="background:#f9fafb; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
     <div class="container">
       <div class="section-head centered">
         <span class="section-tag">Pricing</span>
@@ -557,7 +596,7 @@
           <a href="#" class="btn-plan-outline">Get Started</a>
         </div>
         <div class="pricing-card featured">
-          <p class="plan-name">Growth <span class="plan-badge">Popular</span></p>
+          <p class="plan-name">Growth <span class="plan-badge">Most popular</span></p>
           <p class="plan-price">$149<span>/mo</span></p>
           <p class="plan-billing">Billed annually</p>
           <ul class="plan-features">
@@ -571,7 +610,7 @@
         </div>
         <div class="pricing-card">
           <p class="plan-name">Enterprise</p>
-          <p class="plan-price" style="font-size:36px;letter-spacing:-0.03em;">Custom</p>
+          <p class="plan-price" style="font-size:32px;letter-spacing:-0.02em;">Custom</p>
           <p class="plan-billing">Contact us for a quote</p>
           <ul class="plan-features">
             <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5L6 11L12.5 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Unlimited everything</li>
@@ -587,14 +626,13 @@
   </section>
 
   <!-- CTA banner -->
-  <div class="container">
+  <div class="container" style="padding-top: clamp(56px,9vw,112px);">
     <div class="cta-banner">
-      <div class="cta-glow"></div>
       <h2>Start Automating Today</h2>
       <p>Join over 4,000 teams already saving hours every week with Nuvora.</p>
       <form class="cta-form" onsubmit="return false">
         <input type="email" class="cta-input" placeholder="Enter your work email address" />
-        <button type="submit" class="btn-cta">Get Free Access</button>
+        <button type="submit" class="btn-cta">Get free access</button>
       </form>
     </div>
   </div>
