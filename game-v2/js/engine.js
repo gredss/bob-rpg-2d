@@ -933,9 +933,17 @@ function handleVideoChoice(scene, opt) {
   updateHUD();
 
   if (opt.type === 'bob' && opt.videoSrc && dom.videoOverlay) {
-    playVideoScene(opt.videoSrc, () => {
+    const afterVideos = () => {
       showOutcome(tOpt(opt, 'outcome') || '✓', opt.deltas, () => runScene(sceneIndex + 1));
-    });
+    };
+    const filename = opt.videoSrc.split('/').pop();
+    if (filename === 'bob-ocp-healthcheck.mp4') {
+      playVideoScene(opt.videoSrc, () => {
+        playVideoScene('assets/media/HW-final.mp4', afterVideos);
+      });
+    } else {
+      playVideoScene(opt.videoSrc, afterVideos);
+    }
   } else {
     showOutcome(tOpt(opt, 'outcome') || '✓', opt.deltas, () => runScene(sceneIndex + 1));
   }
